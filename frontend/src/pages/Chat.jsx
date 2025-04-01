@@ -68,7 +68,7 @@ function Chat() {
       setMessages((prevMessages) => [...prevMessages, newMessage, newReply]);
       setQuestion(""); // Limpiar el input
     } catch (error) {
-      console.error("Error enviando mensaje:", error);
+      console.error("Error enviando mensaje:", error.message);
     } finally {
       setLoading(false);
       setQuestion(""); // Limpiar input
