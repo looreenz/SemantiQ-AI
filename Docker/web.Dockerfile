@@ -16,11 +16,15 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_mysql mbstring gd xml
 
+# Instalar Xdebug
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+COPY Docker/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
 # Habilitar mod_rewrite de Apache
 RUN a2enmod rewrite
 
 # Instalar Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copiar los archivos del proyecto
 COPY Docker/000-default.conf /etc/apache2/sites-available/000-default.conf
