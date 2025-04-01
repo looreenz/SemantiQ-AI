@@ -2,13 +2,13 @@ import axios from "axios";
 import { uuidv7 } from "uuidv7";
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
-axios.defaults.withCredentials = true;
+//axios.defaults.withCredentials = true;
 const API_VERSION = "v1";
 
 export const login = async (email, password) => {
   try {
     // Solicita la cookie CSRF
-    await axios.get("/sanctum/csrf-cookie");
+    // await axios.get("/sanctum/csrf-cookie");
 
     // Luego realiza la solicitud de login
     const response = await axios.post(`/api/${API_VERSION}/login`, {
@@ -26,7 +26,7 @@ export const login = async (email, password) => {
 export const register = async (name, email, password) => {
   try {
     // Solicita la cookie CSRF
-    await axios.get("/sanctum/csrf-cookie");
+    // await axios.get("/sanctum/csrf-cookie");
 
     const id = uuidv7();
     // Luego realiza la solicitud de registro
