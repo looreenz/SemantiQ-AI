@@ -3,7 +3,7 @@ DOCKER_COMPOSE = docker-compose
 SERVICE_WEB = web
 SERVICE_NODE = node
 
-# Levantar los contenedores en segundo plano
+# Listar todos los contenedores levantados
 ps:
 	$(DOCKER_COMPOSE) ps
 
