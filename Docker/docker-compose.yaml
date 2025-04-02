@@ -9,6 +9,8 @@ services:
       - ../:/var/www/html
     depends_on:
       - db
+    networks:
+      - app-network
     
   db:
     image: mariadb:latest
@@ -17,6 +19,8 @@ services:
       MYSQL_DATABASE: semantiqai
     ports:
       - "3306:3306"
+    networks:
+      - app-network
     
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -27,6 +31,8 @@ services:
       - "8080:80"
     depends_on:
       - db
+    networks:
+      - app-network
 
   node:
     container_name: node
@@ -39,4 +45,10 @@ services:
     volumes:
       - ../frontend:/app
     working_dir: /app
-    command: tail -f /dev/null
+    command: sh -c "npm run dev & tail -f /dev/null"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
