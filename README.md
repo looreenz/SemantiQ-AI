@@ -1,4 +1,4 @@
-# SemantiQ Ai
+# SemantiQ AI
 
 **SemantiQ AI** es un sistema de análisis inteligente de documentos que integra inteligencia artificial para extraer información y responder preguntas basándose en documentos cargados por los usuarios. Mediante el uso de un sistema **Retrieval-Augmented Generation (RAG)**, el proyecto combina la recuperación de información con la generación de texto para proporcionar respuestas más precisas y contextualizadas. El objetivo principal es optimizar la consulta y gestión de documentos en entornos académicos y empresariales, facilitando el acceso a la información de manera automatizada.
 
