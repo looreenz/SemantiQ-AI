@@ -1,5 +1,6 @@
 services:
   web:
+    container_name: api
     build:
       context: ..
       dockerfile: Docker/web.Dockerfile
@@ -15,6 +16,7 @@ services:
       sh -c "/usr/local/bin/wait-for-it.sh db:3306 -s -t 60 -- composer install && php artisan migrate --force && apache2-foreground"
     
   db:
+    container_name: db
     image: mariadb:latest
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -25,6 +27,7 @@ services:
       - app-network
     
   phpmyadmin:
+    container_name: admin
     image: phpmyadmin/phpmyadmin
     environment:
       PMA_HOST: db

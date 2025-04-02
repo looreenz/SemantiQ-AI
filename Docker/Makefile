@@ -4,6 +4,10 @@ SERVICE_WEB = web
 SERVICE_NODE = node
 
 # Levantar los contenedores en segundo plano
+ps:
+	$(DOCKER_COMPOSE) ps
+
+# Levantar los contenedores en segundo plano
 up:
 	$(DOCKER_COMPOSE) up -d
 
@@ -51,4 +55,4 @@ restart:
 clean:
 	$(DOCKER_COMPOSE) down -v
 
-.PHONY: up up-build down logs bash migrate cache-clear optimize sh run restart clean
+.PHONY: ps up up-build down logs bash migrate cache-clear optimize sh run restart clean
