@@ -29,7 +29,7 @@ const SignupSchema = Yup.object().shape({
 
 function Register() {
   const navigate = useNavigate();
-  const dispatch =useDispatch();
+  const dispatch = useDispatch();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -57,6 +57,10 @@ function Register() {
       }
     },
   });
+
+  function handleGoogle() {
+    window.location.href = "http://localhost:8000/auth/google/redirect";
+  }
 
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100 bg-grey">
@@ -140,6 +144,18 @@ function Register() {
                     ) : (
                       "Crear Cuenta"
                     )}
+                  </Button>
+                  <div className="d-flex align-items-center my-3">
+                    <hr className="flex-grow-1" />
+                    <span className="mx-2 text-secondary">O</span>
+                    <hr className="flex-grow-1" />
+                  </div>
+                  <Button
+                    onClick={handleGoogle}
+                    className="w-100 d-flex gap-2 align-items-center justify-content-center mb-3 bg-gradient border-gradient"
+                  >
+                    <i class="bi bi-google"></i>
+                    Regístrate con Google
                   </Button>
                 </Form.Group>
                 <p className="pt-2 text-center">

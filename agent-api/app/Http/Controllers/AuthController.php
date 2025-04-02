@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -31,11 +33,40 @@ class AuthController extends Controller
 
             Auth::login($user);
             $request->session()->regenerate();
-            
+
             return response()->json($user, 200);
         } else {
             return response()->json(['message' => 'User already exists'], 400);
         }
+    }
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function googleCallback()
+    {
+        $googleUser = Socialite::driver('google')->user();
+
+        // Buscar usuario por email
+        $user = User::where('email', $googleUser->getEmail())->first();
+
+        // Si no existe, lo creamos
+        if (!$user) {
+            $user = User::create([
+                'id' => Str::uuid()->toString(), // Generar UUID v7
+                'name' => $googleUser->getName(),
+                'email' => $googleUser->getEmail(),
+                'password' => Hash::make(Str::random(16)), // No se usa, pero es necesario
+            ]);
+        }
+
+        // Autenticamos al usuario en Laravel Sanctum
+        Auth::login($user);
+        request()->session()->regenerate();
+
+        return response()->json($user, 200);
     }
 
     public function login(Request $request)

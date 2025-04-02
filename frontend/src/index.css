@@ -90,9 +90,9 @@ th {
   content: "";
   position: absolute;
   z-index: -2;
-  left: -60%;
-  top: -70%;
-  width: 220%;
+  left: -75%;
+  top: -85%;
+  width: 250%;
   aspect-ratio: 1 / 1;
   background-color: #000;
   background-repeat: no-repeat;

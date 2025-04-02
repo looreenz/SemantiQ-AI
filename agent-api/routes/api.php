@@ -8,11 +8,15 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
+    // Rutas para autenticación
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
+    // Rutas protegidas por Sanctum
     Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/user', [AuthController::class, 'user']);
+
         Route::get('/documents', [FileController::class, 'index']);
         Route::get('/documents/{id}', [FileController::class, 'getFilesByUserId']);
         Route::get('/documents/show/{id}', [FileController::class, 'show']);
@@ -29,7 +33,5 @@ Route::prefix('v1')->group(function () {
         Route::delete('/history/delete/{date}', [MessageController::class, 'deleteByDate']);
     
         Route::post('/get-chunks', [LLMController::class, 'findRelevantChunks']);
-
-        Route::get('/user', [AuthController::class, 'user']);
     });
 });
