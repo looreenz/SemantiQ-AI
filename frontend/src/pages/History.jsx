@@ -147,7 +147,7 @@ function History() {
                       key={message.id}
                     >
                       <td>
-                        {message.user_id === "0" ? "Semantiq" : currentUser.name}
+                        {message.user_id === null ? "Semantiq" : currentUser.name}
                       </td>
                       <td>{message.message}</td>
                     </motion.tr>
@@ -167,7 +167,7 @@ function History() {
                   >
                     <p>
                       <strong>Usuario:</strong>{" "}
-                      {message.user_id === "0" ? "Semantiq" : currentUser.name}
+                      {message.user_id === null ? "Semantiq" : currentUser.name}
                     </p>
                     <p>
                       <strong>Mensaje:</strong> {message.message}

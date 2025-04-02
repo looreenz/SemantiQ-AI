@@ -21,6 +21,15 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        DB::table('users')->insert([
+            'id' => (string) Str::uuid(),
+            'name' => 'Lorenzo',
+            'email' => 'lore@gmail.com',
+            'password' => Hash::make('lore123'), // Encripta la contraseña
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');

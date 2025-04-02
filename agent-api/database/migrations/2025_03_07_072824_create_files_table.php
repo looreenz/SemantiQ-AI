@@ -12,11 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('files', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');  // Nombre del archivo
-            $table->string('type');  // Tipo MIME (ej. application/pdf)
-            $table->string('path');  // Ruta del archivo en storage
+            $table->uuid('id')->primary();
+            $table->string('name'); 
+            $table->string('type'); 
+            $table->string('path'); 
+            $table->uuid('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -12,10 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('chunks', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('file_id')->constrained()->onDelete('cascade');
+            $table->uuid('id')->primary();
+            $table->uuid('file_id');
             $table->text('content');
             $table->timestamps();
+
+            $table->foreign('file_id')->references('id')->on('files')->onDelete('cascade');
         });
     }
 

@@ -111,7 +111,7 @@ function Chat() {
     const newReplyId = uuidv7();
     return {
       id: newReplyId,
-      user_id: "0",
+      user_id: null,
       message: reply.choices[0].message.content,
     };
   }
@@ -152,20 +152,20 @@ function Chat() {
             <div
               key={index}
               className={`d-flex justify-content-${
-                message.user_id === "0" ? "start" : "end"
+                message.user_id === null ? "start" : "end"
               } mb-3`}
             >
               <div
                 className={`d-flex flex-column p-3 rounded-4 ${
-                  message.user_id === "0" ? "message-agent" : "message-user"
+                  message.user_id === null ? "message-agent" : "message-user"
                 }`}
               >
                 <span
                   className={`d-flex justify-content-${
-                    message.user_id === "0" ? "start" : "end"
+                    message.user_id === null ? "start" : "end"
                   }`}
                 >
-                  {message.user_id === "0" ? "Semantiq" : "Tú"}
+                  {message.user_id === null ? "Semantiq" : "Tú"}
                 </span>
                 <span>{message.message}</span>
               </div>
