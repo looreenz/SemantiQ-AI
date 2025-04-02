@@ -28,6 +28,10 @@ class AuthController extends Controller
                 'email' => $credentials['email'],
                 'password' => Hash::make($credentials['password']),
             ]);
+
+            Auth::login($user);
+            $request->session()->regenerate();
+            
             return response()->json($user, 200);
         } else {
             return response()->json(['message' => 'User already exists'], 400);
