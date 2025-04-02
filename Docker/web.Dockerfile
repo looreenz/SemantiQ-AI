@@ -36,3 +36,6 @@ RUN chmod -R 775 /var/www/html/agent-api/storage /var/www/html/agent-api/bootstr
 
 # Establecer el directorio de trabajo
 WORKDIR /var/www/html/agent-api
+
+COPY Docker/wait-for-it.sh /usr/local/bin/wait-for-it.sh
+RUN chmod +x /usr/local/bin/wait-for-it.sh

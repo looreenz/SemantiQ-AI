@@ -11,6 +11,8 @@ services:
       - db
     networks:
       - app-network
+    command: >
+      sh -c "/usr/local/bin/wait-for-it.sh db:3306 -s -t 60 -- composer install && php artisan migrate --force && apache2-foreground"
     
   db:
     image: mariadb:latest
