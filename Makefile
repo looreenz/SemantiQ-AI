@@ -1,5 +1,5 @@
 # Variables
-DOCKER_COMPOSE = docker-compose
+DOCKER_COMPOSE = docker-compose -f Docker/docker-compose.yaml
 SERVICE_WEB = web
 SERVICE_NODE = node
 
