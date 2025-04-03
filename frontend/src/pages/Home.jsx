@@ -44,7 +44,7 @@ function Home() {
                 alt="Logo SemantiQ AI"
               />
               <h1 className="text-center">
-                Hola {currentUser.name.split(" ")[0]} 👋, <span className="d-block">como puedo ayudarte?</span>
+                Hola {currentUser.name.split(" ")[0]}👋, <span className="d-block">como puedo ayudarte?</span>
               </h1>
               <p className="text-center">
                 Sube documentos, habla conmigo y ahorrate mucho tiempo!
