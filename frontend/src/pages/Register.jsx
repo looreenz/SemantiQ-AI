@@ -81,7 +81,7 @@ function Register() {
                 className="py-3 px-4 rounded-4"
               >
                 <div className="text-center fs-3 text-white fw-bold">
-                  Crear Cuenta
+                  Crear cuenta
                 </div>
                 <Form.Group className="mb-3 mt-4">
                   <Form.Control
@@ -142,7 +142,7 @@ function Register() {
                         <span className="visually-hidden">Loading...</span>
                       </Spinner>
                     ) : (
-                      "Crear Cuenta"
+                      "Crear cuenta"
                     )}
                   </Button>
                   <div className="d-flex align-items-center my-3">

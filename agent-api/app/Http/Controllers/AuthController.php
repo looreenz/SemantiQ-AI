@@ -66,7 +66,7 @@ class AuthController extends Controller
         Auth::login($user);
         request()->session()->regenerate();
 
-        return response()->json($user, 200);
+        return redirect()->away("http://localhost:5173");
     }
 
     public function login(Request $request)

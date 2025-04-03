@@ -1,5 +1,5 @@
 import { useNavigate, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -11,7 +11,7 @@ import {
   Card,
   Spinner,
 } from "react-bootstrap";
-import { login } from "../utils/api";
+import { login, getUser } from "../utils/api";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/slices/userSlice";
 
@@ -54,6 +54,24 @@ function Login() {
       }
     },
   });
+
+  function handleGoogle() {
+    window.location.href = "http://localhost:8000/auth/google/redirect";
+  }
+
+  async function getUserIfAuth() {
+    try {
+      const user = await getUser();
+      if (user) {
+        dispatch(setUser(user));
+        navigate("/");
+      }
+    } catch (error) {}
+  }
+
+  useEffect(() => {
+    getUserIfAuth();
+  }, []);
 
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100 bg-grey">
@@ -122,6 +140,18 @@ function Login() {
                     ) : (
                       "Iniciar Sesión"
                     )}
+                  </Button>
+                  <div className="d-flex align-items-center my-3">
+                    <hr className="flex-grow-1" />
+                    <span className="mx-2 text-secondary">O</span>
+                    <hr className="flex-grow-1" />
+                  </div>
+                  <Button
+                    onClick={handleGoogle}
+                    className="w-100 d-flex gap-2 align-items-center justify-content-center mb-3 bg-gradient border-gradient"
+                  >
+                    <i class="bi bi-google"></i>
+                    Inicia sesión con Google
                   </Button>
                 </Form.Group>
                 <p className="pt-2 text-center">
