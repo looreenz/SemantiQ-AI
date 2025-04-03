@@ -3,6 +3,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Login from "./pages/Login";
+import LoginSuccess from "./components/LoginSuccess";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Aside from "./components/Aside";
@@ -27,9 +28,10 @@ function App() {
 
   return (
     <Container fluid>
-      {location.pathname === "/login" || location.pathname === "/register" ? (
+      {location.pathname === "/login" || location.pathname === "/register" || location.pathname === "/login-success" ? (
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/login-success" element={<LoginSuccess />} />
           <Route path="/register" element={<Register />} />
           <Route path="*" element={<Error404 />} />
         </Routes>

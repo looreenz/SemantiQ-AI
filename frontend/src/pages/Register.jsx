@@ -14,6 +14,7 @@ import {
 import { register } from "../utils/api";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/slices/userSlice";
+import { motion } from "framer-motion";
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string()
@@ -67,107 +68,115 @@ function Register() {
       <Container>
         <Row className="justify-content-center">
           <Col xs={12} md={6} xxl={4}>
-            <div className="text-center mb-4">
-              <img
-                src="/logoPrimary.svg"
-                alt="Logo SemantiQ AI"
-                className="img-fluid"
-                style={{ maxWidth: "130px" }}
-              />
-            </div>
-            <Card className="p-4 border-0">
-              <Form
-                onSubmit={formik.handleSubmit}
-                className="py-3 px-4 rounded-4"
-              >
-                <div className="text-center fs-3 text-white fw-bold">
-                  Crear cuenta
-                </div>
-                <Form.Group className="mb-3 mt-4">
-                  <Form.Control
-                    type="text"
-                    placeholder="Nombre"
-                    id="name"
-                    name="name"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.name}
-                    className="w-100 border-purple text-white"
-                  />
-                  {formik.touched.name && formik.errors.name && (
-                    <div className="text-danger">{formik.errors.name}</div>
-                  )}
-                </Form.Group>
-                <Form.Group className="mb-3 mt-4">
-                  <Form.Control
-                    type="email"
-                    placeholder="Correo electrónico"
-                    id="email"
-                    name="email"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.email}
-                    className="w-100 border-purple text-white"
-                  />
-                  {formik.touched.email && formik.errors.email && (
-                    <div className="text-danger">{formik.errors.email}</div>
-                  )}
-                </Form.Group>
-                <Form.Group className="mb-3 mt-4">
-                  <Form.Control
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Contraseña"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.password}
-                    className="w-100 border-purple text-white"
-                  />
-                  {formik.touched.password && formik.errors.password && (
-                    <div className="text-danger">{formik.errors.password}</div>
-                  )}
-                </Form.Group>
-                {error && (
-                  <div className="text-danger text-center">{error}</div>
-                )}
-                <Form.Group className="mb-3 mt-4">
-                  <Button
-                    disabled={loading}
-                    type="submit"
-                    className="w-100 bg-purple border-purple fw-bold p-2"
-                  >
-                    {loading ? (
-                      <Spinner role="status">
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    ) : (
-                      "Crear cuenta"
-                    )}
-                  </Button>
-                  <div className="d-flex align-items-center my-3">
-                    <hr className="flex-grow-1" />
-                    <span className="mx-2 text-secondary">O</span>
-                    <hr className="flex-grow-1" />
+            <motion.div
+              initial={{ opacity: 0, x: -100 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            >
+              <div className="text-center mb-4">
+                <img
+                  src="/logoPrimary.svg"
+                  alt="Logo SemantiQ AI"
+                  className="img-fluid"
+                  style={{ maxWidth: "130px" }}
+                />
+              </div>
+              <Card className="p-4 border-0">
+                <Form
+                  onSubmit={formik.handleSubmit}
+                  className="py-3 px-4 rounded-4"
+                >
+                  <div className="text-center fs-3 text-white fw-bold">
+                    Crear cuenta
                   </div>
-                  <Button
-                    onClick={handleGoogle}
-                    className="w-100 d-flex gap-2 align-items-center justify-content-center mb-3 bg-gradient border-gradient"
-                  >
-                    <i class="bi bi-google"></i>
-                    Regístrate con Google
-                  </Button>
-                </Form.Group>
-                <p className="pt-2 text-center">
-                  <Link
-                    to="/login"
-                    className="text-decoration-none text-white hover-underline-purple"
-                  >
-                    Ya tengo una cuenta
-                  </Link>
-                </p>
-              </Form>
-            </Card>
+                  <Form.Group className="mb-3 mt-4">
+                    <Form.Control
+                      type="text"
+                      placeholder="Nombre"
+                      id="name"
+                      name="name"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.name}
+                      className="w-100 border-purple text-white"
+                    />
+                    {formik.touched.name && formik.errors.name && (
+                      <div className="text-danger">{formik.errors.name}</div>
+                    )}
+                  </Form.Group>
+                  <Form.Group className="mb-3 mt-4">
+                    <Form.Control
+                      type="email"
+                      placeholder="Correo electrónico"
+                      id="email"
+                      name="email"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.email}
+                      className="w-100 border-purple text-white"
+                    />
+                    {formik.touched.email && formik.errors.email && (
+                      <div className="text-danger">{formik.errors.email}</div>
+                    )}
+                  </Form.Group>
+                  <Form.Group className="mb-3 mt-4">
+                    <Form.Control
+                      type="password"
+                      id="password"
+                      name="password"
+                      placeholder="Contraseña"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.password}
+                      className="w-100 border-purple text-white"
+                    />
+                    {formik.touched.password && formik.errors.password && (
+                      <div className="text-danger">
+                        {formik.errors.password}
+                      </div>
+                    )}
+                  </Form.Group>
+                  {error && (
+                    <div className="text-danger text-center">{error}</div>
+                  )}
+                  <Form.Group className="mb-3 mt-4">
+                    <Button
+                      disabled={loading}
+                      type="submit"
+                      className="w-100 bg-purple border-purple fw-bold p-2"
+                    >
+                      {loading ? (
+                        <Spinner role="status">
+                          <span className="visually-hidden">Loading...</span>
+                        </Spinner>
+                      ) : (
+                        "Crear cuenta"
+                      )}
+                    </Button>
+                    <div className="d-flex align-items-center my-3">
+                      <hr className="flex-grow-1" />
+                      <span className="mx-2 text-secondary">O</span>
+                      <hr className="flex-grow-1" />
+                    </div>
+                    <Button
+                      onClick={handleGoogle}
+                      className="w-100 d-flex gap-2 align-items-center justify-content-center mb-3 bg-gradient border-gradient"
+                    >
+                      <i class="bi bi-google"></i>
+                      Regístrate con Google
+                    </Button>
+                  </Form.Group>
+                  <p className="pt-2 text-center">
+                    <Link
+                      to="/login"
+                      className="text-decoration-none text-white hover-underline-purple"
+                    >
+                      Ya tengo una cuenta
+                    </Link>
+                  </p>
+                </Form>
+              </Card>
+            </motion.div>
           </Col>
         </Row>
       </Container>
