@@ -125,7 +125,7 @@ function Stats() {
     <Container fluid="xl">
       <Header title="Estadísticas" />
       {loading ? (
-        <div className="text-center py-5">
+        <div className="text-center py-5" aria-live="polite">
           <Spinner animation="border" role="status">
             <span className="visually-hidden">Cargando...</span>
           </Spinner>
@@ -134,11 +134,23 @@ function Stats() {
       ) : (
         <div className="row py-4 g-4">
           <div className="col-12 col-md-6">
-            <Card className="rounded-4 p-2 border-gradient">
-              <Card.Title className="text-center text-white fs-4 py-2">
+            <Card
+              className="rounded-4 p-2 border-gradient"
+              role="region"
+              aria-labelledby="doc-format-chart"
+            >
+              <Card.Title
+                className="text-center text-white fs-4 py-2"
+                id="doc-format-chart"
+              >
                 Documentos por Formato
               </Card.Title>
-              <ResponsiveContainer className="w-100" height={300}>
+              <ResponsiveContainer
+                className="w-100"
+                height={300}
+                role="img"
+                aria-label="Gráfico de documentos por formato"
+              >
                 <BarChart data={docs}>
                   <XAxis dataKey="name" />
                   <YAxis />
@@ -154,11 +166,23 @@ function Stats() {
           </div>
 
           <div className="col-12 col-md-6">
-            <Card className="rounded-4 p-2 border-gradient">
-              <Card.Title className="text-center text-white fs-4 py-2">
+            <Card
+              className="rounded-4 p-2 border-gradient"
+              role="region"
+              aria-labelledby="messages-by-day-chart"
+            >
+              <Card.Title
+                className="text-center text-white fs-4 py-2"
+                id="messages-by-day-chart"
+              >
                 Mensajes por Día (Últimos 5 días)
               </Card.Title>
-              <ResponsiveContainer className="w-100" height={300}>
+              <ResponsiveContainer
+                className="w-100"
+                height={300}
+                role="img"
+                aria-label="Gráfico de mensajes por día"
+              >
                 <BarChart data={messages}>
                   <XAxis dataKey="name" />
                   <YAxis />
@@ -174,11 +198,23 @@ function Stats() {
           </div>
 
           <div className="col-12">
-            <Card className="rounded-4 p-2 border-gradient">
-              <Card.Title className="text-center text-white fs-3 py-2">
+            <Card
+              className="rounded-4 p-2 border-gradient"
+              role="region"
+              aria-labelledby="avg-size-by-format-chart"
+            >
+              <Card.Title
+                className="text-center text-white fs-3 py-2"
+                id="avg-size-by-format-chart"
+              >
                 Tamaño Promedio por Formato (KB)
               </Card.Title>
-              <ResponsiveContainer className="w-100" height={300}>
+              <ResponsiveContainer
+                className="w-100"
+                height={300}
+                role="img"
+                aria-label="Gráfico de tamaño promedio por formato"
+              >
                 <BarChart data={sizeData}>
                   <XAxis dataKey="name" />
                   <YAxis />

@@ -28,7 +28,9 @@ function App() {
 
   return (
     <Container fluid>
-      {location.pathname === "/login" || location.pathname === "/register" || location.pathname === "/login-success" ? (
+      {location.pathname === "/login" ||
+      location.pathname === "/register" ||
+      location.pathname === "/login-success" ? (
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/login-success" element={<LoginSuccess />} />
@@ -38,7 +40,12 @@ function App() {
       ) : (
         <div className="row">
           {/* Renderizar Aside si no estamos en "/" */}
-          {location.pathname !== "/" && <Aside />}
+          {location.pathname !== "/" && (
+            <Aside
+              role="complementary"
+              aria-label="Barra lateral de navegación"
+            />
+          )}
 
           <div
             className={
@@ -46,6 +53,7 @@ function App() {
                 ? "col-12"
                 : "col-12 col-xl-10 vh-100 overflow-auto"
             }
+            role="main"
           >
             <Routes>
               {protectedRoutes.map(({ path, element }) => (

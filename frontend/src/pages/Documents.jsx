@@ -15,7 +15,7 @@ import { getFileExtension } from "../utils/helpers";
 import { motion } from "framer-motion";
 import { getData, postData, deleteData } from "../utils/api";
 import { uuidv7 } from "uuidv7";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
 function Documents() {
   const [files, setFiles] = useState([]);
@@ -28,7 +28,7 @@ function Documents() {
   const [error, setError] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [toastSuccess, setToastSuccess] = useState("");
-  const currentUser = useSelector(state => state.user.user);
+  const currentUser = useSelector((state) => state.user.user);
 
   function handleUpload() {
     setModalType("Subir");
@@ -49,16 +49,22 @@ function Documents() {
 
   async function uploadFile() {
     if (!fileSelected) return setError("Selecciona un fichero");
-  
+
     setFileLoading(true);
     try {
       const newId = uuidv7();
-      const data = {document: fileSelected, id: newId, user_id: currentUser.id};
+      const data = {
+        document: fileSelected,
+        id: newId,
+        user_id: currentUser.id,
+      };
       await postData("documents/upload", data, true);
       setToastSuccess(true);
       dataFetch();
     } catch (error) {
-      setError("Error al subir el archivo: " + (error.response?.data || error.message));
+      setError(
+        "Error al subir el archivo: " + (error.response?.data || error.message)
+      );
       setToastSuccess(false);
     } finally {
       setFileLoading(false);
@@ -77,22 +83,25 @@ function Documents() {
 
   async function deleteFile() {
     if (!fileToDelete) return;
-  
+
     setFileLoading(true);
-  
+
     try {
       const data = await deleteData(`documents/delete/${fileToDelete}`);
       console.log(data);
-  
+
       setShowModal(false);
       setFileToDelete(null); // Limpiar el estado
       dataFetch(); // Refrescar la lista de archivos
     } catch (error) {
       setFileLoading(false);
-      setError("Error al eliminar el archivo: " + (error.response?.data || error.message));
+      setError(
+        "Error al eliminar el archivo: " +
+          (error.response?.data || error.message)
+      );
       console.log("Error:", error);
     } finally {
-      setFileLoading(false);  // Aseguramos que el loading se apague
+      setFileLoading(false); // Aseguramos que el loading se apague
     }
   }
 
@@ -118,7 +127,7 @@ function Documents() {
     <Container>
       <Header title="Documentos" />
       {loading ? (
-        <div className="text-center py-5">
+        <div className="text-center py-5" aria-live="assertive">
           <Spinner animation="border" role="status">
             <span className="visually-hidden">Cargando...</span>
           </Spinner>
@@ -130,24 +139,39 @@ function Documents() {
             <Button
               onClick={handleUpload}
               className="d-flex gap-2 align-items-center mb-3 bg-gradient border-gradient"
+              aria-label="Subir fichero"
             >
               <i className="bi bi-plus-circle"></i>
               Subir fichero
             </Button>
           </div>
+
           <Table
             hover
             className="w-100 w-xl-75 w-xxl-100 mx-auto d-none d-md-table"
+            aria-labelledby="table-documents"
           >
             <thead>
               <tr>
-                <th className="py-3 rounded-3 rounded-bottom-0 rounded-end-0 w-50">
+                <th
+                  className="py-3 rounded-3 rounded-bottom-0 rounded-end-0 w-50"
+                  scope="col"
+                >
                   Nombre
                 </th>
-                <th className="py-3">Formato</th>
-                <th className="py-3">Tamaño (KB)</th>
-                <th className="py-3 w-25">Fecha</th>
-                <th className="py-3 rounded-3 rounded-bottom-0 rounded-start-0"></th>
+                <th className="py-3" scope="col">
+                  Formato
+                </th>
+                <th className="py-3" scope="col">
+                  Tamaño (KB)
+                </th>
+                <th className="py-3 w-25" scope="col">
+                  Fecha
+                </th>
+                <th
+                  className="py-3 rounded-3 rounded-bottom-0 rounded-start-0"
+                  scope="col"
+                ></th>
               </tr>
             </thead>
             <tbody>
@@ -158,6 +182,7 @@ function Documents() {
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   key={file.id}
                   className="align-middle"
+                  aria-labelledby={`file-${file.id}`}
                 >
                   <td>{getFileName(file.name)}</td>
                   <td>{getFileExtension(file.name)}</td>
@@ -167,6 +192,7 @@ function Documents() {
                     <Button
                       className="danger-hover"
                       onClick={() => handleDelete(file.id)}
+                      aria-label={`Eliminar archivo ${file.name}`}
                     >
                       <i className="bi bi-trash text-danger"></i>
                     </Button>
@@ -185,6 +211,7 @@ function Documents() {
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 key={file.id}
                 className="file-card border-gradient w-75 mx-auto p-3 mb-3 rounded-3 shadow-sm text-center"
+                aria-labelledby={`file-card-${file.id}`}
               >
                 <p>
                   <strong>Nombre:</strong> {file.name}
@@ -201,6 +228,7 @@ function Documents() {
                 <Button
                   className="danger-hover w-25 mx-auto"
                   onClick={() => handleDelete(file.id)}
+                  aria-label={`Eliminar archivo ${file.name}`}
                 >
                   <i className="bi bi-trash text-danger"></i>
                 </Button>
@@ -209,12 +237,14 @@ function Documents() {
           </div>
         </>
       )}
+
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header className="bg-grey border-purple">
           <Modal.Title>{modalType} fichero</Modal.Title>
           <button
             onClick={() => setShowModal(!showModal)}
             className="btn btn-close close-btn-purple"
+            aria-label="Cerrar ventana modal"
           ></button>
         </Modal.Header>
 
@@ -226,6 +256,7 @@ function Documents() {
                   type="file"
                   className="text-white"
                   onChange={(e) => setFileSelected(e.target.files[0])}
+                  aria-label="Seleccionar fichero para subir"
                 />
                 <Form.Text className="text-white">Máximo 5MB</Form.Text>
               </Form.Group>
@@ -245,6 +276,7 @@ function Documents() {
             variant="outline-secondary"
             className="text-purple border-purple"
             onClick={() => setShowModal(!showModal)}
+            aria-label="Cerrar modal"
           >
             Cerrar
           </Button>
@@ -252,6 +284,9 @@ function Documents() {
             variant="success"
             onClick={modalType === "Subir" ? uploadFile : deleteFile}
             disabled={fileLoading}
+            aria-label={
+              modalType === "Subir" ? "Subir fichero" : "Confirmar eliminación"
+            }
           >
             {fileLoading ? (
               <Spinner animation="border" size="sm" />
@@ -270,6 +305,7 @@ function Documents() {
           show={showToast}
           delay={10000}
           autohide
+          aria-live="polite"
         >
           <Toast.Body
             className={`${

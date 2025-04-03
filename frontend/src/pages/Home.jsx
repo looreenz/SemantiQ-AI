@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Container, Card } from "react-bootstrap";
 // eslint-disable-next-line
 import { motion } from "framer-motion";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
 function Home() {
   /*const [currentUser, setCurrentUser] = useState(null);
@@ -21,7 +21,7 @@ function Home() {
     fetchUser();
   }, []);*/
 
-  const currentUser = useSelector(state => state.user.user);
+  const currentUser = useSelector((state) => state.user.user);
   console.log("User: ", currentUser);
 
   return (
@@ -42,12 +42,14 @@ function Home() {
                 className="img-fluid w-25 mx-auto p-4"
                 src="/logoPrimary.svg"
                 alt="Logo SemantiQ AI"
+                aria-label="Logo de SemantiQ AI"
               />
-              <h1 className="text-center">
-                Hola {currentUser.name.split(" ")[0]}👋, <span className="d-block">como puedo ayudarte?</span>
+              <h1 className="text-center" role="heading" aria-level="1">
+                Hola {currentUser.name.split(" ")[0]}👋,{" "}
+                <span className="d-block">¿Cómo puedo ayudarte?</span>
               </h1>
               <p className="text-center">
-                Sube documentos, habla conmigo y ahorrate mucho tiempo!
+                Sube documentos, habla conmigo y ahórrate mucho tiempo!
               </p>
             </motion.div>
           </div>
@@ -65,16 +67,24 @@ function Home() {
         className="text-center"
       >
         <div className="row g-3 w-100 w-xxl-75 mx-auto text-center text-md-start">
+          {/* Documentos Section */}
           <div className="col-12 col-md-6">
-            <Link to="/documents" className="text-decoration-none">
+            <Link
+              to="/documents"
+              className="text-decoration-none"
+              aria-label="Ir a la sección de documentos"
+            >
               <Card className="rounded-4 border-gradient">
                 <Card.Body>
                   <Card.Title className="d-flex flex-row justify-content-between align-items-center">
                     <div className="text-purple w-100 text-center text-md-start">
-                      <i className="bi bi-file-earmark-text pe-1 text-purple"></i>
+                      <i
+                        className="bi bi-file-earmark-text pe-1 text-purple"
+                        aria-hidden="true"
+                      ></i>
                       Documentos
                     </div>
-                    <i className="bi bi-arrow-right"></i>
+                    <i className="bi bi-arrow-right" aria-hidden="true"></i>
                   </Card.Title>
                   <Card.Text>
                     Sube tus documentos PDF o de texto plano para que el modelo
@@ -84,16 +94,25 @@ function Home() {
               </Card>
             </Link>
           </div>
+
+          {/* Chat Section */}
           <div className="col-12 col-md-6">
-            <Link to="/chat" className="text-decoration-none">
+            <Link
+              to="/chat"
+              className="text-decoration-none"
+              aria-label="Ir a la sección de chat"
+            >
               <Card className="rounded-4 border-gradient">
                 <Card.Body>
                   <Card.Title className="d-flex flex-row justify-content-between align-items-center">
                     <div className="text-purple w-100 text-center text-md-start">
-                      <i className="bi bi-chat pe-1 text-purple"></i>
+                      <i
+                        className="bi bi-chat pe-1 text-purple"
+                        aria-hidden="true"
+                      ></i>
                       Chat
                     </div>
-                    <i className="bi bi-arrow-right"></i>
+                    <i className="bi bi-arrow-right" aria-hidden="true"></i>
                   </Card.Title>
                   <Card.Text>
                     Conversa con nuestro modelo para preguntarle todo lo que
@@ -103,16 +122,25 @@ function Home() {
               </Card>
             </Link>
           </div>
+
+          {/* History Section */}
           <div className="col-12 col-md-7">
-            <Link to="/history" className="text-decoration-none">
+            <Link
+              to="/history"
+              className="text-decoration-none"
+              aria-label="Ir a la sección de historial"
+            >
               <Card className="rounded-4 border-gradient">
                 <Card.Body>
                   <Card.Title className="d-flex flex-row justify-content-between align-items-center">
                     <div className="text-purple w-100 text-center text-md-start">
-                      <i className="bi bi-clock-history pe-1 text-purple"></i>
+                      <i
+                        className="bi bi-clock-history pe-1 text-purple"
+                        aria-hidden="true"
+                      ></i>
                       Historial
                     </div>
-                    <i className="bi bi-arrow-right"></i>
+                    <i className="bi bi-arrow-right" aria-hidden="true"></i>
                   </Card.Title>
                   <Card.Text>
                     Consulta los mensajes enviados y recibidos cuando quieras.
@@ -121,16 +149,25 @@ function Home() {
               </Card>
             </Link>
           </div>
+
+          {/* Statistics Section */}
           <div className="col-12 col-md-5">
-            <Link to="/stats" className="text-decoration-none">
+            <Link
+              to="/stats"
+              className="text-decoration-none"
+              aria-label="Ir a la sección de estadísticas"
+            >
               <Card className="rounded-4 border-gradient">
                 <Card.Body>
                   <Card.Title className="d-flex flex-row justify-content-between align-items-center">
                     <div className="text-purple w-100 text-center text-md-start">
-                      <i className="bi bi-bar-chart-line pe-1 text-purple"></i>
+                      <i
+                        className="bi bi-bar-chart-line pe-1 text-purple"
+                        aria-hidden="true"
+                      ></i>
                       Estadísticas
                     </div>
-                    <i className="bi bi-arrow-right"></i>
+                    <i className="bi bi-arrow-right" aria-hidden="true"></i>
                   </Card.Title>
                   <Card.Text>Hazte una idea con las estadísticas.</Card.Text>
                 </Card.Body>

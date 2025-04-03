@@ -144,8 +144,10 @@ function Chat() {
       <Container className="w-75 w-xxl-50 mx-auto overflow-hidden">
         {isLoadingMessages ? (
           <div className="text-center py-5">
-            <Spinner animation="border" role="status" />
-            <p>Cargando mensajes...</p>
+            <Spinner animation="border" role="status" aria-live="assertive">
+              <span className="visually-hidden">Cargando mensajes...</span>
+            </Spinner>
+            <p aria-live="assertive">Cargando mensajes...</p>
           </div>
         ) : messages.length > 0 ? (
           messages.map((message, index) => (
@@ -158,6 +160,9 @@ function Chat() {
               <div
                 className={`d-flex flex-column p-3 rounded-4 ${
                   message.user_id === null ? "message-agent" : "message-user"
+                }`}
+                aria-label={`Mensaje de ${
+                  message.user_id === null ? "Semantiq" : "Tú"
                 }`}
               >
                 <span
@@ -172,7 +177,9 @@ function Chat() {
             </div>
           ))
         ) : (
-          <div className="text-center py-5">Hola, ¿cómo puedo ayudarte?</div>
+          <div className="text-center py-5" aria-live="assertive">
+            <p>Hola, ¿cómo puedo ayudarte?</p>
+          </div>
         )}
         <div ref={messagesEndRef} />
       </Container>
@@ -192,21 +199,27 @@ function Chat() {
             placeholder="Escribe tu pregunta"
             className="border-0 p-0 text-white"
             rows={1}
+            aria-label="Escribe tu pregunta"
+            aria-required="true"
           />
           <Button
             variant=""
             className="align-self-end border-0"
             onClick={askQuestion}
             disabled={loading}
+            aria-label={loading ? "Enviando mensaje..." : "Enviar mensaje"}
           >
             {loading ? (
-              <Spinner animation="border" size="sm" />
+              <Spinner animation="border" size="sm" aria-hidden="true" />
             ) : (
-              <i className="bi bi-arrow-up-circle-fill fs-3 send-button"></i>
+              <i
+                className="bi bi-arrow-up-circle-fill fs-3 send-button"
+                aria-hidden="true"
+              ></i>
             )}
           </Button>
         </Form>
-        <small>{initProgress}</small>
+        <small aria-live="polite">{initProgress}</small>
       </Container>
     </Container>
   );

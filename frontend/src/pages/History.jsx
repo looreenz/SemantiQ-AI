@@ -110,26 +110,41 @@ function History() {
           {Object.keys(groupedMessages).map((date, index) => (
             <div key={index} className="py-3 border-bottom border-message">
               <div className="w-100 w-xl-75 w-xxl-100 mx-auto d-flex justify-content-between align-items-center">
-                <h4 className="w-100 text-center text-md-start">{date}</h4>
-                {/*<Button
-                  variant="danger"
-                  className="d-flex align-items-center gap-2"
-                  onClick={() => deleteMessagesByDate(date)}
+                <h4
+                  className="w-100 text-center text-md-start"
+                  id={`date-${index}`}
                 >
-                  <i className="bi bi-trash"></i>
-                  Eliminar todos los mensajes
-                </Button>*/}
+                  {date}
+                </h4>
+                {/* Eliminar mensajes por fecha (comentado, pero aún accesible si se reactiva) */}
+                {/* <Button
+              variant="danger"
+              className="d-flex align-items-center gap-2"
+              onClick={() => deleteMessagesByDate(date)}
+              aria-label="Eliminar todos los mensajes de esta fecha"
+            >
+              <i className="bi bi-trash"></i>
+              Eliminar todos los mensajes
+            </Button> */}
               </div>
+
               <Table
                 hover
                 className="w-100 w-xl-75 w-xxl-100 mx-auto d-none d-md-table"
+                aria-labelledby={`date-${index}`}
               >
                 <thead>
                   <tr>
-                    <th className="py-3 w-25 rounded-3 rounded-bottom-0 rounded-end-0">
+                    <th
+                      className="py-3 w-25 rounded-3 rounded-bottom-0 rounded-end-0"
+                      scope="col"
+                    >
                       Usuario
                     </th>
-                    <th className="py-3 rounded-3 rounded-bottom-0 rounded-start-0">
+                    <th
+                      className="py-3 rounded-3 rounded-bottom-0 rounded-start-0"
+                      scope="col"
+                    >
                       Mensaje
                     </th>
                   </tr>
@@ -145,9 +160,12 @@ function History() {
                         damping: 30,
                       }}
                       key={message.id}
+                      aria-live="polite" // Esto hace que el cambio en la tabla sea anunciado por los lectores de pantalla
                     >
                       <td>
-                        {message.user_id === null ? "Semantiq" : currentUser.name}
+                        {message.user_id === null
+                          ? "Semantiq"
+                          : currentUser.name}
                       </td>
                       <td>{message.message}</td>
                     </motion.tr>
@@ -164,20 +182,15 @@ function History() {
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     key={message.id}
                     className="file-card border-gradient w-75 mx-auto p-3 mb-3 rounded-3 shadow-sm text-center"
+                    aria-labelledby={`message-${message.id}`}
                   >
-                    <p>
+                    <p id={`message-${message.id}`} className="text-break">
                       <strong>Usuario:</strong>{" "}
                       {message.user_id === null ? "Semantiq" : currentUser.name}
                     </p>
                     <p>
                       <strong>Mensaje:</strong> {message.message}
                     </p>
-                    {/*<Button
-                      className="danger-hover w-25 mx-auto"
-                      onClick={() => handleDelete(file.id)}
-                    >
-                      <i className="bi bi-trash text-danger"></i>
-                    </Button>*/}
                   </motion.div>
                 ))}
               </div>

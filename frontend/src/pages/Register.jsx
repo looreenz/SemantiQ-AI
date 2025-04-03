@@ -85,11 +85,22 @@ function Register() {
                 <Form
                   onSubmit={formik.handleSubmit}
                   className="py-3 px-4 rounded-4"
+                  aria-labelledby="formTitle"
                 >
-                  <div className="text-center fs-3 text-white fw-bold">
+                  <div
+                    id="formTitle"
+                    className="text-center fs-3 text-white fw-bold"
+                    role="heading"
+                    aria-level="1"
+                  >
                     Crear cuenta
                   </div>
+
+                  {/* Name Input */}
                   <Form.Group className="mb-3 mt-4">
+                    <Form.Label htmlFor="name" className="visually-hidden">
+                      Nombre
+                    </Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Nombre"
@@ -99,12 +110,20 @@ function Register() {
                       onBlur={formik.handleBlur}
                       value={formik.values.name}
                       className="w-100 border-purple text-white"
+                      aria-describedby="nameError"
                     />
                     {formik.touched.name && formik.errors.name && (
-                      <div className="text-danger">{formik.errors.name}</div>
+                      <div id="nameError" className="text-danger" role="alert">
+                        {formik.errors.name}
+                      </div>
                     )}
                   </Form.Group>
+
+                  {/* Email Input */}
                   <Form.Group className="mb-3 mt-4">
+                    <Form.Label htmlFor="email" className="visually-hidden">
+                      Correo electrónico
+                    </Form.Label>
                     <Form.Control
                       type="email"
                       placeholder="Correo electrónico"
@@ -114,12 +133,20 @@ function Register() {
                       onBlur={formik.handleBlur}
                       value={formik.values.email}
                       className="w-100 border-purple text-white"
+                      aria-describedby="emailError"
                     />
                     {formik.touched.email && formik.errors.email && (
-                      <div className="text-danger">{formik.errors.email}</div>
+                      <div id="emailError" className="text-danger" role="alert">
+                        {formik.errors.email}
+                      </div>
                     )}
                   </Form.Group>
+
+                  {/* Password Input */}
                   <Form.Group className="mb-3 mt-4">
+                    <Form.Label htmlFor="password" className="visually-hidden">
+                      Contraseña
+                    </Form.Label>
                     <Form.Control
                       type="password"
                       id="password"
@@ -129,21 +156,33 @@ function Register() {
                       onBlur={formik.handleBlur}
                       value={formik.values.password}
                       className="w-100 border-purple text-white"
+                      aria-describedby="passwordError"
                     />
                     {formik.touched.password && formik.errors.password && (
-                      <div className="text-danger">
+                      <div
+                        id="passwordError"
+                        className="text-danger"
+                        role="alert"
+                      >
                         {formik.errors.password}
                       </div>
                     )}
                   </Form.Group>
+
+                  {/* General Error Message */}
                   {error && (
-                    <div className="text-danger text-center">{error}</div>
+                    <div className="text-danger text-center" role="alert">
+                      {error}
+                    </div>
                   )}
+
+                  {/* Submit Button */}
                   <Form.Group className="mb-3 mt-4">
                     <Button
                       disabled={loading}
                       type="submit"
                       className="w-100 bg-purple border-purple fw-bold p-2"
+                      aria-live="polite"
                     >
                       {loading ? (
                         <Spinner role="status">
@@ -153,6 +192,8 @@ function Register() {
                         "Crear cuenta"
                       )}
                     </Button>
+
+                    {/* Divider and Google Login Button */}
                     <div className="d-flex align-items-center my-3">
                       <hr className="flex-grow-1" />
                       <span className="mx-2 text-secondary">O</span>
@@ -161,15 +202,19 @@ function Register() {
                     <Button
                       onClick={handleGoogle}
                       className="w-100 d-flex gap-2 align-items-center justify-content-center mb-3 bg-gradient border-gradient"
+                      aria-label="Regístrate con Google"
                     >
-                      <i class="bi bi-google"></i>
+                      <i className="bi bi-google" aria-hidden="true"></i>
                       Regístrate con Google
                     </Button>
                   </Form.Group>
+
+                  {/* Login Link */}
                   <p className="pt-2 text-center">
                     <Link
                       to="/login"
                       className="text-decoration-none text-white hover-underline-purple"
+                      aria-label="Ir a la página de inicio de sesión"
                     >
                       Ya tengo una cuenta
                     </Link>

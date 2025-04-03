@@ -82,11 +82,22 @@ function Login() {
                 <Form
                   onSubmit={formik.handleSubmit}
                   className="py-3 px-4 rounded-4"
+                  aria-labelledby="formTitle"
                 >
-                  <div className="text-center fs-3 text-white fw-bold">
+                  <div
+                    id="formTitle"
+                    className="text-center fs-3 text-white fw-bold"
+                    role="heading"
+                    aria-level="1"
+                  >
                     Inicio de Sesión
                   </div>
+
+                  {/* Email Input */}
                   <Form.Group className="mb-3 mt-4">
+                    <Form.Label htmlFor="email" className="visually-hidden">
+                      Correo electrónico
+                    </Form.Label>
                     <Form.Control
                       type="email"
                       placeholder="Correo electrónico"
@@ -96,12 +107,20 @@ function Login() {
                       onBlur={formik.handleBlur}
                       value={formik.values.email}
                       className="w-100 border-purple text-white"
+                      aria-describedby="emailError"
                     />
                     {formik.touched.email && formik.errors.email && (
-                      <div className="text-danger">{formik.errors.email}</div>
+                      <div id="emailError" className="text-danger" role="alert">
+                        {formik.errors.email}
+                      </div>
                     )}
                   </Form.Group>
+
+                  {/* Password Input */}
                   <Form.Group className="mb-3 mt-4">
+                    <Form.Label htmlFor="password" className="visually-hidden">
+                      Contraseña
+                    </Form.Label>
                     <Form.Control
                       type="password"
                       id="password"
@@ -111,21 +130,33 @@ function Login() {
                       onBlur={formik.handleBlur}
                       value={formik.values.password}
                       className="w-100 border-purple text-white"
+                      aria-describedby="passwordError"
                     />
                     {formik.touched.password && formik.errors.password && (
-                      <div className="text-danger">
+                      <div
+                        id="passwordError"
+                        className="text-danger"
+                        role="alert"
+                      >
                         {formik.errors.password}
                       </div>
                     )}
                   </Form.Group>
+
+                  {/* General error */}
                   {error && (
-                    <div className="text-danger text-center">{error}</div>
+                    <div className="text-danger text-center" role="alert">
+                      {error}
+                    </div>
                   )}
+
+                  {/* Submit Button */}
                   <Form.Group className="mb-3 mt-4">
                     <Button
                       disabled={loading}
                       type="submit"
                       className="w-100 bg-purple border-purple fw-bold p-2"
+                      aria-live="polite"
                     >
                       {loading ? (
                         <Spinner role="status">
@@ -135,6 +166,8 @@ function Login() {
                         "Iniciar Sesión"
                       )}
                     </Button>
+
+                    {/* Google login button */}
                     <div className="d-flex align-items-center my-3">
                       <hr className="flex-grow-1" />
                       <span className="mx-2 text-secondary">O</span>
@@ -143,15 +176,19 @@ function Login() {
                     <Button
                       onClick={handleGoogle}
                       className="w-100 d-flex gap-2 align-items-center justify-content-center mb-3 bg-gradient border-gradient"
+                      aria-label="Iniciar sesión con Google"
                     >
-                      <i class="bi bi-google"></i>
+                      <i className="bi bi-google" aria-hidden="true"></i>
                       Inicia sesión con Google
                     </Button>
                   </Form.Group>
+
+                  {/* Registration Link */}
                   <p className="pt-2 text-center">
                     <Link
                       to="/register"
                       className="text-decoration-none text-white hover-underline-purple"
+                      aria-label="Ir a la página de registro"
                     >
                       No tengo una cuenta
                     </Link>

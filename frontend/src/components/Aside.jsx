@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { logout } from "../utils/api";
 import { Modal, Button, CloseButton } from "react-bootstrap";
-import { useDispatch } from 'react-redux';
-import { logoutUser } from '../redux/slices/userSlice';
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../redux/slices/userSlice";
 
 function Aside() {
   const location = useLocation();
@@ -43,9 +43,8 @@ function Aside() {
         <Link
           className="navbar-brand fs-2"
           to="/"
-          onClick={() => {
-            setActive("/chat");
-          }}
+          onClick={() => setActive("/chat")}
+          aria-label="Ir al inicio de SemantiQ AI"
         >
           Semanti
           <img
@@ -54,7 +53,7 @@ function Aside() {
             className="logo-img mb-2"
           />
         </Link>
-        <nav className="navbar navbar-dark  d-xl-none d-flex">
+        <nav className="navbar navbar-dark d-xl-none d-flex">
           <div className="container-fluid p-0">
             <button
               className="navbar-toggler text-white border-0"
@@ -68,14 +67,17 @@ function Aside() {
             >
               <span
                 className={`toggler-line ${menuOpen ? "open top" : ""}`}
+                aria-hidden="true"
               ></span>
               <span
                 className={`toggler-line ${menuOpen ? "open bottom" : ""}`}
+                aria-hidden="true"
               ></span>
             </button>
           </div>
         </nav>
       </div>
+
       <nav
         className="collapse d-xl-block w-100 w-xxl-75"
         id="navbarToggleExternalContent"
@@ -96,46 +98,57 @@ function Aside() {
                 to={item.path}
                 onClick={() => setActive(item.path)}
                 className="text-decoration-none text-white hover-underline-purple d-flex align-items-center"
+                aria-label={`Ir a ${item.label}`}
               >
-                <i className={`${item.icon} px-1`}></i>
+                <i className={`${item.icon} px-1`} aria-hidden="true"></i>
                 {item.label}
               </Link>
             </li>
           ))}
           <li className="p-2">
             <Link
-              onClick={() => {
-                setShowModal(true);
-              }}
+              onClick={() => setShowModal(true)}
               className="text-decoration-none text-white hover-underline-purple d-flex align-items-center"
+              aria-label="Cerrar sesión"
             >
-              <i className="bi bi-box-arrow-right px-1"></i>
+              <i className="bi bi-box-arrow-right px-1" aria-hidden="true"></i>
               Cerrar Sesión
             </Link>
           </li>
         </ul>
       </nav>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-      <Modal.Header className="bg-grey border-purple">
-          <Modal.Title>Cerrar Sesión</Modal.Title>
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        centered
+        aria-labelledby="modalLogoutLabel"
+      >
+        <Modal.Header className="bg-grey border-purple">
+          <Modal.Title id="modalLogoutLabel">Cerrar Sesión</Modal.Title>
           <button
             onClick={() => setShowModal(!showModal)}
             className="btn btn-close close-btn-purple"
+            aria-label="Cerrar ventana modal"
           ></button>
         </Modal.Header>
         <Modal.Body className="bg-grey">
           <p>¿Estás seguro de que deseas cerrar sesión?</p>
         </Modal.Body>
         <Modal.Footer className="bg-grey border-purple">
-        <Button
+          <Button
             variant="outline-secondary"
             className="text-purple border-purple"
             onClick={() => setShowModal(!showModal)}
+            aria-label="Cancelar cierre de sesión"
           >
             Cerrar
           </Button>
-          <Button variant="success" onClick={handleLogout}>
+          <Button
+            variant="success"
+            onClick={handleLogout}
+            aria-label="Confirmar cierre de sesión"
+          >
             Cerrar Sesión
           </Button>
         </Modal.Footer>
