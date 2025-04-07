@@ -160,10 +160,10 @@ function History() {
                         damping: 30,
                       }}
                       key={message.id}
-                      aria-live="polite" // Esto hace que el cambio en la tabla sea anunciado por los lectores de pantalla
+                      aria-live="polite"
                     >
                       <td>
-                        {message.user_id === null
+                        {message.question_id !== null
                           ? "Semantiq"
                           : currentUser.name}
                       </td>
@@ -186,7 +186,7 @@ function History() {
                   >
                     <p id={`message-${message.id}`} className="text-break">
                       <strong>Usuario:</strong>{" "}
-                      {message.user_id === null ? "Semantiq" : currentUser.name}
+                      {message.question_id !== null ? "Semantiq" : currentUser.name}
                     </p>
                     <p>
                       <strong>Mensaje:</strong> {message.message}

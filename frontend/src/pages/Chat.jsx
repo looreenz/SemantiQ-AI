@@ -44,7 +44,7 @@ function Chat() {
     const newMessage = {
       id: newMessageId,
       user_id: currentUser.id,
-      question_id: 0,
+      question_id: null,
       message: question,
     };
 
@@ -111,7 +111,7 @@ function Chat() {
     const newReplyId = uuidv7();
     return {
       id: newReplyId,
-      user_id: null,
+      user_id: currentUser.id,
       message: reply.choices[0].message.content,
     };
   }
@@ -154,23 +154,23 @@ function Chat() {
             <div
               key={index}
               className={`d-flex justify-content-${
-                message.user_id === null ? "start" : "end"
+                message.question_id !== null ? "start" : "end"
               } mb-3`}
             >
               <div
                 className={`d-flex flex-column p-3 rounded-4 ${
-                  message.user_id === null ? "message-agent" : "message-user"
+                  message.question_id !== null ? "message-agent" : "message-user"
                 }`}
                 aria-label={`Mensaje de ${
-                  message.user_id === null ? "Semantiq" : "Tú"
+                  message.question_id !== null ? "Semantiq" : "Tú"
                 }`}
               >
                 <span
                   className={`d-flex justify-content-${
-                    message.user_id === null ? "start" : "end"
+                    message.question_id !== null ? "start" : "end"
                   }`}
                 >
-                  {message.user_id === null ? "Semantiq" : "Tú"}
+                  {message.question_id !== null ? "Semantiq" : "Tú"}
                 </span>
                 <span>{message.message}</span>
               </div>
