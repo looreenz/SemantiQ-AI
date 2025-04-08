@@ -117,7 +117,16 @@ function Aside() {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <i className="bi bi-person px-1" aria-hidden="true"></i>
+                {currentUser.avatar ? (
+                  <img
+                  src={currentUser.avatar}
+                  alt="Avatar"
+                  className="rounded-circle me-1"
+                  style={{ width: "24px", height: "24px", objectFit: "cover" }}
+                />
+                ) : (
+                  <i className="bi bi-person px-1" aria-hidden="true"></i>
+                )}
                 {currentUser?.name.split(" ")[0] || "Usuario"}
               </Link>
               <ul

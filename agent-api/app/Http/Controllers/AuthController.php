@@ -58,6 +58,7 @@ class AuthController extends Controller
                 'id' => Str::uuid()->toString(), // Generar UUID v7
                 'name' => $googleUser->getName(),
                 'email' => $googleUser->getEmail(),
+                'avatar' => $googleUser->getAvatar(),
                 'password' => Hash::make(Str::random(16)), // No se usa, pero es necesario
             ]);
         }
