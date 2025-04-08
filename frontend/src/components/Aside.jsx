@@ -121,16 +121,32 @@ function Aside() {
                 {currentUser?.name.split(" ")[0] || "Usuario"}
               </Link>
               <ul
-                className="dropdown-menu p-2 bg-message"
+                className="dropdown-menu p-2 bg-message rounded-4 mt-2"
                 aria-labelledby="dropdownMenuLink"
               >
-                <li>
+                <li className="p-2">
+                  <Link
+                    onClick={() => setActive("")}
+                    className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex align-items-center"
+                    to="/terms"
+                  >
+                    <i
+                      className="bi bi-question-circle px-1"
+                      aria-hidden="true"
+                    ></i>
+                    Términos y condiciones
+                  </Link>
+                </li>
+                <li className="p-2">
                   <Link
                     className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex align-items-center"
                     href="#"
                     onClick={() => setShowModal(true)}
                   >
-                    <i className="bi bi-box-arrow-right px-1" aria-hidden="true"></i>
+                    <i
+                      className="bi bi-box-arrow-right px-1"
+                      aria-hidden="true"
+                    ></i>
                     Cerrar sesión
                   </Link>
                 </li>

@@ -13,6 +13,7 @@ import History from "./pages/History";
 import Stats from "./pages/Stats";
 import Error404 from "./pages/Error404";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Terms from "./pages/Terms";
 
 function App() {
   const location = useLocation();
@@ -24,6 +25,7 @@ function App() {
     { path: "/documents", element: <Documents /> },
     { path: "/history", element: <History /> },
     { path: "/stats", element: <Stats /> },
+    { path: "/terms", element: <Terms /> },
   ];
 
   return (
