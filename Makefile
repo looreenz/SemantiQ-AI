@@ -47,6 +47,10 @@ sh:
 run: 
 	$(DOCKER_COMPOSE) exec $(SERVICE_NODE) npm run dev
 
+# Levantar frontend
+build: 
+	$(DOCKER_COMPOSE) exec $(SERVICE_NODE) npm run build
+
 # Reiniciar la API
 restart:
 	$(DOCKER_COMPOSE) restart $(SERVICE_WEB)
@@ -55,4 +59,4 @@ restart:
 clean:
 	$(DOCKER_COMPOSE) down -v
 
-.PHONY: ps up up-build down logs bash migrate cache-clear optimize sh run restart clean
+.PHONY: ps up up-build down logs bash migrate cache-clear optimize sh run build restart clean
