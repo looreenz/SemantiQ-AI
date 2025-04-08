@@ -20,12 +20,7 @@
    cd SemantiQ-AI
    ```
 
-3. **Entrar en la carpeta `Docker`**
-   ```sh
-   cd Docker
-   ```
-
-4. **Ejecutar `Docker Compose`**
+3. **Ejecutar `Docker Compose`**
    ```sh
    docker-compose up --build -d
    ```
@@ -67,12 +62,7 @@ Ahora ya puedes empezar a usar la aplicación. ¡Disfruta del desarrollo!
    cd SemantiQ-AI
    ```
 
-3. **Go to the `Docker` folder**
-   ```sh
-   cd Docker
-   ```
-
-4. **Run `Docker Compose`**
+3. **Run `Docker Compose`**
    ```sh
    docker-compose up --build -d
    ```
