@@ -20,8 +20,11 @@
    cd SemantiQ-AI
    ```
 
-3. **Ejecutar `Docker Compose`**
+3. **Copiar el contenido del fichero `agent-api/.env.exemple` en un fichero `.env`**
+
+4. **Ejecutar `Docker Compose`**
    ```sh
+   cd Doker
    docker-compose up --build -d
    ```
    > Si tienes `make` instalado, puedes ejecutar el siguiente comando en su lugar:
@@ -62,8 +65,13 @@ Ahora ya puedes empezar a usar la aplicación. ¡Disfruta del desarrollo!
    cd SemantiQ-AI
    ```
 
-3. **Run `Docker Compose`**
+3. **Copy environment files content**
+   - Copy the `agent-api/.env.exemple` file content into a `agent-api/.env` file
+   - Copy the `frontend/.env.exemple` file content into a `frontend/.env` file
+
+4. **Run `Docker Compose`**
    ```sh
+   cd Doker
    docker-compose up --build -d
    ```
    > If you have `make` installed, you can run the following command instead:
