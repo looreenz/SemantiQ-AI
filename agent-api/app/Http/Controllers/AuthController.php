@@ -66,7 +66,7 @@ class AuthController extends Controller
         Auth::login($user);
         request()->session()->regenerate();
 
-        return redirect()->away("http://localhost:5173/login-success");
+        return redirect()->away("http://semantiqai.daw.iesevalorpego.es/login-success");
     }
 
     public function login(Request $request)
