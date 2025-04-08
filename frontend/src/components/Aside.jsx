@@ -6,6 +6,7 @@ import { logout } from "../utils/api";
 import { Modal, Button, CloseButton } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../redux/slices/userSlice";
+import { useSelector } from "react-redux";
 
 function Aside() {
   const location = useLocation();
@@ -14,6 +15,7 @@ function Aside() {
   const [active, setActive] = useState(location.pathname);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const currentUser = useSelector((state) => state.user.user);
 
   useEffect(() => {
     setMenuOpen(false);
@@ -106,14 +108,34 @@ function Aside() {
             </li>
           ))}
           <li className="p-2">
-            <Link
-              onClick={() => setShowModal(true)}
-              className="text-decoration-none text-white hover-underline-purple d-flex align-items-center"
-              aria-label="Cerrar sesión"
-            >
-              <i className="bi bi-box-arrow-right px-1" aria-hidden="true"></i>
-              Cerrar Sesión
-            </Link>
+            <div className="dropdown">
+              <Link
+                className="text-decoration-none text-white hover-underline-purple d-flex align-items-center"
+                href="#"
+                role="button"
+                id="dropdownMenuLink"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i className="bi bi-person px-1" aria-hidden="true"></i>
+                {currentUser?.name.split(" ")[0] || "Usuario"}
+              </Link>
+              <ul
+                className="dropdown-menu p-2 bg-message"
+                aria-labelledby="dropdownMenuLink"
+              >
+                <li>
+                  <Link
+                    className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex align-items-center"
+                    href="#"
+                    onClick={() => setShowModal(true)}
+                  >
+                    <i className="bi bi-box-arrow-right px-1" aria-hidden="true"></i>
+                    Cerrar sesión
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </li>
         </ul>
       </nav>
