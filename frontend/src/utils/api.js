@@ -1,7 +1,7 @@
 import axios from "axios";
 import { uuidv7 } from "uuidv7";
 
-axios.defaults.baseURL = import.meta.env.VITE_API_URL;
+axios.defaults.baseURL = import.meta.env.VITE_LOCAL_API_URL;
 axios.defaults.withCredentials = true;
 
 const API_VERSION = "v1";

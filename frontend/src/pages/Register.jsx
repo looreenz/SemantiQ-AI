@@ -33,6 +33,7 @@ function Register() {
   const dispatch = useDispatch();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const API_URL = import.meta.env.VITE_LOCAL_API_URL;
 
   const formik = useFormik({
     initialValues: { name: "", email: "", password: "" },
@@ -60,7 +61,7 @@ function Register() {
   });
 
   function handleGoogle() {
-    window.location.href = "http://api.semantiqai.daw.iesevalorpego.es/auth/google/redirect";
+    window.location.href = `${API_URL}/auth/google/redirect`;
   }
 
   return (
