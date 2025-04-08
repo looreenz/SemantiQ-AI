@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: db
--- Tiempo de generación: 07-04-2025 a las 12:28:57
+-- Tiempo de generación: 08-04-2025 a las 10:53:33
 -- Versión del servidor: 11.7.2-MariaDB-ubu2404
 -- Versión de PHP: 8.2.27
 
@@ -170,7 +170,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (9, '2025_04_01_123526_create_personal_access_tokens_table', 1),
 (10, '2025_04_01_174006_modify_sessions_table', 1),
 (11, '2025_04_07_110132_make_user_id_not_nullable_in_messages_table', 1),
-(12, '2025_04_07_110152_make_question_id_nullable_in_messages_table', 1);
+(12, '2025_04_07_110152_make_question_id_nullable_in_messages_table', 1),
+(13, '2025_04_08_103536_add_avatar_to_users_table', 2);
 
 -- --------------------------------------------------------
 
@@ -223,7 +224,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('e5BjFkFUBkHD29R1LKKvNcGTN9zJRLGIOkRzNtiK', '565d7412-8bbe-4bdb-900a-fef7d07d25d0', '172.19.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiTk5QejRhMWVXRW4ySExBUVpTdjRYbkVvQnh5ZEdROTB2WTdJV3hxZSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hcGkvdjEvdXNlciI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtzOjM2OiI1NjVkNzQxMi04YmJlLTRiZGItOTAwYS1mZWY3ZDA3ZDI1ZDAiO30=', 1744028926);
+('kss0aRXDALe1evHb2V2k9EFY2ZDe66MTaxKhCLvX', '45c1968c-eede-402d-9d2f-ab7b97c006ac', '172.19.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZGRVejl5aG5SOHBldjlwSm5ZRVhqSEQxSnFldDFUaHVReHIzZXRTbyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NzU6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hcGkvdjEvZG9jdW1lbnRzLzQ1YzE5NjhjLWVlZGUtNDAyZC05ZDJmLWFiN2I5N2MwMDZhYyI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtzOjM2OiI0NWMxOTY4Yy1lZWRlLTQwMmQtOWQyZi1hYjdiOTdjMDA2YWMiO30=', 1744109459);
 
 -- --------------------------------------------------------
 
@@ -235,6 +236,7 @@ CREATE TABLE `users` (
   `id` char(36) NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
@@ -246,9 +248,10 @@ CREATE TABLE `users` (
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-('297a1d30-6283-4cf6-8b7f-ff96c2bfe371', 'Lorenzo', 'lore@gmail.com', NULL, '$2y$12$PMyJ1G9z5iFOgv28eOAQOukHLDEVubSZ5yVknAIm.AbjhulkXKcFW', NULL, '2025-04-07 12:14:06', '2025-04-07 12:14:06'),
-('565d7412-8bbe-4bdb-900a-fef7d07d25d0', 'Lorenzo Cremonese', 'lorenzo.cremonese10@gmail.com', NULL, '$2y$12$ThvFaPc7yIBW8sfKaU6gmuN96OMA4jVvhvnMoZ3f/53V6fZa3E8LK', NULL, '2025-04-07 12:28:45', '2025-04-07 12:28:45');
+INSERT INTO `users` (`id`, `name`, `email`, `avatar`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+('01961495-e5c3-720d-b7f1-1c95de3d2491', 'Pau', 'pau@gmail.com', NULL, NULL, '$2y$12$5L5hjZszD1tnhF./T8QITuuA7yyjiuqXQwYSqE1/mNrkiV5hpusBC', NULL, '2025-04-08 08:48:10', '2025-04-08 08:48:10'),
+('297a1d30-6283-4cf6-8b7f-ff96c2bfe371', 'Lorenzo', 'lore@gmail.com', NULL, NULL, '$2y$12$PMyJ1G9z5iFOgv28eOAQOukHLDEVubSZ5yVknAIm.AbjhulkXKcFW', NULL, '2025-04-07 12:14:06', '2025-04-07 12:14:06'),
+('45c1968c-eede-402d-9d2f-ab7b97c006ac', 'Lorenzo Cremonese', 'lorenzo.cremonese10@gmail.com', 'https://lh3.googleusercontent.com/a/ACg8ocK1-XP6hSKTZXwE5QnWPNLPP77H0ySr9zgZlBInkY3qKBuOpdyC=s96-c', NULL, '$2y$12$7kSMLB7SKAd1qo1UWYFzIOR3WgVZWvqSIeQleyQrFRfyeL91k8wZa', NULL, '2025-04-08 10:40:36', '2025-04-08 10:40:36');
 
 --
 -- Índices para tablas volcadas
@@ -363,7 +366,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`
