@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 // eslint-disable-next-line
 import { motion } from "framer-motion";
 import { logout } from "../utils/api";
-import { Modal, Button, CloseButton } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../redux/slices/userSlice";
 import { useSelector } from "react-redux";
@@ -85,83 +85,108 @@ function Aside() {
         id="navbarToggleExternalContent"
       >
         <ul className="list-group list-group-flush">
-          {menuItems.map((item) => (
-            <li key={item.path} className="p-2 position-relative">
-              {active === item.path && (
-                <motion.div
-                  layoutId="activeIndicator"
-                  className="active rounded-4"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                />
-              )}
+          {currentUser ? (
+            <>
+              {menuItems.map((item) => (
+                <li key={item.path} className="p-2 position-relative">
+                  {active === item.path && (
+                    <motion.div
+                      layoutId="activeIndicator"
+                      className="active rounded-4"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 30,
+                      }}
+                    />
+                  )}
+                  <Link
+                    to={item.path}
+                    onClick={() => setActive(item.path)}
+                    className="text-decoration-none text-white hover-underline-purple d-flex align-items-center"
+                    aria-label={`Ir a ${item.label}`}
+                  >
+                    <i className={`${item.icon} px-1`} aria-hidden="true"></i>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+              <li className="p-2">
+                <div className="dropdown">
+                  <Link
+                    className="text-decoration-none text-white hover-underline-purple d-flex align-items-center"
+                    role="button"
+                    id="dropdownMenuLink"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    {currentUser.avatar ? (
+                      <img
+                        src={currentUser.avatar}
+                        alt="Avatar"
+                        className="rounded-circle me-1"
+                        style={{
+                          width: "24px",
+                          height: "24px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    ) : (
+                      <i className="bi bi-person px-1" aria-hidden="true"></i>
+                    )}
+                    {currentUser.name && currentUser.name.split(" ")[0]}
+                  </Link>
+                  <ul
+                    className="dropdown-menu p-2 bg-message rounded-4 mt-2"
+                    aria-labelledby="dropdownMenuLink"
+                  >
+                    <li className="p-2">
+                      <Link
+                        onClick={() => setActive("")}
+                        className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex align-items-center"
+                        to="/terms"
+                      >
+                        <i
+                          className="bi bi-question-circle px-1"
+                          aria-hidden="true"
+                        ></i>
+                        Términos y condiciones
+                      </Link>
+                    </li>
+                    <li className="p-2">
+                      <Link
+                        className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex align-items-center"
+                        onClick={() => setShowModal(true)}
+                      >
+                        <i
+                          className="bi bi-box-arrow-right px-1"
+                          aria-hidden="true"
+                        ></i>
+                        Cerrar sesión
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </>
+          ) : (
+            <li className="p-2">
               <Link
-                to={item.path}
-                onClick={() => setActive(item.path)}
+                to="/login"
+                onClick={() => setActive("/login")}
                 className="text-decoration-none text-white hover-underline-purple d-flex align-items-center"
-                aria-label={`Ir a ${item.label}`}
+                aria-label="Ir a login"
               >
-                <i className={`${item.icon} px-1`} aria-hidden="true"></i>
-                {item.label}
+                <i
+                  className="bi bi-box-arrow-in-right px-1"
+                  aria-hidden="true"
+                ></i>
+                Iniciar sesión
               </Link>
             </li>
-          ))}
-          <li className="p-2">
-            <div className="dropdown">
-              <Link
-                className="text-decoration-none text-white hover-underline-purple d-flex align-items-center"
-                href="#"
-                role="button"
-                id="dropdownMenuLink"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                {currentUser?.avatar ? (
-                  <img
-                  src={currentUser.avatar}
-                  alt="Avatar"
-                  className="rounded-circle me-1"
-                  style={{ width: "24px", height: "24px", objectFit: "cover" }}
-                />
-                ) : (
-                  <i className="bi bi-person px-1" aria-hidden="true"></i>
-                )}
-                {currentUser?.name.split(" ")[0] || "Usuario"}
-              </Link>
-              <ul
-                className="dropdown-menu p-2 bg-message rounded-4 mt-2"
-                aria-labelledby="dropdownMenuLink"
-              >
-                <li className="p-2">
-                  <Link
-                    onClick={() => setActive("")}
-                    className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex align-items-center"
-                    to="/terms"
-                  >
-                    <i
-                      className="bi bi-question-circle px-1"
-                      aria-hidden="true"
-                    ></i>
-                    Términos y condiciones
-                  </Link>
-                </li>
-                <li className="p-2">
-                  <Link
-                    className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex align-items-center"
-                    href="#"
-                    onClick={() => setShowModal(true)}
-                  >
-                    <i
-                      className="bi bi-box-arrow-right px-1"
-                      aria-hidden="true"
-                    ></i>
-                    Cerrar sesión
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </li>
+          )}
         </ul>
       </nav>
 
