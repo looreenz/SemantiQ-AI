@@ -159,7 +159,9 @@ function Chat() {
             >
               <div
                 className={`d-flex flex-column p-3 rounded-4 ${
-                  message.question_id !== null ? "message-agent" : "message-user"
+                  message.question_id !== null
+                    ? "message-agent"
+                    : "message-user"
                 }`}
                 aria-label={`Mensaje de ${
                   message.question_id !== null ? "Semantiq" : "Tú"
@@ -185,7 +187,7 @@ function Chat() {
       </Container>
 
       <Container className="py-2 w-75 w-xxl-50 mx-auto sticky-bottom bg-grey">
-        <Form className="d-flex gap-3 p-3 rounded-4 chat-input">
+        <Form className="d-flex flex-column gap-3 p-3 rounded-4 chat-input">
           <Form.Control
             as="textarea"
             value={question}
@@ -202,22 +204,35 @@ function Chat() {
             aria-label="Escribe tu pregunta"
             aria-required="true"
           />
-          <Button
-            variant=""
-            className="align-self-end border-0"
-            onClick={askQuestion}
-            disabled={loading}
-            aria-label={loading ? "Enviando mensaje..." : "Enviar mensaje"}
-          >
-            {loading ? (
-              <Spinner animation="border" size="sm" aria-hidden="true" />
-            ) : (
+          <div className="d-flex justify-content-end">
+            <div className="position-relative w-auto d-flex align-items-center model-select-wrapper">
+              <Form.Select className="model-select py-0" value="gpt">
+                <option value="local">Modelo Local</option>
+                <option value="gpt">ChatGPT</option>
+              </Form.Select>
               <i
-                className="bi bi-arrow-up-circle-fill fs-3 send-button"
+                className="bi bi-chevron-down custom-select-icon"
                 aria-hidden="true"
               ></i>
-            )}
-          </Button>
+            </div>
+
+            <Button
+              variant=""
+              className="align-self-end border-0"
+              onClick={askQuestion}
+              disabled={loading}
+              aria-label={loading ? "Enviando mensaje..." : "Enviar mensaje"}
+            >
+              {loading ? (
+                <Spinner animation="border" size="sm" aria-hidden="true" />
+              ) : (
+                <i
+                  className="bi bi-arrow-up-circle-fill fs-3 send-button"
+                  aria-hidden="true"
+                ></i>
+              )}
+            </Button>
+          </div>
         </Form>
         <small aria-live="polite">{initProgress}</small>
       </Container>
