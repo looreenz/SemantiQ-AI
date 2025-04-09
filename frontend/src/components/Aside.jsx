@@ -117,7 +117,7 @@ function Aside() {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                {currentUser.avatar ? (
+                {currentUser?.avatar ? (
                   <img
                   src={currentUser.avatar}
                   alt="Avatar"
