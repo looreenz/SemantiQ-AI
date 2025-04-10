@@ -222,7 +222,7 @@ function Chat() {
                     src={
                       message.question_id !== null
                         ? "/logoPrimary.svg"
-                        : currentUser.avatar?
+                        : currentUser.avatar
                     }
                     alt=""
                   />
