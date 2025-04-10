@@ -214,7 +214,18 @@ function Chat() {
                     message.question_id !== null ? "start" : "end"
                   }`}
                 >
-                  {message.question_id !== null ? "Semantiq" : "Tú"}
+                  <img
+                    className={`img-fluid ${
+                      message.question_id === null && "rounded-circle"
+                    } pb-2`}
+                    style={{ width: "30px" }}
+                    src={
+                      message.question_id !== null
+                        ? "/logoPrimary.svg"
+                        : currentUser.avatar?
+                    }
+                    alt=""
+                  />
                 </span>
                 <span>{message.message}</span>
               </div>
