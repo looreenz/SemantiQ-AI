@@ -101,13 +101,14 @@ function Home() {
           <Modal.Footer className="bg-grey border-purple">
             <Button
               variant="outline-secondary"
-              className="text-purple border-purple"
+              className="text-purple border-purple rounded-4"
               onClick={() => setShowModal(!showModal)}
               aria-label="Cancelar cierre de sesión"
             >
               Cerrar
             </Button>
             <Button
+            className="rounded-4"
               variant="success"
               onClick={handleLogout}
               aria-label="Confirmar cierre de sesión"

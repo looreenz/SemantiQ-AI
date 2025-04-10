@@ -15,7 +15,7 @@ class ChatController extends Controller
             'user_id' => 'required|uuid'
         ]);
 
-        $prompt = "Basandote en el contexto contesta la pregunta.\nContexto: {$request->context}\nPregunta: {$request->question}";
+        $prompt = "Basandote en el contexto contesta la pregunta. Si el contexto no es relevante o no contiene información suficiente, responde claramente: \"No puedo encontrar una respuesta en el contenido disponible.\" \nContexto: {$request->context}\nPregunta: {$request->question}";
 
         $response = Http::withToken(env('OPENAI_API_KEY'))->post('https://api.openai.com/v1/chat/completions', [
             'model' => 'gpt-4o-mini',

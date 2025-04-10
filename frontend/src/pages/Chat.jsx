@@ -121,7 +121,7 @@ function Chat() {
   }
 
   async function generateResponse(context) {
-    const query = `Basandote en el contexto contesta la pregunta.\nContexto: ${context}\nPregunta: ${question}`;
+    const query = `Basandote en el contexto contesta la pregunta. Si el contexto no es relevante o no contiene información suficiente, responde claramente: \"No puedo encontrar una respuesta en el contenido disponible.\" \nContexto: ${context}\nPregunta: ${question}`;
     console.log("Query: ", query);
     const messages = [
       { role: "system", content: "You are a helpful AI assistant." },
@@ -249,7 +249,7 @@ function Chat() {
           <div className="d-flex justify-content-end">
             <div className="position-relative w-auto d-flex align-items-center model-select-wrapper">
               <Form.Select
-                className="model-select py-0"
+                className="model-select py-0 rounded-4"
                 value={chatMode}
                 onChange={(e) => dispatch(setChatMode(e.target.value))}
               >
@@ -280,7 +280,9 @@ function Chat() {
             </Button>
           </div>
         </Form>
-        <small aria-live="polite">{chatMode === "local" ? initProgress : "ChatGPT"}</small>
+        <small aria-live="polite">
+          {chatMode === "local" ? initProgress : "GPT-4o-mini"}
+        </small>
       </Container>
 
       <ToastContainer

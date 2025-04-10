@@ -138,7 +138,7 @@ function Documents() {
           <div className="w-100 w-xl-75 w-xxl-100 mx-auto d-flex justify-content-center justify-content-xl-end">
             <Button
               onClick={handleUpload}
-              className="d-flex gap-2 align-items-center mb-3 bg-gradient border-gradient"
+              className="d-flex gap-2 align-items-center mb-3 bg-gradient border-gradient rounded-4"
               aria-label="Subir fichero"
             >
               <i className="bi bi-plus-circle"></i>
@@ -226,7 +226,7 @@ function Documents() {
                   <strong>Fecha:</strong> {formatDate(file.created_at)}
                 </p>
                 <Button
-                  className="danger-hover w-25 mx-auto"
+                  className="danger-hover rounded-4 w-25 mx-auto"
                   onClick={() => handleDelete(file.id)}
                   aria-label={`Eliminar archivo ${file.name}`}
                 >
@@ -274,13 +274,14 @@ function Documents() {
         <Modal.Footer className="bg-grey border-purple">
           <Button
             variant="outline-secondary"
-            className="text-purple border-purple"
+            className="text-purple border-purple rounded-4"
             onClick={() => setShowModal(!showModal)}
             aria-label="Cerrar modal"
           >
             Cerrar
           </Button>
           <Button
+          className="rounded-4"
             variant="success"
             onClick={modalType === "Subir" ? uploadFile : deleteFile}
             disabled={fileLoading}
