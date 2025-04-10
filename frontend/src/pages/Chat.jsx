@@ -229,7 +229,7 @@ function Chat() {
       </Container>
 
       <Container className="py-2 w-75 w-xxl-50 mx-auto sticky-bottom bg-grey">
-        <Form className="d-flex flex-column gap-3 p-3 rounded-4 chat-input">
+        <Form className="d-flex flex-column p-3 rounded-4 chat-input">
           <Form.Control
             as="textarea"
             value={question}
@@ -264,7 +264,7 @@ function Chat() {
 
             <Button
               variant=""
-              className="align-self-end border-0"
+              className="align-self-end border-0 py-0 pe-0"
               onClick={askQuestion}
               disabled={loading}
               aria-label={loading ? "Enviando mensaje..." : "Enviar mensaje"}
