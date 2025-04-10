@@ -55,11 +55,11 @@ class AuthController extends Controller
         // Si no existe, lo creamos
         if (!$user) {
             $user = User::create([
-                'id' => Str::uuid()->toString(), // Generar UUID v7
+                'id' => Str::uuid()->toString(),
                 'name' => $googleUser->getName(),
                 'email' => $googleUser->getEmail(),
                 'avatar' => $googleUser->getAvatar(),
-                'password' => Hash::make(Str::random(16)), // No se usa, pero es necesario
+                'password' => Hash::make(Str::random(16)),
             ]);
         }
 

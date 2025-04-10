@@ -1,11 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ChunkController;
 use App\Http\Controllers\LLMController;
 use App\Http\Controllers\AuthController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChatController;
 
 Route::prefix('v1')->group(function () {
     // Rutas para autenticación
@@ -25,6 +26,7 @@ Route::prefix('v1')->group(function () {
     
         Route::get('/chunks', [ChunkController::class, 'index']);
         Route::get('/chunks/{id}', [ChunkController::class, 'show']);
+        Route::post('/get-chunks', [LLMController::class, 'findRelevantChunks']);
     
         Route::get('/messages', [MessageController::class, 'index']);
         Route::get('/messages/{id}', [MessageController::class, 'getMessagesByUserId']);
@@ -32,6 +34,6 @@ Route::prefix('v1')->group(function () {
     
         Route::delete('/history/delete/{date}', [MessageController::class, 'deleteByDate']);
     
-        Route::post('/get-chunks', [LLMController::class, 'findRelevantChunks']);
+        Route::post('/chatgpt', [ChatController::class, 'askGpt']);
     });
 });
