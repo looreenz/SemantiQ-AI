@@ -1,10 +1,18 @@
 import { useState, useEffect, useRef } from "react";
-import { Container, Form, Button, Spinner } from "react-bootstrap";
+import {
+  Container,
+  Form,
+  Button,
+  Spinner,
+  Toast,
+  ToastContainer,
+} from "react-bootstrap";
 import { CreateMLCEngine } from "https://esm.run/@mlc-ai/web-llm";
 import Header from "../components/Header";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { uuidv7 } from "uuidv7";
 import { getData, postData } from "../utils/api";
+import { setChatMode } from "../redux/slices/userSlice";
 
 function Chat() {
   const [question, setQuestion] = useState("");
@@ -13,7 +21,15 @@ function Chat() {
   const [isLoadingMessages, setIsLoadingMessages] = useState(true);
   const [engine, setEngine] = useState(null);
   const [initProgress, setInitProgress] = useState("");
+  const chatMode = useSelector((state) => state.user.chatMode);
+  const dispatch = useDispatch();
+  const [showToast, setShowToast] = useState(false);
+  const [toastContent, setToastContent] = useState({
+    message: "",
+    variant: "info",
+  });
   const messagesEndRef = useRef(null);
+  const hasCreatedEngineRef = useRef(false);
   const currentUser = useSelector((state) => state.user.user);
 
   function scrollToBottom() {
@@ -34,11 +50,12 @@ function Chat() {
       initProgressCallback: initProgressCallback,
     });
 
+    setInitProgress(selectedModel.split("-")[0]);
     setEngine(newEngine);
   }
 
   async function askQuestion() {
-    if (!question.trim() || !engine) return;
+    if (!question.trim()) return;
 
     const newMessageId = uuidv7();
     const newMessage = {
@@ -54,24 +71,32 @@ function Chat() {
       const context = await getRelevantChunks(question);
       if (!context) throw new Error("No se pudo obtener el contexto.");
 
-      console.log("Contexto: ", context);
+      let reply;
+      if (chatMode === "local") {
+        reply = await generateResponse(context);
+      } else {
+        const response = await postData("chatgpt", {
+          question,
+          context,
+          user_id: currentUser.id,
+        });
+        reply = {
+          id: uuidv7(),
+          user_id: currentUser.id,
+          question_id: newMessageId,
+          message: response.content,
+        };
+      }
 
-      const reply = await generateResponse(context);
       const newReply = { ...reply, question_id: newMessageId };
+      await postData("messages", [newMessage, newReply]);
 
-      const response = await postData("messages", [newMessage, newReply]);
-
-      // 🚨 Corregido: `response.ok` no existe en `axios`
-      if (!response || response.error)
-        throw new Error("Error al enviar el mensaje");
-
-      setMessages((prevMessages) => [...prevMessages, newMessage, newReply]);
-      setQuestion(""); // Limpiar el input
+      setMessages((prev) => [...prev, newMessage, newReply]);
+      setQuestion("");
     } catch (error) {
       console.error("Error enviando mensaje:", error.message);
     } finally {
       setLoading(false);
-      setQuestion(""); // Limpiar input
     }
   }
 
@@ -130,8 +155,25 @@ function Chat() {
 
   useEffect(() => {
     dataFetch();
-    createEngine();
   }, []);
+
+  useEffect(() => {
+    if (chatMode === "local" && !hasCreatedEngineRef.current) {
+      setToastContent({
+        message: "Inicializando modelo local. Puede tardar unos segundos...",
+        variant: "info",
+      });
+      setShowToast(true);
+      createEngine().then(() => {
+        setToastContent({
+          message: "Modelo local listo para usar.",
+          variant: "success",
+        });
+        setShowToast(true);
+      });
+      hasCreatedEngineRef.current = true;
+    }
+  }, [chatMode]);
 
   useEffect(() => {
     scrollToBottom();
@@ -206,9 +248,13 @@ function Chat() {
           />
           <div className="d-flex justify-content-end">
             <div className="position-relative w-auto d-flex align-items-center model-select-wrapper">
-              <Form.Select className="model-select py-0" value="gpt">
-                <option value="local">Modelo Local</option>
+              <Form.Select
+                className="model-select py-0"
+                value={chatMode}
+                onChange={(e) => dispatch(setChatMode(e.target.value))}
+              >
                 <option value="gpt">ChatGPT</option>
+                <option value="local">Modelo Local</option>
               </Form.Select>
               <i
                 className="bi bi-chevron-down custom-select-icon"
@@ -234,8 +280,36 @@ function Chat() {
             </Button>
           </div>
         </Form>
-        <small aria-live="polite">{initProgress}</small>
+        <small aria-live="polite">{chatMode === "local" ? initProgress : "ChatGPT"}</small>
       </Container>
+
+      <ToastContainer
+        position="bottom-end"
+        className="p-3"
+        role="status"
+        aria-live="polite"
+      >
+        <Toast
+          onClose={() => setShowToast(false)}
+          show={showToast}
+          delay={toastContent.variant === "success" ? 10000 : undefined}
+          autohide={toastContent.variant === "success"}
+        >
+          <Toast.Body className={`d-flex align-items-center gap-2 rounded-4`}>
+            <i
+              className={`bi ${
+                toastContent.variant === "success"
+                  ? "bi-check-circle-fill"
+                  : "bi-info-circle-fill"
+              } text-${toastContent.variant} `}
+              aria-hidden="true"
+            ></i>
+            <span className={`text-${toastContent.variant} `}>
+              {toastContent.message}
+            </span>
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
     </Container>
   );
 }

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: null, 
+  chatMode: "gpt",
 };
 
 const userSlice = createSlice({
@@ -13,12 +14,16 @@ const userSlice = createSlice({
     },
     logoutUser: (state) => {
       state.user = null;
+      state.chatMode = "gpt";
+    },
+    setChatMode: (state, action) => {
+      state.chatMode = action.payload;
     },
   },
 });
 
 // Exportamos las acciones
-export const { setUser, logoutUser } = userSlice.actions;
+export const { setUser, logoutUser, setChatMode } = userSlice.actions;
 
 // Exportamos el reducer para usarlo en el store
 export default userSlice.reducer;
