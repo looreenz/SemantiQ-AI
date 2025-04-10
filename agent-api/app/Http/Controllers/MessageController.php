@@ -35,7 +35,7 @@ class MessageController extends Controller
         }
 
         $messages = Message::where('user_id', $id)
-            ->orWhere('question_id', function ($query) use ($id) {
+            ->orWhereIn('question_id', function ($query) use ($id) {
                 $query->select('id')
                     ->from('messages')
                     ->where('user_id', $id);
