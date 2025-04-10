@@ -68,7 +68,7 @@ function Chat() {
     setLoading(true);
 
     try {
-      const context = await getRelevantChunks(question);
+      const context = (await getRelevantChunks(question)) || "";
       if (!context) throw new Error("No se pudo obtener el contexto.");
 
       let reply;
@@ -76,9 +76,8 @@ function Chat() {
         reply = await generateResponse(context);
       } else {
         const response = await postData("chatgpt", {
-          question,
-          context,
-          user_id: currentUser.id,
+          question: question,
+          context: context,
         });
         reply = {
           id: uuidv7(),
@@ -107,7 +106,6 @@ function Chat() {
       const data = await postData("get-chunks", questionObj);
       console.log("Data: ", data);
 
-      // Verificar si `data.relevantChunks` realmente existe
       if (!data || !data.relevantChunks) {
         throw new Error("No se encontraron chunks relevantes");
       }
@@ -116,12 +114,18 @@ function Chat() {
       return data.relevantChunks;
     } catch (error) {
       console.error("Error obteniendo chunks relevantes:", error);
-      return []; // Devolver un array vacío en caso de error
+      return [];
     }
   }
 
   async function generateResponse(context) {
-    const query = `Basandote en el contexto contesta la pregunta. Si el contexto no es relevante o no contiene información suficiente, responde claramente: \"No puedo encontrar una respuesta en el contenido disponible.\" \nContexto: ${context}\nPregunta: ${question}`;
+    const query = `Si la pregunta contiene un saludo (como 'Hola', 'Buenos días', 'Qué tal', 'Buenas tardes') 
+    o una despedida (como 'Adiós', 'Hasta luego', 'Nos vemos'), responde apropiadamente con un saludo o despedida. 
+    Basándote en el contexto proporcionado, responde directamente a la pregunta con la respuesta completa. 
+    Si el contexto no es relevante o no contiene información suficiente, responde claramente: \"No puedo encontrar una respuesta en el contenido disponible.\" \n
+    Contexto: ${context}\n
+    Pregunta: ${question}`;
+
     console.log("Query: ", query);
     const messages = [
       { role: "system", content: "You are a helpful AI assistant." },
@@ -247,8 +251,8 @@ function Chat() {
             onChange={(e) => setQuestion(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault(); // Evita el salto de línea en el textarea
-                askQuestion(); // Envía el mensaje
+                e.preventDefault(); 
+                askQuestion(); 
               }
             }}
             placeholder="Escribe tu pregunta"
