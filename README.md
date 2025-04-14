@@ -26,7 +26,7 @@
 
 4. **Run `Docker Compose`**
    ```sh
-   cd Doker
+   cd Docker
    docker-compose up --build -d
    ```
    > If you have `make` installed, you can run the following command instead:
