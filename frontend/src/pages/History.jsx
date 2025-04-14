@@ -183,7 +183,7 @@ function History() {
         >
           <i className="bi bi-arrow-left" aria-hidden="true"></i>
         </Button>
-        <span>Página {currentPage}</span>
+        <span>Página {currentPage} de {Math.ceil(history.length / itemsPerPage)}</span>
         <Button
           className="bg-purple border-purple fw-bold"
           disabled={currentPage * itemsPerPage >= history.length}
