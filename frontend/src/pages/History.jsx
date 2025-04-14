@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 function History() {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
   const currentUser = useSelector((state) => state.user.user);
 
   // Formatear la fecha a un formato más legible
@@ -54,6 +56,7 @@ function History() {
     try {
       const data = await getData(`messages/${currentUser.id}`);
       setHistory(data);
+      setCurrentPage(1);
     } catch (error) {
       console.log("Error: ", error);
     } finally {
@@ -61,40 +64,16 @@ function History() {
     }
   };
 
-  // Eliminar todos los mensajes de un día específico
-  /*const deleteMessagesByDate = async (date) => {
-    try {
-      // Llamar a la API para eliminar los mensajes de esa fecha
-      const response = await fetch(
-        `http://localhost:8000/api/v1/messages/delete/${date}`,
-        {
-          method: "DELETE",
-        }
-      );
-
-      if (response.ok) {
-        // Filtrar los mensajes eliminados
-        setHistory((prevMessages) =>
-          prevMessages.filter(
-            (message) => formatDate(message.created_at) !== date
-          )
-        );
-        alert(`Mensajes de ${date} eliminados correctamente.`);
-      } else {
-        alert("Hubo un error al eliminar los mensajes.");
-      }
-    } catch (error) {
-      console.log("Error al eliminar los mensajes:", error);
-    }
-  };*/
-
   // Obtener los mensajes cuando el componente se monta
   useEffect(() => {
     dataFetch();
   }, []);
 
+  const paginatedHistory = history
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   // Agrupar los mensajes por fecha
-  const groupedMessages = groupMessagesByDate(history);
+  const groupedMessages = groupMessagesByDate(paginatedHistory);
 
   return (
     <Container>
@@ -122,16 +101,6 @@ function History() {
                 >
                   {date}
                 </h4>
-                {/* Eliminar mensajes por fecha (comentado, pero aún accesible si se reactiva) */}
-                {/* <Button
-              variant="danger"
-              className="d-flex align-items-center gap-2"
-              onClick={() => deleteMessagesByDate(date)}
-              aria-label="Eliminar todos los mensajes de esta fecha"
-            >
-              <i className="bi bi-trash"></i>
-              Eliminar todos los mensajes
-            </Button> */}
               </div>
 
               <Table
@@ -206,6 +175,23 @@ function History() {
           ))}
         </>
       )}
+      <div className="d-flex justify-content-center align-items-center my-4 gap-3">
+        <Button
+          className="bg-purple border-purple fw-bold"
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage((prev) => prev - 1)}
+        >
+          <i className="bi bi-arrow-left" aria-hidden="true"></i>
+        </Button>
+        <span>Página {currentPage}</span>
+        <Button
+          className="bg-purple border-purple fw-bold"
+          disabled={currentPage * itemsPerPage >= history.length}
+          onClick={() => setCurrentPage((prev) => prev + 1)}
+        >
+          <i className="bi bi-arrow-right" aria-hidden="true"></i>
+        </Button>
+      </div>
     </Container>
   );
 }

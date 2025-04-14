@@ -29,6 +29,8 @@ function Documents() {
   const [error, setError] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [toastSuccess, setToastSuccess] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // Puedes ajustar este valor
   const currentUser = useSelector((state) => state.user.user);
 
   function handleUpload() {
@@ -114,6 +116,7 @@ function Documents() {
     try {
       const data = await getData(`documents/${currentUser.id}`);
       setFiles(data);
+      setCurrentPage(1);
       setLoading(false);
     } catch (error) {
       console.log("Error: ", error);
@@ -123,6 +126,11 @@ function Documents() {
   useEffect(() => {
     dataFetch();
   }, []);
+
+  const paginatedFiles = files.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <Container>
@@ -181,7 +189,7 @@ function Documents() {
               </tr>
             </thead>
             <tbody>
-              {files.map((file) => (
+              {paginatedFiles.map((file) => (
                 <motion.tr
                   initial={{ opacity: 0, x: -100 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -210,7 +218,7 @@ function Documents() {
 
           {/* Versión móvil como "tarjetas" */}
           <div className="d-md-none py-3 border-top border-message">
-            {files.map((file) => (
+            {paginatedFiles.map((file) => (
               <motion.div
                 initial={{ opacity: 0, x: -100 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -240,6 +248,24 @@ function Documents() {
                 </Button>
               </motion.div>
             ))}
+          </div>
+
+          <div className="d-flex justify-content-center align-items-center my-4 gap-3">
+            <Button
+              className="bg-purple border-purple fw-bold"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((prev) => prev - 1)}
+            >
+              <i className="bi bi-arrow-left" aria-hidden="true"></i>
+            </Button>
+            <span>Página {currentPage}</span>
+            <Button
+              className="bg-purple border-purple fw-bold"
+              disabled={currentPage * itemsPerPage >= files.length}
+              onClick={() => setCurrentPage((prev) => prev + 1)}
+            >
+              <i className="bi bi-arrow-right" aria-hidden="true"></i>
+            </Button>
           </div>
         </>
       )}
