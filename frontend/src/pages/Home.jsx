@@ -4,6 +4,7 @@ import { Container, Card, Modal, Button } from "react-bootstrap";
 // eslint-disable-next-line
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
+import SEO from "../components/SEO";
 import { logout } from "../utils/api";
 import { logoutUser } from "../redux/slices/userSlice";
 import { useDispatch } from "react-redux";
@@ -23,6 +24,10 @@ function Home() {
 
   return (
     <>
+      <SEO
+        title="Inicio"
+        description="SemantiQ AI es una plataforma inteligente para analizar y consultar documentos mediante inteligencia artificial."
+      ></SEO>
       <Container
         fluid
         className="py-3 d-flex justify-content-end align-items-center"
@@ -108,7 +113,7 @@ function Home() {
               Cerrar
             </Button>
             <Button
-            className="rounded-4"
+              className="rounded-4"
               variant="success"
               onClick={handleLogout}
               aria-label="Confirmar cierre de sesión"

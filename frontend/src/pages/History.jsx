@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container, Table, Spinner, Button } from "react-bootstrap";
 import Header from "../components/Header";
+import SEO from "../components/SEO";
 // eslint-disable-next-line
 import { motion } from "framer-motion";
 import { getData } from "../utils/api";
@@ -97,6 +98,11 @@ function History() {
 
   return (
     <Container>
+      <SEO
+        title="Historial"
+        description="Revisa todas las preguntas que has realizado y las respuestas obtenidas mediante la IA de SemantiQ AI."
+        endpoint="history"
+      ></SEO>
       <Header title="Historial" />
       {loading ? (
         <div className="text-center py-5">
@@ -186,7 +192,9 @@ function History() {
                   >
                     <p id={`message-${message.id}`} className="text-break">
                       <strong>Usuario:</strong>{" "}
-                      {message.question_id !== null ? "Semantiq" : currentUser.name}
+                      {message.question_id !== null
+                        ? "Semantiq"
+                        : currentUser.name}
                     </p>
                     <p>
                       <strong>Mensaje:</strong> {message.message}

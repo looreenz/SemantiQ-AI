@@ -10,6 +10,7 @@ import {
   ToastContainer,
 } from "react-bootstrap";
 import Header from "../components/Header";
+import SEO from "../components/SEO";
 import { getFileExtension } from "../utils/helpers";
 // eslint-disable-next-line
 import { motion } from "framer-motion";
@@ -125,6 +126,11 @@ function Documents() {
 
   return (
     <Container>
+      <SEO
+        title="Documentos"
+        description="Sube, gestiona y organiza tus documentos para analizarlos fácilmente con la inteligencia artificial de SemantiQ AI."
+        endpoint="documents"
+      ></SEO>
       <Header title="Documentos" />
       {loading ? (
         <div className="text-center py-5" aria-live="assertive">
@@ -281,7 +287,7 @@ function Documents() {
             Cerrar
           </Button>
           <Button
-          className="rounded-4"
+            className="rounded-4"
             variant="success"
             onClick={modalType === "Subir" ? uploadFile : deleteFile}
             disabled={fileLoading}

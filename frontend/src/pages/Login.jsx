@@ -12,6 +12,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { login } from "../utils/api";
+import SEO from "../components/SEO";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/slices/userSlice";
 import { motion } from "framer-motion";
@@ -63,6 +64,11 @@ function Login() {
 
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100 bg-grey">
+      <SEO
+        title="Inicio de sesión"
+        description="Accede a tu cuenta para utilizar SemantiQ AI y consultar documentos con inteligencia artificial."
+        endpoint="login"
+      ></SEO>
       <Container>
         <Row className="justify-content-center">
           <Col xs={12} md={6} xxl={4}>

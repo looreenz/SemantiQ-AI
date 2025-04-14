@@ -12,6 +12,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { register } from "../utils/api";
+import SEO from "../components/SEO";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/slices/userSlice";
 import { motion } from "framer-motion";
@@ -66,6 +67,11 @@ function Register() {
 
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100 bg-grey">
+      <SEO
+        title="Registro de usuario"
+        description="Crea una cuenta gratuita para comenzar a analizar documentos con IA en SemantiQ AI."
+        endpoint="register"
+      ></SEO>
       <Container>
         <Row className="justify-content-center">
           <Col xs={12} md={6} xxl={4}>

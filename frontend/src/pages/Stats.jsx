@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
+import SEO from "../components/SEO";
 import { Container, Spinner, Card } from "react-bootstrap";
 import {
   BarChart,
@@ -123,6 +124,11 @@ function Stats() {
 
   return (
     <Container fluid="xl">
+      <SEO
+        title="Estadísticas"
+        description="Consulta gráficas y métricas detalladas sobre tus consultas, documentos analizados y uso del sistema."
+        endpoint="stats"
+      ></SEO>
       <Header title="Estadísticas" />
       {loading ? (
         <div className="text-center py-5" aria-live="polite">

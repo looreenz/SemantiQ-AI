@@ -1,5 +1,6 @@
 import { Container } from "react-bootstrap";
 import Header from "../components/Header";
+import SEO from "../components/SEO";
 
 function Terms() {
   const terms = [
@@ -99,6 +100,11 @@ function Terms() {
 
   return (
     <Container>
+      <SEO
+        title="Términos y condiciones"
+        description="Lee los términos y condiciones de uso del sistema SemantiQ AI, incluyendo políticas de privacidad y licencias."
+        endpoint="terms"
+      ></SEO>
       <Header title="Términos y condiciones" />
       <div className="terms-container w-75 mx-auto py-5">
         {renderTerms()}

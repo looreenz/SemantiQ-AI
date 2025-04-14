@@ -9,6 +9,7 @@ import {
 } from "react-bootstrap";
 import { CreateMLCEngine } from "https://esm.run/@mlc-ai/web-llm";
 import Header from "../components/Header";
+import SEO from "../components/SEO";
 import { useSelector, useDispatch } from "react-redux";
 import { uuidv7 } from "uuidv7";
 import { getData, postData } from "../utils/api";
@@ -185,6 +186,11 @@ function Chat() {
 
   return (
     <Container fluid className="d-flex flex-column min-vh-100">
+      <SEO
+        title="Chat"
+        description="Haz preguntas en lenguaje natural sobre tus documentos y obtén respuestas inteligentes con tecnología RAG e IA avanzada."
+        endpoint="chat"
+      ></SEO>
       <Header title="Chat" />
 
       <Container className="w-75 w-xxl-50 mx-auto overflow-hidden">
@@ -251,8 +257,8 @@ function Chat() {
             onChange={(e) => setQuestion(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault(); 
-                askQuestion(); 
+                e.preventDefault();
+                askQuestion();
               }
             }}
             placeholder="Escribe tu pregunta"
