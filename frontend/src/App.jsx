@@ -13,7 +13,7 @@ import History from "./pages/History";
 import Stats from "./pages/Stats";
 import Error404 from "./pages/Error404";
 import ProtectedRoute from "./components/ProtectedRoute";
-import CookieBanner from "./components/CookieBanner";
+import Consent from "./components/Consent";
 import Terms from "./pages/Terms";
 
 function App() {
@@ -71,7 +71,7 @@ function App() {
           </div>
         </div>
       )}
-      <CookieBanner></CookieBanner>
+      <Consent></Consent>
     </Container>
   );
 }

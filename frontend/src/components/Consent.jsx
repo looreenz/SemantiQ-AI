@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function CookieBanner() {
+function Consent() {
   const [visible, setVisible] = useState(false);
   const [accepted, setAccepted] = useState(false);
 
@@ -55,4 +55,4 @@ function CookieBanner() {
   );
 }
 
-export default CookieBanner;
+export default Consent;
