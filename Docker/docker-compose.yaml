@@ -54,6 +54,16 @@ services:
     networks:
       - app-network
 
+  linux:
+    container_name: linux
+    build:
+      context: ..
+      dockerfile: Docker/linux.Dockerfile
+    ports:
+      - "11434:11434"
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
