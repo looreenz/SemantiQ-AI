@@ -268,13 +268,15 @@ function Chat() {
             aria-required="true"
           />
           <div className="d-flex justify-content-end">
-            <div className="position-relative w-auto d-flex align-items-center model-select-wrapper">
+            <div className="position-relative w-auto d-none d-md-flex align-items-center model-select-wrapper">
               <Form.Select
                 className="model-select py-0 rounded-4"
                 value={chatMode}
                 onChange={(e) => dispatch(setChatMode(e.target.value))}
               >
                 <option value="gpt">ChatGPT</option>
+                <option value="gpt">Claude</option>
+                <option value="gpt">Gemini</option>
                 <option value="local">Modelo Local</option>
               </Form.Select>
               <i
