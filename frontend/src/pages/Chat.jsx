@@ -72,6 +72,13 @@ function Chat() {
       const context = (await getRelevantChunks(question)) || "";
       if (!context) throw new Error("No se pudo obtener el contexto.");
 
+      const prompt = `Si la pregunta contiene un saludo (como 'Hola', 'Buenos días', 'Qué tal', 'Buenas tardes') o una despedida (como 'Adiós', 'Hasta luego', 'Nos vemos'), 
+        responde apropiadamente con un saludo o despedida. 
+        Basándote en el contexto proporcionado, responde directamente a la pregunta con la respuesta completa. 
+        Si el contexto no es relevante o no contiene información suficiente, responde claramente: \"No puedo encontrar una respuesta en el contenido disponible.\" \n
+        Contexto: ${context}\n
+        Pregunta: ${question}`;
+      console.log(prompt);
       const response = await postData("ask", {
         model: chatMode,
         question: question,
