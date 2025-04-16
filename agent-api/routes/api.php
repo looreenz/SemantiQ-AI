@@ -14,6 +14,8 @@ Route::prefix('v1')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
+    Route::post('/local', [ChatController::class, 'askLocal']);
+
     // Rutas protegidas por Sanctum
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/user', [AuthController::class, 'user']);
@@ -23,17 +25,17 @@ Route::prefix('v1')->group(function () {
         Route::get('/documents/show/{id}', [FileController::class, 'show']);
         Route::post('/documents/upload', [FileController::class, 'upload']);
         Route::delete('/documents/delete/{id}', [FileController::class, 'delete']);
-    
+
         Route::get('/chunks', [ChunkController::class, 'index']);
         Route::get('/chunks/{id}', [ChunkController::class, 'show']);
         Route::post('/get-chunks', [LLMController::class, 'findRelevantChunks']);
-    
+
         Route::get('/messages', [MessageController::class, 'index']);
         Route::get('/messages/{id}', [MessageController::class, 'getMessagesByUserId']);
         Route::post('/messages', [MessageController::class, 'store']);
-    
+
         Route::delete('/history/delete/{date}', [MessageController::class, 'deleteByDate']);
-    
+
         Route::post('/chatgpt', [ChatController::class, 'askGpt']);
     });
 });
