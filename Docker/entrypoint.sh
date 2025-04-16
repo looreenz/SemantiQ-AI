@@ -1,13 +1,14 @@
 #!/bin/bash
 
-# Inicia el servidor Ollama en segundo plano
+export OLLAMA_HOST=0.0.0.0
+
+echo "Iniciando Ollama..."
 ollama serve &
 
-# Espera a que el servidor esté disponible
-sleep 5
+sleep 10
 
-# Arranca el modelo
+echo "Cargando modelo..."
+ollama pull deepseek-r1
 ollama run deepseek-r1
 
-# Mantiene el contenedor activo
 tail -f /dev/null
