@@ -15,6 +15,13 @@ import { uuidv7 } from "uuidv7";
 import { getData, postData } from "../utils/api";
 import { setChatMode } from "../redux/slices/userSlice";
 
+const MODELS = {
+  local: "deepseek-r1",
+  gpt: "gtp-4o-mini",
+  claude: "claude-3.7-sonnet",
+  gemini: "gemini-2.0-flash",
+};
+
 function Chat() {
   const [question, setQuestion] = useState("");
   const [messages, setMessages] = useState([]);
@@ -278,8 +285,8 @@ function Chat() {
                 onChange={(e) => dispatch(setChatMode(e.target.value))}
               >
                 <option value="gpt">ChatGPT</option>
-                <option value="gpt">Claude</option>
-                <option value="gpt">Gemini</option>
+                <option value="claude">Claude</option>
+                <option value="gemini">Gemini</option>
                 <option value="local">Modelo Local</option>
               </Form.Select>
               <i
@@ -307,7 +314,7 @@ function Chat() {
           </div>
         </Form>
         <small aria-live="polite">
-          {chatMode === "local" ? initProgress : "GPT-4o-mini"}
+          {MODELS[chatMode] ?? "Modelo no definido"}
         </small>
       </Container>
 
