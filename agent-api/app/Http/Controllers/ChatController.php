@@ -19,40 +19,50 @@ class ChatController extends Controller
         $context = implode("\n", $request->context);
 
         $prompt = "
-        Si la pregunta contiene un saludo (como 'Hola', 'Buenos días', 'Qué tal', 'Buenas tardes') o una despedida (como 'Adiós', 'Hasta luego', 'Nos vemos'), 
-        responde apropiadamente con un saludo o despedida. 
-        Basándote en el contexto proporcionado, responde directamente a la pregunta con la respuesta completa. 
-        Si el contexto no es relevante o no contiene información suficiente, responde claramente: \"No puedo encontrar una respuesta en el contenido disponible.\" \n
-        Contexto: {$context}\n
-        Pregunta: {$request->question}";
+    Si la pregunta contiene un saludo (como 'Hola', 'Buenos días', 'Qué tal', 'Buenas tardes') o una despedida (como 'Adiós', 'Hasta luego', 'Nos vemos'), 
+    responde apropiadamente con un saludo o despedida. 
+    Basándote en el contexto proporcionado, responde directamente a la pregunta con la respuesta completa. 
+    Si el contexto no es relevante o no contiene información suficiente, responde claramente: \"No puedo encontrar una respuesta en el contenido disponible.\" \n
+    Contexto: {$context}\n
+    Pregunta: {$request->question}";
 
-        switch ($request->model) {
+        // Inicialización
+        $data = [];
+        $source = $request->model;
+        $content = '';
+        $reasoning = null;
+
+        // Obtener la respuesta
+        switch ($source) {
             case 'local':
                 $data = $this->askLocal($prompt);
-
-                if (isset($data['error'])) {
-                    return response()->json([
-                        'error' => $data['error']
-                    ], 500);
+                if (!isset($data['error'])) {
+                    [$reasoning, $content] = $this->extractReasoningAndResponse($data['response']);
                 }
+                break;
 
-                return response()->json([
-                    'content' => $data['response']
-                ]);
             case 'gpt':
                 $data = $this->askGpt($prompt);
-
-                if (isset($data['error'])) {
-                    return response()->json([
-                        'error' => $data['error']
-                    ], 500);
+                if (!isset($data['error'])) {
+                    $content = $data['choices'][0]['message']['content'];
                 }
+                break;
 
-                return response()->json([
-                    'content' => $data['choices'][0]['message']['content']
-                ]);
-
+            default:
+                return response()->json(['error' => 'Modelo no reconocido'], 400);
         }
+
+        // Si hay error, responderlo
+        if (isset($data['error'])) {
+            return response()->json(['error' => $data['error']], 500);
+        }
+
+        // Si todo fue bien, devolver en formato unificado
+        return response()->json([
+            'content' => $content,
+            'reasoning' => $reasoning,
+            'source' => $source
+        ]);
     }
 
     public function askGpt($prompt)
@@ -116,4 +126,18 @@ class ChatController extends Controller
             return ['error' => 'Excepción al consultar Ollama'];
         }
     }
+
+    private function extractReasoningAndResponse($text)
+    {
+        $reasoning = null;
+
+        if (preg_match('/<think>(.*?)<\/think>/s', $text, $matches)) {
+            $reasoning = trim($matches[1]);
+            // Quitamos el <think>...</think> del texto
+            $text = preg_replace('/<think>.*?<\/think>/s', '', $text);
+        }
+
+        return [trim($reasoning), trim($text)];
+    }
+
 }
