@@ -14,7 +14,6 @@ Route::prefix('v1')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::post('/local', [ChatController::class, 'askLocal']);
 
     // Rutas protegidas por Sanctum
     Route::middleware('auth:sanctum')->group(function () {
@@ -35,7 +34,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/messages', [MessageController::class, 'store']);
 
         Route::delete('/history/delete/{date}', [MessageController::class, 'deleteByDate']);
+        Route::post('/ask', [ChatController::class, 'ask']);
 
-        Route::post('/chatgpt', [ChatController::class, 'askGpt']);
     });
 });

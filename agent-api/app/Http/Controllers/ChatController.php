@@ -7,14 +7,30 @@ use Illuminate\Support\Facades\Http;
 
 class ChatController extends Controller
 {
-    public function askGpt(Request $request)
+
+    public function ask(Request $request)
     {
         $request->validate([
+            'model' => 'required|string',
             'question' => 'required|string',
+            'context' => 'required'
         ]);
 
+        switch ($request->model) {
+            case 'local':
+                $this->askLocal($request->context, $request->question);
+                break;
+            case 'gpt':
+                $data = $this->askGpt($request->context, $request->question);
+                return response()->json($data['choices'][0]['message']);
+        }
+    }
+
+    public function askGpt($context, $question)
+    {
+
         $OPENAI_API_KEY = env('OPENAI_API_KEY');
-        $context = implode("\n", $request->context);
+        $context = implode("\n", $context);
 
         $prompt = "
             Si la pregunta contiene un saludo (como 'Hola', 'Buenos días', 'Qué tal', 'Buenas tardes') o una despedida (como 'Adiós', 'Hasta luego', 'Nos vemos'), 
@@ -22,7 +38,7 @@ class ChatController extends Controller
             Basándote en el contexto proporcionado, responde directamente a la pregunta con la respuesta completa. 
             Si el contexto no es relevante o no contiene información suficiente, responde claramente: \"No puedo encontrar una respuesta en el contenido disponible.\" \n
             Contexto: {$context}\n
-            Pregunta: {$request->question}";
+            Pregunta: {$question}";
 
         try {
             $response = Http::withToken($OPENAI_API_KEY)->post('https://api.openai.com/v1/chat/completions', [
@@ -36,7 +52,7 @@ class ChatController extends Controller
             if ($response->failed()) {
                 \Log::error('ChatGPT API Error:', [
                     'status' => $response->status(),
-                    'body' => $response->body(), 
+                    'body' => $response->body(),
                     'request_url' => $response->effectiveUri(),
                     'request_data' => $response->body(),
                 ]);
@@ -44,12 +60,12 @@ class ChatController extends Controller
                 return response()->json([
                     'error' => 'Error al consultar ChatGPT',
                     'status' => $response->status(),
-                    'details' => $response->body(), 
+                    'details' => $response->body(),
                 ], 500);
             }
 
             $data = $response->json();
-            return response()->json($data['choices'][0]['message']);
+            return $data;
         } catch (\Exception $e) {
             \Log::error('Error en la solicitud a la API de OpenAI:', [
                 'message' => $e->getMessage(),
@@ -61,5 +77,10 @@ class ChatController extends Controller
                 'details' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    public function askLocal($context, $question)
+    {
+        return 0;
     }
 }

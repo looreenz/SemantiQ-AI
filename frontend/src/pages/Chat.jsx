@@ -72,21 +72,17 @@ function Chat() {
       const context = (await getRelevantChunks(question)) || "";
       if (!context) throw new Error("No se pudo obtener el contexto.");
 
-      let reply;
-      if (chatMode === "local") {
-        reply = await generateResponse(context);
-      } else {
-        const response = await postData("chatgpt", {
-          question: question,
-          context: context,
-        });
-        reply = {
-          id: uuidv7(),
-          user_id: currentUser.id,
-          question_id: newMessageId,
-          message: response.content,
-        };
-      }
+      const response = await postData("ask", {
+        model: chatMode,
+        question: question,
+        context: context,
+      });
+      const reply = {
+        id: uuidv7(),
+        user_id: currentUser.id,
+        question_id: newMessageId,
+        message: response.content,
+      };
 
       const newReply = { ...reply, question_id: newMessageId };
       await postData("messages", [newMessage, newReply]);
@@ -162,23 +158,23 @@ function Chat() {
     dataFetch();
   }, []);
 
-  useEffect(() => {
-    if (chatMode === "local" && !hasCreatedEngineRef.current) {
-      setToastContent({
-        message: "Inicializando modelo local. Puede tardar unos segundos...",
-        variant: "info",
-      });
-      setShowToast(true);
-      createEngine().then(() => {
-        setToastContent({
-          message: "Modelo local listo para usar.",
-          variant: "success",
-        });
-        setShowToast(true);
-      });
-      hasCreatedEngineRef.current = true;
-    }
-  }, [chatMode]);
+  // useEffect(() => {
+  //   if (chatMode === "local" && !hasCreatedEngineRef.current) {
+  //     setToastContent({
+  //       message: "Inicializando modelo local. Puede tardar unos segundos...",
+  //       variant: "info",
+  //     });
+  //     setShowToast(true);
+  //     createEngine().then(() => {
+  //       setToastContent({
+  //         message: "Modelo local listo para usar.",
+  //         variant: "success",
+  //       });
+  //       setShowToast(true);
+  //     });
+  //     hasCreatedEngineRef.current = true;
+  //   }
+  // }, [chatMode]);
 
   useEffect(() => {
     scrollToBottom();
