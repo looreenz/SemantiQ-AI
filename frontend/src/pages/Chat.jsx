@@ -24,7 +24,7 @@ const MessageBubble = React.memo(({ message, isAgent, avatar }) => {
           <img
             src={isAgent ? "/logoPrimary.svg" : avatar}
             alt=""
-            className={isAgent ? "img-fluid" : "img-fluid rounded-circle"}
+            className={isAgent ? "img-fluid" : "img-fluid rounded-circle mb-2"}
             style={{ width: 30 }}
           />
         </div>
