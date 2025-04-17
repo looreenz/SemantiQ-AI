@@ -14,13 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { uuidv7 } from "uuidv7";
 import { getData, postData } from "../utils/api";
 import { setChatMode } from "../redux/slices/userSlice";
-
-const MODELS = {
-  local: "deepseek-r1",
-  gpt: "gtp-4o-mini",
-  claude: "claude-3.7-sonnet",
-  gemini: "gemini-2.0-flash",
-};
+import { MODELS } from "../utils/consts";
 
 function Chat() {
   const [question, setQuestion] = useState("");
