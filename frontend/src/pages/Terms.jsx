@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Container } from "react-bootstrap";
 import Header from "../components/Header";
 import SEO from "../components/SEO";
@@ -7,11 +7,7 @@ import { TERMS } from "../utils/consts";
 function Terms() {
   return (
     <Container>
-      <SEO
-        title="Términos y condiciones"
-        description="Lee los términos y condiciones de uso de SemantiQ AI."
-        endpoint="terms"
-      />
+      <SEO title="Términos y condiciones" description="Lee los términos y condiciones de uso de SemantiQ AI." endpoint="terms" />
       <Header title="Términos y condiciones" />
       <div className="terms-container w-75 mx-auto py-5">
         {TERMS.map((term, idx) => (
@@ -32,4 +28,4 @@ function Terms() {
   );
 }
 
-export default React.memo(Terms);
+export default memo(Terms);

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, memo } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Formik, Form as FormikForm, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -9,12 +9,9 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../redux/slices/userSlice";
 import { motion } from "framer-motion";
 
-const validationSchema = Yup.object({
+const LoginSchema = Yup.object({
   email: Yup.string().email("Correo inválido").required("Campo obligatorio"),
-  password: Yup.string()
-    .min(6, "Contraseña demasiado corta")
-    .max(20, "Contraseña demasiado larga")
-    .required("Campo obligatorio"),
+  password: Yup.string().min(6).max(20).required("Campo obligatorio"),
 });
 
 function Login() {
@@ -30,12 +27,12 @@ function Login() {
   }, []);
 
   const onSubmit = useCallback(
-    async (values) => {
+    async ({ email, password }) => {
       setLoading(true);
       try {
-        const response = await login(values.email, values.password);
-        if (response.status === 200) {
-          dispatch(setUser(response.data));
+        const { status, data } = await login(email, password);
+        if (status === 200) {
+          dispatch(setUser(data));
           navigate("/");
         }
       } catch {
@@ -72,52 +69,48 @@ function Login() {
               <Card className="p-4 border-0">
                 <Formik
                   initialValues={{ email: "", password: "" }}
-                  validationSchema={validationSchema}
+                  validationSchema={LoginSchema}
                   onSubmit={onSubmit}
                 >
                   {() => (
                     <FormikForm className="py-3 px-4 rounded-4">
-                      <div className="text-center fs-3 text-white fw-bold mb-4">
+                      <h2 className="text-center fs-3 text-white fw-bold mb-4">
                         Inicio de Sesión
-                      </div>
+                      </h2>
 
-                      <div className="mb-3">
-                        <Field
-                          name="email"
-                          type="email"
-                          placeholder="Correo electrónico"
-                          className="form-control border-purple text-white"
-                          aria-describedby="emailError"
-                        />
-                        <ErrorMessage
-                          name="email"
-                          component="div"
-                          className="text-danger"
-                          id="emailError"
-                        />
-                      </div>
-
-                      <div className="mb-3">
-                        <Field
-                          name="password"
-                          type="password"
-                          placeholder="Contraseña"
-                          className="form-control border-purple text-white"
-                          aria-describedby="passwordError"
-                        />
-                        <ErrorMessage
-                          name="password"
-                          component="div"
-                          className="text-danger"
-                          id="passwordError"
-                        />
-                      </div>
+                      {[
+                        {
+                          name: "email",
+                          type: "email",
+                          placeholder: "Correo electrónico",
+                          errorId: "emailError",
+                        },
+                        {
+                          name: "password",
+                          type: "password",
+                          placeholder: "Contraseña",
+                          errorId: "passwordError",
+                        },
+                      ].map(({ name, type, placeholder, errorId }) => (
+                        <div className="mb-3" key={name}>
+                          <Field
+                            name={name}
+                            type={type}
+                            placeholder={placeholder}
+                            className="form-control border-purple text-white"
+                            aria-describedby={errorId}
+                          />
+                          <ErrorMessage
+                            name={name}
+                            component="div"
+                            className="text-danger"
+                            id={errorId}
+                          />
+                        </div>
+                      ))}
 
                       {error && (
-                        <div
-                          className="text-danger text-center mb-3"
-                          role="alert"
-                        >
+                        <div className="text-danger text-center mb-3">
                           {error}
                         </div>
                       )}
@@ -167,4 +160,4 @@ function Login() {
   );
 }
 
-export default React.memo(Login);
+export default memo(Login);
