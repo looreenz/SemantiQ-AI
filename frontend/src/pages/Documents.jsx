@@ -22,8 +22,7 @@ function Documents() {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [fileLoading, setFileLoading] = useState(false);
-  const [modalAction, setModalAction] = useState(null); // 'upload' or 'delete'
-  const [showModal, setShowModal] = useState(false);
+  const [modalAction, setModalAction] = useState(); // 'upload' or 'delete'
   const [selected, setSelected] = useState(null);
   const [error, setError] = useState("");
   const [toast, setToast] = useState({ show: false, success: true });
@@ -228,13 +227,13 @@ function Documents() {
         </Button>
       </div>
 
-      <Modal show={!!modalAction} onHide={() => setModalAction(null)} centered>
+      <Modal show={modalAction} onHide={() => setModalAction()} centered>
         <Modal.Header className="bg-grey border-purple">
           <Modal.Title>
             {modalAction === "upload" ? "Subir fichero" : "Eliminar fichero"}
           </Modal.Title>
           <button
-            onClick={() => setModalAction(null)}
+            onClick={() => setModalAction()}
             className="btn btn-close close-btn-purple"
             aria-label="Cerrar ventana modal"
           ></button>
@@ -266,7 +265,7 @@ function Documents() {
           <Button
             className="text-purple border-purple rounded-4"
             variant="outline-secondary"
-            onClick={() => setModalAction(null)}
+            onClick={() => setModalAction()}
             aria-label="Cerrar modal"
           >
             Cancelar
