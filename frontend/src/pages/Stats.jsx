@@ -95,49 +95,55 @@ function Stats() {
       />
       <Header title="Estadísticas" />
       <div className="row py-4 g-4">
-        {[
-          { title: "Documentos por Formato", data: data.docs, key: "count" },
-          {
-            title: "Mensajes por Día (Últimos 5 días)",
-            data: data.messages,
-            key: "count",
-          },
-          {
-            title: "Tamaño Promedio por Formato (KB)",
-            data: data.size,
-            key: "avgSize",
-          },
-        ].map((conf, idx) => (
-          <div
-            className={`col-12 col-md-${conf.key === "avgSize" ? 12 : 6}`}
-            key={idx}
-          >
-            <Card
-              className="rounded-4 p-2 border-gradient"
-              role="region"
-              aria-labelledby={`chart-${idx}`}
-            >
-              <Card.Title
-                id={`chart-${idx}`}
-                className="text-center fs-4 py-2 text-white"
-              >
-                {conf.title}
-              </Card.Title>
-              <ResponsiveContainer height={300} role="img">
-                <BarChart data={conf.data}>
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip content={<TooltipFormatter />} />
-                  <Bar
-                    dataKey={conf.key}
-                    fill="#27ccee"
-                    activeBar={{ fill: "#8b5cf6" }}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </Card>
+        {data.docs.length == 0 ? (
+          <div className="text-center py-5">
+            <p>No hay datos disponibles</p>
           </div>
-        ))}
+        ) : (
+          [
+            { title: "Documentos por Formato", data: data.docs, key: "count" },
+            {
+              title: "Mensajes por Día (Últimos 5 días)",
+              data: data.messages,
+              key: "count",
+            },
+            {
+              title: "Tamaño Promedio por Formato (KB)",
+              data: data.size,
+              key: "avgSize",
+            },
+          ].map((conf, idx) => (
+            <div
+              className={`col-12 col-md-${conf.key === "avgSize" ? 12 : 6}`}
+              key={idx}
+            >
+              <Card
+                className="rounded-4 p-2 border-gradient"
+                role="region"
+                aria-labelledby={`chart-${idx}`}
+              >
+                <Card.Title
+                  id={`chart-${idx}`}
+                  className="text-center fs-4 py-2 text-white"
+                >
+                  {conf.title}
+                </Card.Title>
+                <ResponsiveContainer height={300} role="img">
+                  <BarChart data={conf.data}>
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip content={<TooltipFormatter />} />
+                    <Bar
+                      dataKey={conf.key}
+                      fill="#27ccee"
+                      activeBar={{ fill: "#8b5cf6" }}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </Card>
+            </div>
+          ))
+        )}
       </div>
     </Container>
   );
