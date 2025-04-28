@@ -137,7 +137,7 @@ function Login() {
                         onClick={handleGoogle}
                         className="w-100 d-flex gap-2 justify-content-center mb-3 bg-gradient border-gradient"
                       >
-                        <i className="bi bi-google" /> Inicia sesión con Google
+                        <i className="bi bi-google" /> Continúa con Google
                       </Button>
 
                       <p className="text-center">
