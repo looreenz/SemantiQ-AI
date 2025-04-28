@@ -72,6 +72,16 @@ function Home() {
             </li>
             <li className="p-2">
               <Link
+                target="_blank"
+                className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex align-items-center"
+                to="https://github.com/looreenz/SemantiQ-AI"
+              >
+                <i className="bi bi-github px-1" aria-hidden="true"></i>
+                GitHub
+              </Link>
+            </li>
+            <li className="p-2">
+              <Link
                 className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex align-items-center"
                 href="#"
                 onClick={() => setShowModal(true)}
