@@ -258,7 +258,7 @@ function Documents() {
                   onChange={(e) => setSelected(e.target.files[0])}
                   aria-label="Seleccionar fichero para subir"
                 />
-                <Form.Text className="text-white">Máximo 5MB</Form.Text>
+                <Form.Text className="text-white">Solo formato PDF o txt, máximo 5MB</Form.Text>
               </Form.Group>
             </Form>
           ) : (
