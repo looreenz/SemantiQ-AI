@@ -1,0 +1,82 @@
+[
+    {
+        "method": "POST",
+        "endpoint": "/api/v1/register",
+        "description": "Registra un nuevo usuario en el sistema."
+    },
+    {
+        "method": "POST",
+        "endpoint": "/api/v1/login",
+        "description": "Autentica a un usuario y devuelve un token de acceso."
+    },
+    {
+        "method": "POST",
+        "endpoint": "/api/v1/logout",
+        "description": "Cierra la sesión del usuario autenticado."
+    },
+    {
+        "method": "GET",
+        "endpoint": "/api/v1/user",
+        "description": "Recupera la información del usuario autenticado."
+    },
+    {
+        "method": "GET",
+        "endpoint": "/api/v1/documents",
+        "description": "Obtiene todos los documentos cargados por el usuario."
+    },
+    {
+        "method": "GET",
+        "endpoint": "/api/v1/documents/{id}",
+        "description": "Obtiene un documento específico por su ID."
+    },
+    {
+        "method": "POST",
+        "endpoint": "/api/v1/documents/upload",
+        "description": "Sube un nuevo documento para análisis."
+    },
+    {
+        "method": "DELETE",
+        "endpoint": "/api/v1/documents/delete/{id}",
+        "description": "Elimina un documento específico por su ID."
+    },
+    {
+        "method": "GET",
+        "endpoint": "/api/v1/chunks",
+        "description": "Obtiene todos los chunks del sistema."
+    },
+    {
+        "method": "GET",
+        "endpoint": "/api/v1/chunks/{id}",
+        "description": "Obtiene un chunk específico por su ID."
+    },
+    {
+        "method": "POST",
+        "endpoint": "/api/v1/get-chunks",
+        "description": "Recupera los chunks relevantes según la consulta de IA."
+    },
+    {
+        "method": "GET",
+        "endpoint": "/api/v1/messages",
+        "description": "Obtiene todos los mensajes."
+    },
+    {
+        "method": "GET",
+        "endpoint": "/api/v1/messages/{id}",
+        "description": "Obtiene los mensajes de un usuario específico."
+    },
+    {
+        "method": "POST",
+        "endpoint": "/api/v1/messages",
+        "description": "Envía un mensaje al sistema."
+    },
+    {
+        "method": "DELETE",
+        "endpoint": "/api/v1/history/delete/{date}",
+        "description": "Elimina el historial de mensajes por fecha."
+    },
+    {
+        "method": "POST",
+        "endpoint": "/api/v1/ask",
+        "description": "Envía una consulta a la IA y obtiene una respuesta."
+    }
+]

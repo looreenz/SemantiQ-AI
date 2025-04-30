@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
-    return view('welcome');
+    $routes = json_decode(file_get_contents(resource_path('routes.json')), true);
+    return view('home', compact('routes'));
 });
 
 Route::middleware('web')->group(function () {
