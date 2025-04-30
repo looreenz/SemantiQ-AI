@@ -1,5 +1,4 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap-icons/font/bootstrap-icons.css";
+
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Login from "./pages/Login";
