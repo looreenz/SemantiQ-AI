@@ -14,6 +14,7 @@ import SEO from "../components/SEO";
 
 import { getFileExtensionFromMime } from "../utils/helpers";
 import { getData } from "../utils/api";
+import { CHART_CONFIG } from "../utils/consts";
 
 function Stats() {
   // Local state for chart data and loading status
@@ -114,30 +115,15 @@ function Stats() {
             <p>No hay datos disponibles</p>
           </div>
         ) : (
-          [
-            { title: "Documentos por Formato", data: data.docs, key: "count" },
-            {
-              title: "Mensajes por Día (Últimos 5 días)",
-              data: data.messages,
-              key: "count",
-            },
-            {
-              title: "Tamaño Promedio por Formato (KB)",
-              data: data.size,
-              key: "avgSize",
-            },
-          ].map((conf, idx) => (
-            <div
-              className={`col-12 col-md-${conf.key === "avgSize" ? 12 : 6}`}
-              key={idx}
-            >
+          CHART_CONFIG.map((conf) => (
+            <div className={`col-12 col-md-${conf.colSize}`} key={conf.id}>
               <Card
                 className="rounded-4 p-2 border-gradient"
                 role="region"
-                aria-labelledby={`chart-${idx}`}
+                aria-labelledby={conf.id}
               >
                 <Card.Title
-                  id={`chart-${idx}`}
+                  id={conf.id}
                   className="text-center fs-4 py-2 text-white"
                 >
                   {conf.title}
@@ -145,12 +131,12 @@ function Stats() {
 
                 {/* Responsive bar chart */}
                 <ResponsiveContainer height={300} role="img">
-                  <BarChart data={conf.data}>
+                  <BarChart data={data[conf.dataKey]}>
                     <XAxis dataKey="name" />
                     <YAxis />
                     <Tooltip content={<TooltipFormatter />} />
                     <Bar
-                      dataKey={conf.key}
+                      dataKey={conf.valueKey}
                       fill="#27ccee"
                       activeBar={{ fill: "#8b5cf6" }}
                     />

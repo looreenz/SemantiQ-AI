@@ -133,3 +133,30 @@ export const MENU_ITEMS = [
     { path: "/history", label: "Historial", icon: "bi bi-clock-history" },
     { path: "/stats", label: "Estadísticas", icon: "bi bi-bar-chart-line" },
 ];
+
+// ------------------------
+// STATISTICS CHART CONFIG
+// ------------------------
+export const CHART_CONFIG = [
+    {
+      id: "docsChart",
+      title: "Documentos por Formato",
+      dataKey: "docs",
+      valueKey: "count",
+      colSize: 6,
+    },
+    {
+      id: "messagesChart",
+      title: "Mensajes por Día (Últimos 5 días)",
+      dataKey: "messages",
+      valueKey: "count",
+      colSize: 6,
+    },
+    {
+      id: "sizeChart",
+      title: "Tamaño Promedio por Formato (KB)",
+      dataKey: "size",
+      valueKey: "avgSize",
+      colSize: 12,
+    },
+  ];
