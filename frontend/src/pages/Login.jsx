@@ -111,7 +111,7 @@ function Login() {
                             name={name}
                             type={type}
                             placeholder={placeholder}
-                            className="form-control border-purple text-white"
+                            className="form-control border-purple text-white rounded-4"
                             aria-describedby={errorId}
                           />
                           <ErrorMessage
@@ -134,7 +134,7 @@ function Login() {
                       <Button
                         type="submit"
                         disabled={loading}
-                        className="w-100 bg-purple border-purple fw-bold p-2"
+                        className="w-100 bg-purple border-purple fw-bold p-2 rounded-4"
                       >
                         {loading ? (
                           <Spinner animation="border" size="sm" />
@@ -153,7 +153,7 @@ function Login() {
                       {/* Google login button */}
                       <Button
                         onClick={handleGoogle}
-                        className="w-100 d-flex gap-2 justify-content-center mb-3 bg-gradient border-gradient"
+                        className="w-100 d-flex gap-2 justify-content-center mb-3 bg-gradient border-gradient rounded-4"
                       >
                         <i className="bi bi-google" /> Continúa con Google
                       </Button>

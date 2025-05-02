@@ -109,7 +109,7 @@ function Register() {
                         <div className="mb-3" key={field.name}>
                           <Field
                             {...field}
-                            className="form-control border-purple text-white"
+                            className="form-control border-purple text-white rounded-4"
                           />
                           <ErrorMessage
                             name={field.name}
@@ -130,7 +130,7 @@ function Register() {
                       <Button
                         type="submit"
                         disabled={loading}
-                        className="w-100 bg-purple border-purple fw-bold p-2"
+                        className="w-100 bg-purple border-purple fw-bold p-2 rounded-4"
                       >
                         {loading ? (
                           <Spinner animation="border" size="sm" />
@@ -149,7 +149,7 @@ function Register() {
                       {/* Google registration */}
                       <Button
                         onClick={handleGoogle}
-                        className="w-100 d-flex gap-2 justify-content-center mb-3 bg-gradient border-gradient"
+                        className="w-100 d-flex gap-2 justify-content-center mb-3 bg-gradient border-gradient rounded-4"
                       >
                         <i className="bi bi-google" /> Regístrate con Google
                       </Button>
