@@ -83,3 +83,34 @@ export const MODELS = {
     claude: "claude-3.7-sonnet",
     gemini: "gemini-2.0-flash",
 };
+
+export const HOME_CARDS = [
+    {
+        to: "/documents",
+        icon: "bi-file-earmark-text",
+        title: "Documentos",
+        text: "Sube tus documentos PDF o de texto plano para que el modelo pueda procesarlos.",
+        colClasses: "col-12 col-md-6",
+    },
+    {
+        to: "/chat",
+        icon: "bi-chat",
+        title: "Chat",
+        text: "Conversa con nuestro modelo para preguntarle todo lo que quieras sobre tus documentos.",
+        colClasses: "col-12 col-md-6",
+    },
+    {
+        to: "/history",
+        icon: "bi-clock-history",
+        title: "Historial",
+        text: "Consulta los mensajes enviados y recibidos cuando quieras.",
+        colClasses: "col-12 col-md-7",
+    },
+    {
+        to: "/stats",
+        icon: "bi-bar-chart-line",
+        title: "Estadísticas",
+        text: "Hazte una idea con las estadísticas.",
+        colClasses: "col-12 col-md-5",
+    },
+];

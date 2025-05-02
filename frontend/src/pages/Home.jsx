@@ -6,9 +6,11 @@ import { useSelector, useDispatch } from "react-redux";
 
 import SEO from "../components/SEO";
 import UserDropdown from "../components/UserDropdown";
+import HomeCard from "../components/HomeCard";
 
-import { logout } from "../utils/api";
 import { logoutUser } from "../redux/slices/userSlice";
+import { logout } from "../utils/api";
+import { HOME_CARDS } from "../utils/consts";
 
 function Home() {
   const currentUser = useSelector((state) => state.user.user);
@@ -33,10 +35,7 @@ function Home() {
         fluid
         className="py-3 d-flex justify-content-end align-items-center"
       >
-        <UserDropdown
-          currentUser={currentUser}
-          setShowModal={setShowModal}
-        />
+        <UserDropdown currentUser={currentUser} setShowModal={setShowModal} />
         <Modal
           show={showModal}
           onHide={() => setShowModal(false)}
@@ -117,113 +116,9 @@ function Home() {
           className="text-center"
         >
           <div className="row g-3 w-100 w-xxl-75 mx-auto text-center text-md-start">
-            {/* Documentos Section */}
-            <div className="col-12 col-md-6">
-              <Link
-                to="/documents"
-                className="text-decoration-none"
-                aria-label="Ir a la sección de documentos"
-              >
-                <Card className="rounded-4 border-gradient">
-                  <Card.Body>
-                    <Card.Title className="d-flex flex-row justify-content-between align-items-center">
-                      <div className="text-purple w-100 text-center text-md-start">
-                        <i
-                          className="bi bi-file-earmark-text pe-1 text-purple"
-                          aria-hidden="true"
-                        ></i>
-                        Documentos
-                      </div>
-                      <i className="bi bi-arrow-right" aria-hidden="true"></i>
-                    </Card.Title>
-                    <Card.Text>
-                      Sube tus documentos PDF o de texto plano para que el
-                      modelo pueda procesarlos.
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Link>
-            </div>
-
-            {/* Chat Section */}
-            <div className="col-12 col-md-6">
-              <Link
-                to="/chat"
-                className="text-decoration-none"
-                aria-label="Ir a la sección de chat"
-              >
-                <Card className="rounded-4 border-gradient">
-                  <Card.Body>
-                    <Card.Title className="d-flex flex-row justify-content-between align-items-center">
-                      <div className="text-purple w-100 text-center text-md-start">
-                        <i
-                          className="bi bi-chat pe-1 text-purple"
-                          aria-hidden="true"
-                        ></i>
-                        Chat
-                      </div>
-                      <i className="bi bi-arrow-right" aria-hidden="true"></i>
-                    </Card.Title>
-                    <Card.Text>
-                      Conversa con nuestro modelo para preguntarle todo lo que
-                      quieras sobre tus documentos.
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Link>
-            </div>
-
-            {/* History Section */}
-            <div className="col-12 col-md-7">
-              <Link
-                to="/history"
-                className="text-decoration-none"
-                aria-label="Ir a la sección de historial"
-              >
-                <Card className="rounded-4 border-gradient">
-                  <Card.Body>
-                    <Card.Title className="d-flex flex-row justify-content-between align-items-center">
-                      <div className="text-purple w-100 text-center text-md-start">
-                        <i
-                          className="bi bi-clock-history pe-1 text-purple"
-                          aria-hidden="true"
-                        ></i>
-                        Historial
-                      </div>
-                      <i className="bi bi-arrow-right" aria-hidden="true"></i>
-                    </Card.Title>
-                    <Card.Text>
-                      Consulta los mensajes enviados y recibidos cuando quieras.
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Link>
-            </div>
-
-            {/* Statistics Section */}
-            <div className="col-12 col-md-5">
-              <Link
-                to="/stats"
-                className="text-decoration-none"
-                aria-label="Ir a la sección de estadísticas"
-              >
-                <Card className="rounded-4 border-gradient">
-                  <Card.Body>
-                    <Card.Title className="d-flex flex-row justify-content-between align-items-center">
-                      <div className="text-purple w-100 text-center text-md-start">
-                        <i
-                          className="bi bi-bar-chart-line pe-1 text-purple"
-                          aria-hidden="true"
-                        ></i>
-                        Estadísticas
-                      </div>
-                      <i className="bi bi-arrow-right" aria-hidden="true"></i>
-                    </Card.Title>
-                    <Card.Text>Hazte una idea con las estadísticas.</Card.Text>
-                  </Card.Body>
-                </Card>
-              </Link>
-            </div>
+            {HOME_CARDS.map((card, idx) => (
+              <HomeCard key={idx} {...card} />
+            ))}
           </div>
         </motion.div>
 
