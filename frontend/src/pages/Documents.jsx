@@ -15,6 +15,7 @@ import { uuidv7 } from "uuidv7";
 
 import Header from "../components/Header";
 import SEO from "../components/SEO";
+import PaginationControls from "../components/PaginationControls";
 
 import { getFileExtension } from "../utils/helpers";
 import { getData, postData, deleteData } from "../utils/api";
@@ -228,27 +229,7 @@ function Documents() {
           </div>
 
           {/* Pagination controls */}
-          {totalPages > 1 && (
-            <div className="d-flex justify-content-center align-items-center my-4 gap-3">
-              <Button
-                className="bg-purple border-purple fw-bold"
-                onClick={() => setPage((p) => Math.max(p - 1, 1))}
-                disabled={page <= 1}
-              >
-                <i className="bi bi-arrow-left" aria-hidden="true"></i>
-              </Button>
-              <span>
-                Página {page} de {totalPages}
-              </span>
-              <Button
-                className="bg-purple border-purple fw-bold"
-                onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-                disabled={page >= totalPages}
-              >
-                <i className="bi bi-arrow-right" aria-hidden="true"></i>
-              </Button>
-            </div>
-          )}
+          <PaginationControls page={page} totalPages={totalPages} setPage={setPage} />
         </>
       )}
 

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 
 import Header from "../components/Header";
 import SEO from "../components/SEO";
+import PaginationControls from "../components/PaginationControls";
 
 import { getData } from "../utils/api";
 
@@ -165,27 +166,7 @@ function History() {
           })}
 
           {/* Pagination controls */}
-          {pages > 1 && (
-            <div className="d-flex justify-content-center align-items-center gap-3 my-4">
-              <Button
-                className="bg-purple border-purple fw-bold"
-                onClick={() => setPage((p) => p - 1)}
-                disabled={page <= 1}
-              >
-                <i className="bi bi-arrow-left" aria-hidden="true"></i>
-              </Button>
-              <span>
-                Página {page} de {pages}
-              </span>
-              <Button
-                className="bg-purple border-purple fw-bold"
-                onClick={() => setPage((p) => p + 1)}
-                disabled={page >= pages}
-              >
-                <i className="bi bi-arrow-right" aria-hidden="true"></i>
-              </Button>
-            </div>
-          )}
+          <PaginationControls page={page} totalPages={pages} setPage={setPage} />
         </>
       )}
     </Container>
