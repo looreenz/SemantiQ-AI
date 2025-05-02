@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 
 import UserDropdown from "../components/UserDropdown";
+import MenuItem from "../components/MenuItem";
 
 import { logout } from "../utils/api";
 import { logoutUser } from "../redux/slices/userSlice";
+import { MENU_ITEMS } from "../utils/consts";
 
 function Aside() {
   const location = useLocation();
@@ -26,17 +27,6 @@ function Aside() {
     setActive("/chat");
     navigate("/login");
   }
-
-  const menuItems = [
-    { path: "/chat", label: "Chat", icon: "bi bi-chat" },
-    {
-      path: "/documents",
-      label: "Documentos",
-      icon: "bi bi-file-earmark-text",
-    },
-    { path: "/history", label: "Historial", icon: "bi bi-clock-history" },
-    { path: "/stats", label: "Estadísticas", icon: "bi bi-bar-chart-line" },
-  ];
 
   return (
     <div className="col-12 col-xl-2 overflow-hidden z-3">
@@ -86,31 +76,15 @@ function Aside() {
         <ul className="list-group list-group-flush">
           {currentUser ? (
             <>
-              {menuItems.map((item) => (
-                <li key={item.path} className="p-2 position-relative">
-                  {active === item.path && (
-                    <motion.div
-                      layoutId="activeIndicator"
-                      className="active rounded-4"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 30,
-                      }}
-                    />
-                  )}
-                  <Link
-                    to={item.path}
-                    onClick={() => setActive(item.path)}
-                    className="text-decoration-none text-white hover-underline-purple d-flex align-items-center"
-                    aria-label={`Ir a ${item.label}`}
-                  >
-                    <i className={`${item.icon} px-1`} aria-hidden="true"></i>
-                    {item.label}
-                  </Link>
-                </li>
+              {MENU_ITEMS.map((item) => (
+                <MenuItem
+                  key={item.path}
+                  path={item.path}
+                  icon={item.icon}
+                  label={item.label}
+                  active={active}
+                  setActive={setActive}
+                />
               ))}
               <li className="p-2">
                 <UserDropdown
@@ -121,20 +95,13 @@ function Aside() {
               </li>
             </>
           ) : (
-            <li className="p-2">
-              <Link
-                to="/login"
-                onClick={() => setActive("/login")}
-                className="text-decoration-none text-white hover-underline-purple d-flex align-items-center"
-                aria-label="Ir a login"
-              >
-                <i
-                  className="bi bi-box-arrow-in-right px-1"
-                  aria-hidden="true"
-                ></i>
-                Iniciar sesión
-              </Link>
-            </li>
+            <MenuItem
+              path="/login"
+              icon="bi bi-box-arrow-in-right"
+              label="Iniciar sesión"
+              active={active}
+              setActive={setActive}
+            />
           )}
         </ul>
       </nav>
