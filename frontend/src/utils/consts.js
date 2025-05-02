@@ -118,10 +118,10 @@ export const HOME_CARDS = [
 export const MENU_ITEMS = [
     { path: "/chat", label: "Chat", icon: "bi bi-chat" },
     {
-      path: "/documents",
-      label: "Documentos",
-      icon: "bi bi-file-earmark-text",
+        path: "/documents",
+        label: "Documentos",
+        icon: "bi bi-file-earmark-text",
     },
     { path: "/history", label: "Historial", icon: "bi bi-clock-history" },
     { path: "/stats", label: "Estadísticas", icon: "bi bi-bar-chart-line" },
-  ];
+];
