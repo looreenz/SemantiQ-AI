@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
 
 import SEO from "../components/SEO";
+import UserDropdown from "../components/UserDropdown";
 
 import { logout } from "../utils/api";
 import { logoutUser } from "../redux/slices/userSlice";
@@ -32,72 +33,10 @@ function Home() {
         fluid
         className="py-3 d-flex justify-content-end align-items-center"
       >
-        <div className="dropdown">
-          <Link
-            className="text-decoration-none text-white hover-underline-purple d-flex align-items-center"
-            href="#"
-            role="button"
-            id="dropdownMenuLink"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            {currentUser.avatar ? (
-              <img
-                src={currentUser.avatar}
-                alt="Avatar"
-                className="rounded-circle me-1"
-                style={{ width: "24px", height: "24px", objectFit: "cover" }}
-              />
-            ) : (
-              <i className="bi bi-person px-1" aria-hidden="true"></i>
-            )}
-            {currentUser?.name.split(" ")[0] || "Usuario"}
-          </Link>
-          <ul
-            className="dropdown-menu p-2 bg-message rounded-4 mt-2"
-            aria-labelledby="dropdownMenuLink"
-          >
-            <li className="p-2">
-              <Link
-                onClick={() => setActive("")}
-                className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex align-items-center"
-                to="/terms"
-              >
-                <i
-                  className="bi bi-question-circle px-1"
-                  aria-hidden="true"
-                ></i>
-                Términos y condiciones
-              </Link>
-            </li>
-            <li className="p-2">
-              <Link
-                target="_blank"
-                className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex w-100 align-items-center justify-content-between"
-                to="https://github.com/looreenz/SemantiQ-AI"
-              >
-                <span>
-                  <i className="bi bi-github px-1" aria-hidden="true"></i>
-                  GitHub
-                </span>
-                <i class="bi bi-box-arrow-up-right px-1"></i>
-              </Link>
-            </li>
-            <li className="p-2">
-              <Link
-                className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex align-items-center"
-                href="#"
-                onClick={() => setShowModal(true)}
-              >
-                <i
-                  className="bi bi-box-arrow-right px-1"
-                  aria-hidden="true"
-                ></i>
-                Cerrar sesión
-              </Link>
-            </li>
-          </ul>
-        </div>
+        <UserDropdown
+          currentUser={currentUser}
+          setShowModal={setShowModal}
+        />
         <Modal
           show={showModal}
           onHide={() => setShowModal(false)}
