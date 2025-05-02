@@ -12,21 +12,24 @@ import { setChatMode } from "../redux/slices/userSlice";
 import { MODELS } from "../utils/consts";
 
 const Chat = () => {
-  const [question, setQuestion] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [fetching, setFetching] = useState(true);
+  // Local state
+  const [question, setQuestion] = useState(""); // Current input message
+  const [messages, setMessages] = useState([]); // Full message history
+  const [loading, setLoading] = useState(false); // Whether the system is sending a message
+  const [fetching, setFetching] = useState(true); // Whether messages are being initially loaded
 
+  // Redux state
   const chatMode = useSelector((state) => state.user.chatMode);
   const currentUser = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
 
-  const endRef = useRef();
+  const endRef = useRef(); // Used to auto-scroll to the bottom of the chat
 
+  // Scroll to the bottom of the chat
   const scrollToBottom = () =>
     endRef.current?.scrollIntoView({ behavior: "smooth" });
 
-  // Fetch existing messages
+  // Load all past messages for the current user
   const loadMessages = useCallback(async () => {
     setFetching(true);
     try {
@@ -39,13 +42,17 @@ const Chat = () => {
     }
   }, [currentUser.id]);
 
+  // Run on component mount
   useEffect(() => {
     loadMessages();
   }, [loadMessages]);
+
+  // Scroll to bottom when new messages are added
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
+  // Get relevant document chunks for RAG context
   const getRelevantChunks = useCallback(async (text) => {
     try {
       const { relevantChunks } = await postData("get-chunks", {
@@ -58,11 +65,12 @@ const Chat = () => {
     }
   }, []);
 
+  // Main function to send the question and receive the answer
   const askQuestion = useCallback(async () => {
     if (!question.trim()) return;
     setLoading(true);
 
-    const questionId = uuidv7();
+    const questionId = uuidv7(); // Unique ID for the user question
     const newMsg = {
       id: questionId,
       user_id: currentUser.id,
@@ -71,14 +79,16 @@ const Chat = () => {
     };
 
     try {
-      const context = await getRelevantChunks(question);
-      if (!context) throw new Error("Sin contexto relevante");
+      const context = await getRelevantChunks(question); // Retrieve relevant chunks
+      if (!context) throw new Error("No relevant context");
 
+      // Send question to the backend with selected model
       const response = await postData("ask", {
         model: chatMode,
         question,
         context,
       });
+
       const reply = {
         id: uuidv7(),
         user_id: currentUser.id,
@@ -86,9 +96,10 @@ const Chat = () => {
         message: response.content,
       };
 
+      // Save both question and response to backend
       await postData("messages", [newMsg, reply]);
       setMessages((prev) => [...prev, newMsg, reply]);
-      setQuestion("");
+      setQuestion(""); // Reset input field
     } catch (err) {
       console.error("Error sending message", err);
     } finally {
@@ -96,7 +107,7 @@ const Chat = () => {
     }
   }, [question, chatMode, currentUser.id, getRelevantChunks]);
 
-  // Handler for Enter key
+  // Handle "Enter" key to send message (Shift+Enter = new line)
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -113,6 +124,7 @@ const Chat = () => {
       />
       <Header title="Chat" />
 
+      {/* Chat messages area */}
       <Container className="w-75 w-xxl-50 mx-auto flex-grow-1 overflow-auto">
         {fetching ? (
           <div className="text-center py-5">
@@ -124,7 +136,7 @@ const Chat = () => {
             <MessageBubble
               key={msg.id}
               message={msg}
-              isAgent={!!msg.question_id}
+              isAgent={!!msg.question_id} // If it has question_id, it's an AI answer
               avatar={currentUser.avatar}
             />
           ))
@@ -136,6 +148,7 @@ const Chat = () => {
         <div ref={endRef} />
       </Container>
 
+      {/* Input form and controls */}
       <Container className="sticky-bottom bg-grey py-2 w-75 w-xxl-50 mx-auto">
         <Form className="d-flex flex-column p-3 rounded-4 chat-input">
           <Form.Control
@@ -150,6 +163,7 @@ const Chat = () => {
             aria-required="true"
           />
           <div className="d-flex justify-content-end">
+            {/* Model selector (visible on md and up) */}
             <div className="position-relative w-auto d-none d-md-flex align-items-center model-select-wrapper">
               <Form.Select
                 className="model-select py-0 rounded-4"
@@ -168,6 +182,7 @@ const Chat = () => {
               ></i>
             </div>
 
+            {/* Submit button */}
             <Button
               onClick={askQuestion}
               disabled={loading}

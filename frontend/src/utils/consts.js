@@ -1,3 +1,6 @@
+// ------------------------
+// TERMS AND CONDITIONS
+// ------------------------
 export const TERMS = [
     {
         title: "Aceptación de los Términos",
@@ -77,13 +80,19 @@ export const TERMS = [
     },
 ];
 
+// ------------------------
+// MODEL IDENTIFIERS
+// ------------------------
 export const MODELS = {
-    local: "deepseek-r1",
-    gpt: "gtp-4o-mini",
-    claude: "claude-3.7-sonnet",
-    gemini: "gemini-2.0-flash",
+    local: "deepseek-r1",              // Local AI model
+    gpt: "gtp-4o-mini",                // OpenAI model
+    claude: "claude-3.7-sonnet",       // Anthropic model
+    gemini: "gemini-2.0-flash",        // Google model
 };
 
+// ------------------------
+// HOMEPAGE CARDS
+// ------------------------
 export const HOME_CARDS = [
     {
         to: "/documents",
@@ -115,13 +124,12 @@ export const HOME_CARDS = [
     },
 ];
 
+// ------------------------
+// SIDEBAR MENU ITEMS
+// ------------------------
 export const MENU_ITEMS = [
     { path: "/chat", label: "Chat", icon: "bi bi-chat" },
-    {
-        path: "/documents",
-        label: "Documentos",
-        icon: "bi bi-file-earmark-text",
-    },
+    { path: "/documents", label: "Documentos", icon: "bi bi-file-earmark-text" },
     { path: "/history", label: "Historial", icon: "bi bi-clock-history" },
     { path: "/stats", label: "Estadísticas", icon: "bi bi-bar-chart-line" },
 ];

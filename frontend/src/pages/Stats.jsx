@@ -16,25 +16,31 @@ import { getFileExtensionFromMime } from "../utils/helpers";
 import { getData } from "../utils/api";
 
 function Stats() {
+  // Local state for chart data and loading status
   const [data, setData] = useState({ docs: [], messages: [], size: [] });
   const [loading, setLoading] = useState(true);
 
+  // Fetch documents and messages data on mount
   useEffect(() => {
     (async () => {
       const docsApi = await getData("documents");
       const msgsApi = await getData("messages");
 
+      // Count number of documents per MIME type
       const countByType = docsApi.reduce(
-        (a, doc) => ((a[doc.type] = (a[doc.type] || 0) + 1), a),
+        (acc, doc) => ((acc[doc.type] = (acc[doc.type] || 0) + 1), acc),
         {}
       );
-      const sizeByType = docsApi.reduce((a, doc) => {
-        if (!a[doc.type]) a[doc.type] = { total: 0, cnt: 0 };
-        a[doc.type].total += doc.size;
-        a[doc.type].cnt++;
-        return a;
+
+      // Calculate average size per document type
+      const sizeByType = docsApi.reduce((acc, doc) => {
+        if (!acc[doc.type]) acc[doc.type] = { total: 0, cnt: 0 };
+        acc[doc.type].total += doc.size;
+        acc[doc.type].cnt++;
+        return acc;
       }, {});
 
+      // Format data for charting
       const formattedDocs = Object.entries(countByType).map(([t, c]) => ({
         name: getFileExtensionFromMime(t),
         count: c,
@@ -42,16 +48,17 @@ function Stats() {
       const formattedSize = Object.entries(sizeByType).map(
         ([t, { total, cnt }]) => ({
           name: getFileExtensionFromMime(t),
-          avgSize: +(total / cnt / 1024).toFixed(2),
+          avgSize: +(total / cnt / 1024).toFixed(2), // Convert bytes to KB
         })
       );
 
+      // Prepare message count by day (last 5 days)
       const last5 = [...Array(5)].map((_, i) => {
         const d = new Date();
         d.setDate(d.getDate() - i);
         return d.toLocaleDateString("es-ES");
       });
-      const countByDay = last5.reduce((a, day) => ((a[day] = 0), a), {});
+      const countByDay = last5.reduce((acc, day) => ((acc[day] = 0), acc), {});
       msgsApi.forEach((m) => {
         const d = new Date(m.created_at).toLocaleDateString("es-ES");
         if (d in countByDay) countByDay[d]++;
@@ -60,6 +67,7 @@ function Stats() {
         .reverse()
         .map((d) => ({ name: d, count: countByDay[d] }));
 
+      // Set all processed data
       setData({
         docs: formattedDocs,
         size: formattedSize,
@@ -69,6 +77,7 @@ function Stats() {
     })();
   }, []);
 
+  // Tooltip component for charts
   const TooltipFormatter = useMemo(
     () =>
       ({ active, payload, label }) =>
@@ -80,6 +89,7 @@ function Stats() {
     []
   );
 
+  // Loading indicator
   if (loading)
     return (
       <div className="text-center py-5">
@@ -96,6 +106,8 @@ function Stats() {
         endpoint="stats"
       />
       <Header title="Estadísticas" />
+
+      {/* Statistics dashboard */}
       <div className="row py-4 g-4">
         {data.docs.length == 0 ? (
           <div className="text-center py-5">
@@ -130,6 +142,8 @@ function Stats() {
                 >
                   {conf.title}
                 </Card.Title>
+
+                {/* Responsive bar chart */}
                 <ResponsiveContainer height={300} role="img">
                   <BarChart data={conf.data}>
                     <XAxis dataKey="name" />

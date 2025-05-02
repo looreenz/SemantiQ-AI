@@ -9,9 +9,19 @@ import { TERMS } from "../utils/consts";
 function Terms() {
   return (
     <Container>
-      <SEO title="Términos y condiciones" description="Lee los términos y condiciones de uso de SemantiQ AI." endpoint="terms" />
+      {/* SEO metadata for better visibility */}
+      <SEO
+        title="Términos y condiciones"
+        description="Lee los términos y condiciones de uso de SemantiQ AI."
+        endpoint="terms"
+      />
+
+      {/* Page title header */}
       <Header title="Términos y condiciones" />
+
+      {/* Main content area */}
       <div className="terms-container w-75 mx-auto py-5">
+        {/* Iterate and render each section from TERMS constant */}
         {TERMS.map((term, idx) => (
           <section key={term.title || idx} className="mb-4">
             <h3 className="text-purple">
@@ -22,6 +32,8 @@ function Terms() {
             ))}
           </section>
         ))}
+
+        {/* Footer note with last updated date */}
         <div className="terms-last-update text-purple">
           Última actualización: 8 de abril de 2025
         </div>

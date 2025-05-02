@@ -12,31 +12,35 @@ import { logout } from "../utils/api";
 import { HOME_CARDS } from "../utils/consts";
 
 function Home() {
+  // Get user from Redux state
   const currentUser = useSelector((state) => state.user.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // Handle logout: clear session and redirect to login
   function handleLogout() {
-    logout();
-    dispatch(logoutUser());
-    navigate("/login");
+    logout(); // API logout call
+    dispatch(logoutUser()); // Redux: remove user state
+    navigate("/login"); // Redirect
   }
 
   return (
     <>
+      {/* SEO metadata */}
       <SEO
         title="Inicio"
         description="SemantiQ AI es una plataforma inteligente para analizar y consultar documentos mediante inteligencia artificial."
       />
 
       <Container fluid className="d-flex flex-column vh-100 overflow-hidden">
-        {/* Top bar */}
+        {/* Top navigation bar */}
         <div className="py-3 d-flex justify-content-end align-items-center px-3">
           <UserDropdown currentUser={currentUser} onLogout={handleLogout} />
         </div>
 
-        {/* Main content */}
+        {/* Main content block */}
         <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center overflow-hidden px-3">
+          {/* Welcome message and logo */}
           <motion.div
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -61,6 +65,7 @@ function Home() {
             </p>
           </motion.div>
 
+          {/* Cards with actions (upload, chat, history...) */}
           <motion.div
             layout
             initial={{ opacity: 0, scale: 0 }}

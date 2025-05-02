@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 
+// Dropdown menu for the authenticated user
 const UserDropdown = ({ currentUser, setActive = () => {}, onLogout }) => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false); // Modal state
 
   return (
     <>
+      {/* User avatar and name (toggle dropdown) */}
       <div className="dropdown">
         <Link
           className="text-decoration-none text-white hover-underline-purple d-flex align-items-center"
@@ -15,6 +17,7 @@ const UserDropdown = ({ currentUser, setActive = () => {}, onLogout }) => {
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
+          {/* Avatar or fallback icon */}
           {currentUser.avatar ? (
             <img
               src={currentUser.avatar}
@@ -25,13 +28,16 @@ const UserDropdown = ({ currentUser, setActive = () => {}, onLogout }) => {
           ) : (
             <i className="bi bi-person px-1" aria-hidden="true"></i>
           )}
+          {/* Show first name only */}
           {currentUser.name?.split(" ")[0]}
         </Link>
 
+        {/* Dropdown menu options */}
         <ul
           className="dropdown-menu p-2 bg-message rounded-4 mt-2"
           aria-labelledby="dropdownMenuLink"
         >
+          {/* Link to terms page */}
           <li className="p-2">
             <Link
               onClick={() => setActive("")}
@@ -42,6 +48,8 @@ const UserDropdown = ({ currentUser, setActive = () => {}, onLogout }) => {
               Términos y condiciones
             </Link>
           </li>
+
+          {/* External GitHub link */}
           <li className="p-2">
             <Link
               to="https://github.com/looreenz/SemantiQ-AI"
@@ -55,6 +63,8 @@ const UserDropdown = ({ currentUser, setActive = () => {}, onLogout }) => {
               <i className="bi bi-box-arrow-up-right px-1"></i>
             </Link>
           </li>
+
+          {/* Trigger logout confirmation modal */}
           <li className="p-2">
             <Link
               onClick={() => setShowModal(true)}
@@ -67,7 +77,7 @@ const UserDropdown = ({ currentUser, setActive = () => {}, onLogout }) => {
         </ul>
       </div>
 
-      {/* Modal de cerrar sesión */}
+      {/* Logout confirmation modal */}
       <Modal
         show={showModal}
         onHide={() => setShowModal(false)}
@@ -83,9 +93,11 @@ const UserDropdown = ({ currentUser, setActive = () => {}, onLogout }) => {
             aria-label="Cerrar ventana modal"
           ></button>
         </Modal.Header>
+
         <Modal.Body className="bg-grey">
           <p>¿Estás seguro de que deseas cerrar sesión?</p>
         </Modal.Body>
+
         <Modal.Footer className="bg-grey border-purple">
           <Button
             variant="outline-secondary"
@@ -99,8 +111,8 @@ const UserDropdown = ({ currentUser, setActive = () => {}, onLogout }) => {
             className="rounded-4"
             variant="success"
             onClick={() => {
-              onLogout?.(); // función recibida por props
-              setShowModal(false);
+              onLogout?.(); // Call the logout function passed as prop
+              setShowModal(false); // Close modal
             }}
             aria-label="Confirmar cierre de sesión"
           >

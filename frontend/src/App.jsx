@@ -17,8 +17,9 @@ import LoginSuccess from "./components/LoginSuccess";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const location = useLocation();
+  const location = useLocation(); // Track current route
 
+  // Routes that require authentication
   const protectedRoutes = [
     { path: "/", element: <Home /> },
     { path: "/home", element: <Home /> },
@@ -31,6 +32,7 @@ function App() {
 
   return (
     <Container fluid>
+      {/* Show minimal layout for auth-related pages */}
       {location.pathname === "/login" ||
       location.pathname === "/register" ||
       location.pathname === "/login-success" ? (
@@ -42,7 +44,7 @@ function App() {
         </Routes>
       ) : (
         <div className="row">
-          {/* Renderizar Aside si no estamos en "/" */}
+          {/* Show sidebar only if not on root path ("/") */}
           {location.pathname !== "/" && (
             <Aside
               role="complementary"
@@ -50,6 +52,7 @@ function App() {
             />
           )}
 
+          {/* Main content area */}
           <div
             className={
               location.pathname === "/"
@@ -71,7 +74,9 @@ function App() {
           </div>
         </div>
       )}
-      <Consent></Consent>
+
+      {/* Cookie consent component */}
+      <Consent />
     </Container>
   );
 }

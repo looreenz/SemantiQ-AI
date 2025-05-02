@@ -13,23 +13,28 @@ function Aside() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // State to track current active path and mobile menu toggle
   const [active, setActive] = useState(location.pathname);
   const [menuOpen, setMenuOpen] = useState(false);
   const currentUser = useSelector((state) => state.user.user);
 
+  // Close menu when location changes
   useEffect(() => {
     setMenuOpen(false);
   }, [location.pathname]);
 
+  // Handle logout: call API, update state, redirect
   function handleLogout() {
-    logout();
-    dispatch(logoutUser());
-    setActive("/chat");
-    navigate("/login");
+    logout(); // API logout
+    dispatch(logoutUser()); // Redux: clear user state
+    setActive("/chat"); // Reset active item
+    navigate("/login"); // Redirect to login
   }
 
   return (
     <div className="col-12 col-xl-2 overflow-hidden z-3">
+      {/* Top logo and menu toggle (mobile) */}
       <div className="logo sticky-top p-2 bg-grey d-flex justify-content-between align-items-center">
         <Link
           className="navbar-brand fs-2"
@@ -44,6 +49,8 @@ function Aside() {
             className="logo-img mb-2"
           />
         </Link>
+
+        {/* Mobile menu toggle button */}
         <nav className="navbar navbar-dark d-xl-none d-flex">
           <div className="container-fluid p-0">
             <button
@@ -69,6 +76,7 @@ function Aside() {
         </nav>
       </div>
 
+      {/* Navigation menu */}
       <nav
         className="collapse d-xl-block w-100 w-xxl-75"
         id="navbarToggleExternalContent"
@@ -76,6 +84,7 @@ function Aside() {
         <ul className="list-group list-group-flush">
           {currentUser ? (
             <>
+              {/* Menu items for authenticated users */}
               {MENU_ITEMS.map((item) => (
                 <MenuItem
                   key={item.path}
@@ -86,6 +95,8 @@ function Aside() {
                   setActive={setActive}
                 />
               ))}
+
+              {/* User dropdown with logout option */}
               <li className="p-2">
                 <UserDropdown
                   currentUser={currentUser}
@@ -95,6 +106,7 @@ function Aside() {
               </li>
             </>
           ) : (
+            // Menu for guests (only login available)
             <MenuItem
               path="/login"
               icon="bi bi-box-arrow-in-right"

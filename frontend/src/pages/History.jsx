@@ -9,19 +9,23 @@ import SEO from "../components/SEO";
 import { getData } from "../utils/api";
 
 function History() {
+  // Get the current user from Redux
   const currentUser = useSelector((s) => s.user.user);
+
+  // Local state for messages, loading, and pagination
   const [msgs, setMsgs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const perPage = 8;
 
+  // Fetch message history on mount
   useEffect(() => {
     (async () => {
       try {
         const data = await getData(`messages/${currentUser.id}`);
         setMsgs(data);
       } catch (error) {
-        console.error("Error al obtener mensajes:", error);
+        console.error("Error fetching messages:", error);
         setMsgs([]);
       } finally {
         setLoading(false);
@@ -29,24 +33,29 @@ function History() {
     })();
   }, [currentUser.id]);
 
+  // String for today's date (used to label "Hoy")
   const todayStr = useMemo(() => new Date().toLocaleDateString("es-ES"), []);
 
+  // Sort messages by newest first
   const sortedMsgs = useMemo(
     () =>
       [...msgs].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)),
     [msgs]
   );
 
+  // Total number of pages
   const pages = useMemo(
     () => Math.ceil(sortedMsgs.length / perPage),
     [sortedMsgs.length]
   );
 
+  // Get current page slice
   const slice = useMemo(
     () => sortedMsgs.slice((page - 1) * perPage, page * perPage),
     [sortedMsgs, page]
   );
 
+  // Group current page slice by date
   const slicedGrouped = useMemo(() => {
     return slice.reduce((acc, m) => {
       const d = new Date(m.created_at).toLocaleDateString("es-ES");
@@ -56,11 +65,13 @@ function History() {
     }, {});
   }, [slice]);
 
+  // Dates in descending order for rendering
   const sortedDates = useMemo(
     () => Object.keys(slicedGrouped).sort((a, b) => new Date(b) - new Date(a)),
     [slicedGrouped]
   );
 
+  // Show loading spinner while fetching
   if (loading)
     return (
       <div className="text-center py-5">
@@ -78,12 +89,14 @@ function History() {
       />
       <Header title="Historial" />
 
+      {/* If no messages */}
       {sortedDates.length === 0 ? (
         <div className="text-center py-5">
           <p>No hay mensajes</p>
         </div>
       ) : (
         <>
+          {/* Grouped messages by date */}
           {sortedDates.map((date) => {
             const items = slicedGrouped[date];
             return (
@@ -91,10 +104,12 @@ function History() {
                 key={date}
                 className="w-100 w-xl-75 mx-auto py-3 border-bottom border-message"
               >
+                {/* Section heading */}
                 <h4 className="w-75 mx-auto text-center text-md-start">
                   {date === todayStr ? "Hoy" : date}
                 </h4>
 
+                {/* Desktop table view */}
                 <Table hover className="d-none d-md-table mx-auto w-75">
                   <thead>
                     <tr>
@@ -126,6 +141,7 @@ function History() {
                   </tbody>
                 </Table>
 
+                {/* Mobile card view */}
                 <div className="d-md-none">
                   {items.map((m) => (
                     <motion.div
@@ -148,6 +164,7 @@ function History() {
             );
           })}
 
+          {/* Pagination controls */}
           {pages > 1 && (
             <div className="d-flex justify-content-center align-items-center gap-3 my-4">
               <Button

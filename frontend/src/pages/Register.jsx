@@ -11,6 +11,7 @@ import SEO from "../components/SEO";
 import { register } from "../utils/api";
 import { setUser } from "../redux/slices/userSlice";
 
+// Form validation schema using Yup
 const RegisterSchema = Yup.object({
   name: Yup.string().min(2).max(255).required("Campo obligatorio"),
   email: Yup.string().email().required("Campo obligatorio"),
@@ -20,26 +21,30 @@ const RegisterSchema = Yup.object({
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // Local state for error messages and loading spinner
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Redirect to Google OAuth flow
   const handleGoogle = useCallback(() => {
     window.location.href = `${
       import.meta.env.VITE_LOCAL_API_URL
     }/auth/google/redirect`;
   }, []);
 
+  // Handle form submission: create account, store user, redirect
   const onSubmit = useCallback(
     async ({ name, email, password }) => {
       setLoading(true);
       try {
         const { status, data } = await register(name, email, password);
         if (status === 200) {
-          dispatch(setUser(data));
-          navigate("/");
+          dispatch(setUser(data)); // Store user in Redux
+          navigate("/"); // Go to homepage
         }
       } catch (err) {
-        setError(err.message);
+        setError(err.message); // Show error message
       } finally {
         setLoading(false);
       }
@@ -49,18 +54,22 @@ function Register() {
 
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100 bg-grey">
+      {/* Page metadata */}
       <SEO
         title="Registro de usuario"
         description="Crea tu cuenta en SemantiQ AI."
       />
+
       <Container>
         <Row className="justify-content-center">
           <Col xs={12} md={6} xxl={4}>
+            {/* Animated entrance */}
             <motion.div
               initial={{ opacity: 0, x: -100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
+              {/* Logo */}
               <div className="text-center mb-4">
                 <img
                   src="/logoPrimary.svg"
@@ -69,6 +78,8 @@ function Register() {
                   style={{ maxWidth: 130 }}
                 />
               </div>
+
+              {/* Registration form card */}
               <Card className="p-4 border-0">
                 <Formik
                   initialValues={{ name: "", email: "", password: "" }}
@@ -81,6 +92,7 @@ function Register() {
                         Crear cuenta
                       </h2>
 
+                      {/* Form fields: name, email, password */}
                       {[
                         { name: "name", type: "text", placeholder: "Nombre" },
                         {
@@ -107,12 +119,14 @@ function Register() {
                         </div>
                       ))}
 
+                      {/* Display error message if registration fails */}
                       {error && (
                         <div className="text-danger text-center mb-3">
                           {error}
                         </div>
                       )}
 
+                      {/* Submit button */}
                       <Button
                         type="submit"
                         disabled={loading}
@@ -125,12 +139,14 @@ function Register() {
                         )}
                       </Button>
 
+                      {/* Divider */}
                       <div className="d-flex align-items-center my-3">
                         <hr className="flex-grow-1" />
                         <span className="mx-2 text-secondary">O</span>
                         <hr className="flex-grow-1" />
                       </div>
 
+                      {/* Google registration */}
                       <Button
                         onClick={handleGoogle}
                         className="w-100 d-flex gap-2 justify-content-center mb-3 bg-gradient border-gradient"
@@ -138,6 +154,7 @@ function Register() {
                         <i className="bi bi-google" /> Regístrate con Google
                       </Button>
 
+                      {/* Link to login page */}
                       <p className="text-center">
                         <Link
                           to="/login"

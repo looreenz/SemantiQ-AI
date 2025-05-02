@@ -20,17 +20,21 @@ import { getFileExtension } from "../utils/helpers";
 import { getData, postData, deleteData } from "../utils/api";
 
 function Documents() {
+  // Global state
   const currentUser = useSelector((s) => s.user.user);
+
+  // Local state
   const [files, setFiles] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [fileLoading, setFileLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Initial loading of document list
+  const [fileLoading, setFileLoading] = useState(false); // Loading state for file actions
   const [modalAction, setModalAction] = useState(); // 'upload' or 'delete'
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(null); // File object (upload) or file ID (delete)
   const [error, setError] = useState("");
-  const [toast, setToast] = useState({ show: false, success: true });
+  const [toast, setToast] = useState({ show: false, success: true }); // Toast for notifications
   const [page, setPage] = useState(1);
   const perPage = 10;
 
+  // Fetch user's documents
   const fetchData = useCallback(async () => {
     const data = await getData(`documents/${currentUser.id}`);
     setFiles(data);
@@ -41,16 +45,17 @@ function Documents() {
     fetchData();
   }, [fetchData]);
 
+  // Upload document to the backend
   const uploadFile = useCallback(async () => {
     setFileLoading(true);
     try {
       await postData(
         "documents/upload",
         { document: selected, id: uuidv7(), user_id: currentUser.id },
-        true
+        true // FormData upload
       );
       setToast({ show: true, success: true });
-      fetchData();
+      fetchData(); // Refresh document list
     } catch (e) {
       setToast({ show: true, success: false });
       setError(e.response?.data || e.message);
@@ -61,12 +66,13 @@ function Documents() {
     }
   }, [selected, currentUser.id, fetchData]);
 
+  // Delete selected document
   const deleteFile = useCallback(async () => {
     setFileLoading(true);
     try {
       await deleteData(`documents/delete/${selected}`);
       setToast({ show: true, success: true });
-      fetchData();
+      fetchData(); // Refresh document list
     } catch (e) {
       setToast({ show: true, success: false });
       setError(e.response?.data || e.message);
@@ -77,9 +83,11 @@ function Documents() {
     }
   }, [selected, fetchData]);
 
+  // Pagination logic
   const paginated = files.slice((page - 1) * perPage, page * perPage);
   const totalPages = Math.ceil(files.length / perPage);
 
+  // Loading screen
   if (loading) {
     return (
       <div className="text-center py-5">
@@ -98,6 +106,7 @@ function Documents() {
       />
       <Header title="Documentos" />
 
+      {/* Upload button */}
       <div className="w-100 w-xl-75 w-xxl-100 mx-auto d-flex justify-content-center justify-content-xl-end">
         <Button
           onClick={() => setModalAction("upload")}
@@ -109,12 +118,14 @@ function Documents() {
         </Button>
       </div>
 
+      {/* Empty state */}
       {files.length === 0 ? (
         <div className="text-center py-5">
           <p>No hay documentos</p>
         </div>
       ) : (
         <>
+          {/* Desktop table */}
           <Table
             hover
             className="w-100 w-xl-75 w-xxl-100 mx-auto d-none d-md-table"
@@ -177,6 +188,7 @@ function Documents() {
             </tbody>
           </Table>
 
+          {/* Mobile file cards */}
           <div className="d-md-none py-3 border-top border-message">
             {paginated.map((f) => {
               const date = new Date(f.created_at).toLocaleDateString("es-ES");
@@ -215,6 +227,7 @@ function Documents() {
             })}
           </div>
 
+          {/* Pagination controls */}
           {totalPages > 1 && (
             <div className="d-flex justify-content-center align-items-center my-4 gap-3">
               <Button
@@ -239,6 +252,7 @@ function Documents() {
         </>
       )}
 
+      {/* Modal for upload or delete confirmation */}
       <Modal show={modalAction} onHide={() => setModalAction()} centered>
         <Modal.Header className="bg-grey border-purple">
           <Modal.Title>
@@ -299,6 +313,7 @@ function Documents() {
         </Modal.Footer>
       </Modal>
 
+      {/* Toast notifications */}
       <ToastContainer position="bottom-end" className="p-3">
         <Toast
           onClose={() => setToast((prev) => ({ ...prev, show: false }))}
