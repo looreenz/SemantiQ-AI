@@ -1,7 +1,9 @@
 import React, { memo } from "react";
 import { Container } from "react-bootstrap";
+
 import Header from "../components/Header";
 import SEO from "../components/SEO";
+
 import { TERMS } from "../utils/consts";
 
 function Terms() {

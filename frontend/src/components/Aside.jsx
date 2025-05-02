@@ -1,12 +1,11 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-// eslint-disable-next-line
-import { motion } from "framer-motion";
-import { logout } from "../utils/api";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+
+import { logout } from "../utils/api";
 import { logoutUser } from "../redux/slices/userSlice";
-import { useSelector } from "react-redux";
 
 function Aside() {
   const location = useLocation();

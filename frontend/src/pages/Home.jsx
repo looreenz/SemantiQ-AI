@@ -1,13 +1,13 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Container, Card, Modal, Button } from "react-bootstrap";
-// eslint-disable-next-line
 import { motion } from "framer-motion";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
 import SEO from "../components/SEO";
+
 import { logout } from "../utils/api";
 import { logoutUser } from "../redux/slices/userSlice";
-import { useDispatch } from "react-redux";
 
 function Home() {
   const currentUser = useSelector((state) => state.user.user);

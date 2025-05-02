@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 import { Container } from "react-bootstrap";
+
 import SEO from "../components/SEO";
 
 function Error404() {

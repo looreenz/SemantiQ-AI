@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useMemo, memo } from "react";
 import { Container, Table, Spinner, Button } from "react-bootstrap";
-import Header from "../components/Header";
-import SEO from "../components/SEO";
-import { getData } from "../utils/api";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
+
+import Header from "../components/Header";
+import SEO from "../components/SEO";
+
+import { getData } from "../utils/api";
 
 function History() {
   const currentUser = useSelector((s) => s.user.user);

@@ -1,8 +1,9 @@
-import { getUser } from "../utils/api";
-import { useDispatch } from "react-redux";
-import { setUser } from "../redux/slices/userSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { getUser } from "../utils/api";
+import { setUser } from "../redux/slices/userSlice";
 
 function LoginSuccess() {
     const navigate = useNavigate();

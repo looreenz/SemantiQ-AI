@@ -1,6 +1,6 @@
-import { pageVariants } from "../utils/animations";
-// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+
+import { pageVariants } from "../utils/animations";
 
 function Header(props) {
   const { title } = props;

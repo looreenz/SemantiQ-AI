@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useMemo, memo } from "react";
-import Header from "../components/Header";
-import SEO from "../components/SEO";
 import { Container, Spinner, Card } from "react-bootstrap";
 import {
   BarChart,
@@ -10,6 +8,10 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+
+import Header from "../components/Header";
+import SEO from "../components/SEO";
+
 import { getFileExtensionFromMime } from "../utils/helpers";
 import { getData } from "../utils/api";
 

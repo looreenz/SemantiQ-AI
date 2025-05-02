@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Container, Form, Button, Spinner } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
+import { Container, Form, Button, Spinner } from "react-bootstrap";
 import { uuidv7 } from "uuidv7";
 
 import Header from "../components/Header";
 import SEO from "../components/SEO";
+
 import { getData, postData } from "../utils/api";
 import { setChatMode } from "../redux/slices/userSlice";
 import { MODELS } from "../utils/consts";

@@ -3,11 +3,13 @@ import { useNavigate, Link } from "react-router-dom";
 import { Formik, Form as FormikForm, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Button, Container, Row, Col, Card, Spinner } from "react-bootstrap";
-import { register } from "../utils/api";
-import SEO from "../components/SEO";
-import { useDispatch } from "react-redux";
-import { setUser } from "../redux/slices/userSlice";
 import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+
+import SEO from "../components/SEO";
+
+import { register } from "../utils/api";
+import { setUser } from "../redux/slices/userSlice";
 
 const RegisterSchema = Yup.object({
   name: Yup.string().min(2).max(255).required("Campo obligatorio"),

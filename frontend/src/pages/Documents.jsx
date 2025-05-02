@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback, memo } from "react";
+import { useSelector } from "react-redux";
+import { motion } from "framer-motion";
 import {
   Modal,
   Button,
@@ -9,13 +11,13 @@ import {
   Toast,
   ToastContainer,
 } from "react-bootstrap";
+import { uuidv7 } from "uuidv7";
+
 import Header from "../components/Header";
 import SEO from "../components/SEO";
+
 import { getFileExtension } from "../utils/helpers";
 import { getData, postData, deleteData } from "../utils/api";
-import { uuidv7 } from "uuidv7";
-import { useSelector } from "react-redux";
-import { motion } from "framer-motion";
 
 function Documents() {
   const currentUser = useSelector((s) => s.user.user);

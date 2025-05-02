@@ -1,19 +1,20 @@
-
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import Login from "./pages/Login";
-import LoginSuccess from "./components/LoginSuccess";
-import Register from "./pages/Register";
+
 import Home from "./pages/Home";
-import Aside from "./components/Aside";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Chat from "./pages/Chat";
 import Documents from "./pages/Documents";
 import History from "./pages/History";
 import Stats from "./pages/Stats";
-import Error404 from "./pages/Error404";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Consent from "./components/Consent";
 import Terms from "./pages/Terms";
+import Error404 from "./pages/Error404";
+
+import Aside from "./components/Aside";
+import Consent from "./components/Consent";
+import LoginSuccess from "./components/LoginSuccess";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const location = useLocation();

@@ -3,11 +3,13 @@ import { useNavigate, Link } from "react-router-dom";
 import { Formik, Form as FormikForm, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Button, Container, Row, Col, Card, Spinner } from "react-bootstrap";
-import { login } from "../utils/api";
-import SEO from "../components/SEO";
-import { useDispatch } from "react-redux";
-import { setUser } from "../redux/slices/userSlice";
 import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+
+import SEO from "../components/SEO";
+
+import { login } from "../utils/api";
+import { setUser } from "../redux/slices/userSlice";
 
 const LoginSchema = Yup.object({
   email: Yup.string().email("Correo inválido").required("Campo obligatorio"),
