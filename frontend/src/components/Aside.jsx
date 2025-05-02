@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Modal, Button } from "react-bootstrap";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,7 +14,6 @@ function Aside() {
   const dispatch = useDispatch();
   const [active, setActive] = useState(location.pathname);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const currentUser = useSelector((state) => state.user.user);
 
   useEffect(() => {
@@ -118,7 +116,7 @@ function Aside() {
                 <UserDropdown
                   currentUser={currentUser}
                   setActive={setActive}
-                  setShowModal={setShowModal}
+                  onLogout={handleLogout}
                 />
               </li>
             </>
@@ -140,43 +138,6 @@ function Aside() {
           )}
         </ul>
       </nav>
-
-      <Modal
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        centered
-        aria-labelledby="modalLogoutLabel"
-      >
-        <Modal.Header className="bg-grey border-purple">
-          <Modal.Title id="modalLogoutLabel">Cerrar Sesión</Modal.Title>
-          <button
-            onClick={() => setShowModal(!showModal)}
-            className="btn btn-close close-btn-purple"
-            aria-label="Cerrar ventana modal"
-          ></button>
-        </Modal.Header>
-        <Modal.Body className="bg-grey">
-          <p>¿Estás seguro de que deseas cerrar sesión?</p>
-        </Modal.Body>
-        <Modal.Footer className="bg-grey border-purple">
-          <Button
-            variant="outline-secondary"
-            className="text-purple border-purple rounded-4"
-            onClick={() => setShowModal(!showModal)}
-            aria-label="Cancelar cierre de sesión"
-          >
-            Cerrar
-          </Button>
-          <Button
-            className="rounded-4"
-            variant="success"
-            onClick={handleLogout}
-            aria-label="Confirmar cierre de sesión"
-          >
-            Cerrar Sesión
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </div>
   );
 }

@@ -1,67 +1,114 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap";
 
-const UserDropdown = ({ currentUser, setActive = () => {}, setShowModal }) => {
+const UserDropdown = ({ currentUser, setActive = () => {}, onLogout }) => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
-    <div className="dropdown">
-      <Link
-        className="text-decoration-none text-white hover-underline-purple d-flex align-items-center"
-        role="button"
-        id="dropdownMenuLink"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
-        {currentUser.avatar ? (
-          <img
-            src={currentUser.avatar}
-            alt="Avatar"
-            className="rounded-circle me-1"
-            style={{ width: "24px", height: "24px", objectFit: "cover" }}
-          />
-        ) : (
-          <i className="bi bi-person px-1" aria-hidden="true"></i>
-        )}
-        {currentUser.name?.split(" ")[0]}
-      </Link>
+    <>
+      <div className="dropdown">
+        <Link
+          className="text-decoration-none text-white hover-underline-purple d-flex align-items-center"
+          role="button"
+          id="dropdownMenuLink"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          {currentUser.avatar ? (
+            <img
+              src={currentUser.avatar}
+              alt="Avatar"
+              className="rounded-circle me-1"
+              style={{ width: "24px", height: "24px", objectFit: "cover" }}
+            />
+          ) : (
+            <i className="bi bi-person px-1" aria-hidden="true"></i>
+          )}
+          {currentUser.name?.split(" ")[0]}
+        </Link>
 
-      <ul
-        className="dropdown-menu p-2 bg-message rounded-4 mt-2"
-        aria-labelledby="dropdownMenuLink"
+        <ul
+          className="dropdown-menu p-2 bg-message rounded-4 mt-2"
+          aria-labelledby="dropdownMenuLink"
+        >
+          <li className="p-2">
+            <Link
+              onClick={() => setActive("")}
+              to="/terms"
+              className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex align-items-center"
+            >
+              <i className="bi bi-question-circle px-1" aria-hidden="true"></i>
+              Términos y condiciones
+            </Link>
+          </li>
+          <li className="p-2">
+            <Link
+              to="https://github.com/looreenz/SemantiQ-AI"
+              target="_blank"
+              className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex w-100 align-items-center justfy-content-between"
+            >
+              <span>
+                <i className="bi bi-github px-1" aria-hidden="true"></i>
+                GitHub
+              </span>
+              <i className="bi bi-box-arrow-up-right px-1"></i>
+            </Link>
+          </li>
+          <li className="p-2">
+            <Link
+              onClick={() => setShowModal(true)}
+              className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex align-items-center"
+            >
+              <i className="bi bi-box-arrow-right px-1" aria-hidden="true"></i>
+              Cerrar sesión
+            </Link>
+          </li>
+        </ul>
+      </div>
+
+      {/* Modal de cerrar sesión */}
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        centered
+        aria-labelledby="modalLogoutLabel"
+        className="pe-0"
       >
-        <li className="p-2">
-          <Link
-            onClick={() => setActive("")}
-            to="/terms"
-            className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex align-items-center"
+        <Modal.Header className="bg-grey border-purple">
+          <Modal.Title id="modalLogoutLabel">Cerrar Sesión</Modal.Title>
+          <button
+            onClick={() => setShowModal(false)}
+            className="btn btn-close close-btn-purple"
+            aria-label="Cerrar ventana modal"
+          ></button>
+        </Modal.Header>
+        <Modal.Body className="bg-grey">
+          <p>¿Estás seguro de que deseas cerrar sesión?</p>
+        </Modal.Body>
+        <Modal.Footer className="bg-grey border-purple">
+          <Button
+            variant="outline-secondary"
+            className="text-purple border-purple rounded-4"
+            onClick={() => setShowModal(false)}
+            aria-label="Cancelar cierre de sesión"
           >
-            <i className="bi bi-question-circle px-1" aria-hidden="true"></i>
-            Términos y condiciones
-          </Link>
-        </li>
-        <li className="p-2">
-          <Link
-            to="https://github.com/looreenz/SemantiQ-AI"
-            target="_blank"
-            className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex w-100 align-items-center justfy-content-between"
+            Cerrar
+          </Button>
+          <Button
+            className="rounded-4"
+            variant="success"
+            onClick={() => {
+              onLogout?.(); // función recibida por props
+              setShowModal(false);
+            }}
+            aria-label="Confirmar cierre de sesión"
           >
-            <span>
-              <i className="bi bi-github px-1" aria-hidden="true"></i>
-              GitHub
-            </span>
-            <i className="bi bi-box-arrow-up-right px-1"></i>
-          </Link>
-        </li>
-        <li className="p-2">
-          <Link
-            onClick={() => setShowModal(true)}
-            className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex align-items-center"
-          >
-            <i className="bi bi-box-arrow-right px-1" aria-hidden="true"></i>
-            Cerrar sesión
-          </Link>
-        </li>
-      </ul>
-    </div>
+            Cerrar Sesión
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 
