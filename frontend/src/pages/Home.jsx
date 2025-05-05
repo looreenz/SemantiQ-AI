@@ -10,6 +10,7 @@ import HomeCard from "../components/HomeCard";
 import { logoutUser } from "../redux/slices/userSlice";
 import { logout } from "../utils/api";
 import { HOME_CARDS } from "../utils/consts";
+import { homeVariants } from "../utils/animations";
 
 function Home() {
   // Get user from Redux state
@@ -42,12 +43,9 @@ function Home() {
         <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center overflow-hidden px-3">
           {/* Welcome message and logo */}
           <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{
-              duration: 0.4,
-              scale: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
-            }}
+            initial="initial"
+            animate="animate"
+            variants={homeVariants}
             className="text-center mb-4"
           >
             <img
@@ -68,12 +66,9 @@ function Home() {
           {/* Cards with actions (upload, chat, history...) */}
           <motion.div
             layout
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{
-              duration: 0.4,
-              scale: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
-            }}
+            initial="initial"
+            animate="animate"
+            variants={homeVariants}
             className="w-100"
             style={{ maxHeight: "40vh", overflowY: "auto" }}
           >
@@ -88,12 +83,9 @@ function Home() {
         {/* Footer */}
         <motion.div
           layout
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{
-            duration: 0.4,
-            scale: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
-          }}
+          initial="initial"
+          animate="animate"
+          variants={homeVariants}
           className="text-center p-3"
         >
           <p className="text-secondary m-0 text-center">

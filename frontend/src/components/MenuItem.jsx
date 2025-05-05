@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { menuItemVariants } from "../utils/animations";
 
 // MenuItem represents a single item in the sidebar navigation menu
 const MenuItem = ({ path, icon, label, active, setActive }) => {
@@ -11,13 +12,7 @@ const MenuItem = ({ path, icon, label, active, setActive }) => {
         <motion.div
           layoutId="activeIndicator" // Shared layout ID for smooth animation
           className="active rounded-4" // Custom class for styling the indicator
-          initial={{ opacity: 0 }} // Animation: fade-in
-          animate={{ opacity: 1 }}
-          transition={{
-            type: "spring",
-            stiffness: 300,
-            damping: 30,
-          }}
+          variants={menuItemVariants}
         />
       )}
 
