@@ -8,33 +8,38 @@ use App\Http\Controllers\LLMController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 
+// Group all routes under the "v1" prefix (versioning for API routes)
 Route::prefix('v1')->group(function () {
-    // Rutas para autenticación
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/logout', [AuthController::class, 'logout']);
+    // Routes for authentication
+    Route::post('/register', [AuthController::class, 'register']); // Register a new user
+    Route::post('/login', [AuthController::class, 'login']); // User login
+    Route::post('/logout', [AuthController::class, 'logout']); // User logout
 
 
-    // Rutas protegidas por Sanctum
+    // Protected routes that require Sanctum authentication middleware
     Route::middleware('auth:sanctum')->group(function () {
+        // Retrieve the currently authenticated user
         Route::get('/user', [AuthController::class, 'user']);
 
-        Route::get('/documents', [FileController::class, 'index']);
-        Route::get('/documents/{id}', [FileController::class, 'getFilesByUserId']);
-        Route::get('/documents/show/{id}', [FileController::class, 'show']);
-        Route::post('/documents/upload', [FileController::class, 'upload']);
-        Route::delete('/documents/delete/{id}', [FileController::class, 'delete']);
+        // Routes related to documents
+        Route::get('/documents', [FileController::class, 'index']); // List all documents
+        Route::get('/documents/{id}', [FileController::class, 'getFilesByUserId']); // Get documents by user ID
+        Route::get('/documents/show/{id}', [FileController::class, 'show']); // Show a specific document
+        Route::post('/documents/upload', [FileController::class, 'upload']); // Upload a new document
+        Route::delete('/documents/delete/{id}', [FileController::class, 'delete']); // Delete a document
 
-        Route::get('/chunks', [ChunkController::class, 'index']);
-        Route::get('/chunks/{id}', [ChunkController::class, 'show']);
-        Route::post('/get-chunks', [LLMController::class, 'findRelevantChunks']);
+        // Routes related to chunks (text parts from documents)
+        Route::get('/chunks', [ChunkController::class, 'index']); // List all chunks
+        Route::get('/chunks/{id}', [ChunkController::class, 'show']); // Show a specific chunk
+        Route::post('/get-chunks', [LLMController::class, 'findRelevantChunks']); // Get relevant chunks based on a question
 
-        Route::get('/messages', [MessageController::class, 'index']);
-        Route::get('/messages/{id}', [MessageController::class, 'getMessagesByUserId']);
-        Route::post('/messages', [MessageController::class, 'store']);
+        // Routes related to messages
+        Route::get('/messages', [MessageController::class, 'index']); // List all messages
+        Route::get('/messages/{id}', [MessageController::class, 'getMessagesByUserId']); // Get messages by user ID
+        Route::post('/messages', [MessageController::class, 'store']); // Store new messages
 
-        Route::delete('/history/delete/{date}', [MessageController::class, 'deleteByDate']);
-        Route::post('/ask', [ChatController::class, 'ask']);
-
+        // Additional routes for message history and chat
+        Route::delete('/history/delete/{date}', [MessageController::class, 'deleteByDate']); // Delete messages by date
+        Route::post('/ask', [ChatController::class, 'ask']); // Handle chat questions
     });
 });
