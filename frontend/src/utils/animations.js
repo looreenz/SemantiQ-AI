@@ -4,12 +4,12 @@ export const pageVariants = {
   animate: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5 } // Smooth entrance animation
+    transition: { duration: 0.5 }, // Smooth entrance animation
   },
   exit: {
     opacity: 0,
     y: -50,
-    transition: { duration: 0.3 } // Exit upwards with fade out
+    transition: { duration: 0.3 }, // Exit upwards with fade out
   },
 };
 
@@ -19,11 +19,11 @@ export const homeVariants = {
   animate: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.6 } // Zoom-in with fade-in effect
+    transition: { duration: 0.6 }, // Zoom-in with fade-in effect
   },
   exit: {
     opacity: 0,
     y: -50,
-    transition: { duration: 0.3 } // Exit with upward motion and fade
+    transition: { duration: 0.3 }, // Exit with upward motion and fade
   },
 };

@@ -117,7 +117,11 @@ export const postData = async (endpoint, data, isFile = false) => {
   } catch (error) {
     console.error("❌ postData error:", error);
     if (error.response) {
-      console.error("⚠️ Server response:", error.response.status, error.response.data);
+      console.error(
+        "⚠️ Server response:",
+        error.response.status,
+        error.response.data
+      );
     } else {
       console.error("🚨 No response from server:", error.message);
     }
