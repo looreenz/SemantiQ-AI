@@ -10,9 +10,6 @@ function Consent() {
     const hasSeenBanner = localStorage.getItem("cookies_seen");
     const hasAccepted = localStorage.getItem("cookies_accepted") === "true";
 
-    console.log("hasSeenBanner:", hasSeenBanner);
-    console.log("hasAccepted:", hasAccepted);
-
     setAccepted(hasAccepted);
     if (!hasSeenBanner) {
       setVisible(true); // Show banner if user hasn't seen it
