@@ -84,7 +84,7 @@ class FileController extends Controller
         return $content;
     }
 
-    function normalizeText($text) {
+    private function normalizeText($text) {
         // Convertir a minúsculas
         $text = mb_strtolower($text, 'UTF-8');
         
@@ -95,7 +95,7 @@ class FileController extends Controller
         return trim($text);
     }
 
-    function splitText($text, $chunkSize = 500, $overlap = 100) {
+    private function splitText($text, $chunkSize = 500, $overlap = 100) {
         $chunks = [];
         $length = mb_strlen($text, 'UTF-8');
     
