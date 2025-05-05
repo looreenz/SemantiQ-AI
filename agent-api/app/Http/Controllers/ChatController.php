@@ -8,16 +8,20 @@ use Illuminate\Support\Facades\Http;
 class ChatController extends Controller
 {
 
+    // Main method to handle incoming chat questions
     public function ask(Request $request)
     {
+        // Validate input request
         $request->validate([
             'model' => 'required|string',
             'question' => 'required|string',
             'context' => 'array'
         ]);
 
+        // Join the context array into a single string
         $context = implode("\n", $request->context);
 
+        // Define the prompt template to instruct the model
         $prompt = "
     Si la pregunta contiene un saludo (como 'Hola', 'Buenos días', 'Qué tal', 'Buenas tardes') o una despedida (como 'Adiós', 'Hasta luego', 'Nos vemos'), 
     responde apropiadamente con un saludo o despedida. 
@@ -26,22 +30,25 @@ class ChatController extends Controller
     Contexto: {$context}\n
     Pregunta: {$request->question}";
 
-        // Inicialización
+        // Initialize response variables
         $data = [];
         $source = $request->model;
         $content = '';
         $reasoning = null;
 
-        // Obtener la respuesta
+        // Choose which model to use: local or GPT
         switch ($source) {
             case 'local':
+                // Call local model (e.g., Ollama/DeepSeek)
                 $data = $this->askLocal($prompt);
                 if (!isset($data['error'])) {
+                    // Extract thinking and response if no error
                     [$reasoning, $content] = $this->extractReasoningAndResponse($data['response']);
                 }
                 break;
 
             case 'gpt':
+                // Call OpenAI's GPT model
                 $data = $this->askGpt($prompt);
                 if (!isset($data['error'])) {
                     $content = $data['choices'][0]['message']['content'];
@@ -49,15 +56,16 @@ class ChatController extends Controller
                 break;
 
             default:
+                // Unknown model
                 return response()->json(['error' => 'Modelo no reconocido'], 400);
         }
 
-        // Si hay error, responderlo
+        // Handle errors from model calls
         if (isset($data['error'])) {
             return response()->json(['error' => $data['error']], 500);
         }
 
-        // Si todo fue bien, devolver en formato unificado
+        // Return the unified response
         return response()->json([
             'content' => $content,
             'reasoning' => $reasoning,
@@ -65,11 +73,13 @@ class ChatController extends Controller
         ]);
     }
 
+    // Method to send prompt to OpenAI GPT
     public function askGpt($prompt)
     {
         $OPENAI_API_KEY = env('OPENAI_API_KEY');
 
         try {
+            // Make request to OpenAI API
             $response = Http::withToken($OPENAI_API_KEY)->post('https://api.openai.com/v1/chat/completions', [
                 'model' => 'gpt-4o-mini',
                 'messages' => [
@@ -78,6 +88,7 @@ class ChatController extends Controller
                 ],
             ]);
 
+            // Handle HTTP failure
             if ($response->failed()) {
                 \Log::error('ChatGPT API Error:', [
                     'status' => $response->status(),
@@ -87,8 +98,9 @@ class ChatController extends Controller
                 return ['error' => 'Error al consultar ChatGPT'];
             }
 
-            return $response->json(); // ← Devuelve solo array
+            return $response->json(); // Return JSON response as array
         } catch (\Exception $e) {
+            // Catch and log exception
             \Log::error('Error en la solicitud a OpenAI:', [
                 'message' => $e->getMessage(),
                 'stack' => $e->getTraceAsString(),
@@ -98,15 +110,18 @@ class ChatController extends Controller
         }
     }
 
+    // Method to send prompt to local model via HTTP (e.g., Ollama or similar)
     public function askLocal($prompt)
     {
         try {
+            // POST to local AI endpoint
             $response = Http::timeout(3600)->post('http://linux:11434/api/generate', [
                 'model' => 'deepseek-r1',
                 'prompt' => $prompt,
                 'stream' => false
             ]);
 
+            // Handle HTTP failure
             if ($response->failed()) {
                 \Log::error('Ollama API Error:', [
                     'status' => $response->status(),
@@ -116,8 +131,9 @@ class ChatController extends Controller
                 return ['error' => 'Error al consultar DeepSeek'];
             }
 
-            return $response->json(); // ← Devuelve solo array
+            return $response->json(); // Return JSON response as array
         } catch (\Exception $e) {
+            // Catch and log exception
             \Log::error('Error en la solicitud a Ollama:', [
                 'message' => $e->getMessage(),
                 'stack' => $e->getTraceAsString(),
@@ -127,13 +143,15 @@ class ChatController extends Controller
         }
     }
 
+    // Helper function to extract <think>...</think> from local model response
     private function extractReasoningAndResponse($text)
     {
         $reasoning = null;
 
+        // Use regex to find <think> block
         if (preg_match('/<think>(.*?)<\/think>/s', $text, $matches)) {
             $reasoning = trim($matches[1]);
-            // Quitamos el <think>...</think> del texto
+            // Remove <think> block from response text
             $text = preg_replace('/<think>.*?<\/think>/s', '', $text);
         }
 

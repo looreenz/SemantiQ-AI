@@ -10,28 +10,28 @@ use Smalot\PdfParser\Parser;
 
 class FileController extends Controller
 {
-    // Subir un archivo
+    // Upload a file and extract its contents
     public function upload(Request $request)
     {
-        // Validar el archivo
+        // Validate incoming file and parameters
         $request->validate([
-            'document' => 'required|file|max:5120', // 5MB
+            'document' => 'required|file|max:5120', // Limit file size to 5MB
             'id' => 'required|uuid',
             'user_id' => 'required|uuid',
         ]);
 
-        // Verificar que se haya subido un archivo
+        // Check if a valid file is uploaded
         if ($request->hasFile('document') && $request->file('document')->isValid()) {
             $document = $request->file('document');
             $path = $document->store('documents', 'public');
             $url = asset('storage/documents/' . $document->getClientOriginalName());
 
-            // Verificar si el archivo fue almacenado correctamente
+            // If storing failed, return an error
             if (!$url) {
                 return response()->json(['message' => 'Failed to store file.'], 500);
             }
 
-            // Crear el registro en la base de datos con el path
+            // Save file metadata to database
             $file = File::create([
                 'id' => $request->id,
                 'name' => $document->getClientOriginalName(),
@@ -41,17 +41,19 @@ class FileController extends Controller
                 'user_id' => $request->user_id
             ]);
 
+            // Extract and clean file content
             $content = $this->extractContent($document);
             $content = $this->normalizeText($content);
             $this->storeChunks($file->id, $content);
 
-            // Devolver la respuesta exitosa con el archivo guardado
+            // Return success response with file info
             return response()->json(['message' => 'File uploaded successfully.', 'file' => $file], 201);
         } else {
             return response()->json(['message' => 'No file uploaded or file is invalid.'], 400);
         }
     }
 
+    // Extracts text content from PDF or TXT
     private function extractContent($document)
     {
         $extension = $document->getClientOriginalExtension();
@@ -62,51 +64,56 @@ class FileController extends Controller
                 case 'pdf':
                     $parser = new Parser();
                     $pdf = $parser->parseFile($document->getPathname());
-                    if (!$pdf) throw new \Exception("No se pudo analizar el PDF.");
+                    if (!$pdf)
+                        throw new \Exception("Could not parse PDF.");
                     $content = $pdf->getText();
-                    if (empty($content)) throw new \Exception("El PDF no contiene texto extraíble.");
+                    if (empty($content))
+                        throw new \Exception("PDF contains no extractable text.");
                     break;
 
                 case 'txt':
                     $content = file_get_contents($document->getPathname());
                     if ($content === false) {
-                        throw new \Exception("No se pudo leer el archivo TXT.");
+                        throw new \Exception("Could not read TXT file.");
                     }
                     break;
 
                 default:
-                    throw new \Exception("Formato no soportado.");
+                    throw new \Exception("Unsupported file format.");
             }
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Error al extraer contenido: ' . $e->getMessage()], 500);
+            // Return error if content extraction fails
+            return response()->json(['message' => 'Error extracting content: ' . $e->getMessage()], 500);
         }
 
         return $content;
     }
 
-    private function normalizeText($text) {
-        // Convertir a minúsculas
-        $text = mb_strtolower($text, 'UTF-8');
-        
-        // Eliminar caracteres especiales y múltiples espacios
-        $text = preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $text);
-        $text = preg_replace('/\s+/', ' ', $text);
-    
+    // Normalize extracted text for consistency
+    private function normalizeText($text)
+    {
+        $text = mb_strtolower($text, 'UTF-8'); // Convert to lowercase
+        $text = preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $text); // Remove special characters
+        $text = preg_replace('/\s+/', ' ', $text); // Collapse multiple spaces
+
         return trim($text);
     }
 
-    private function splitText($text, $chunkSize = 500, $overlap = 100) {
+    // Split long text into chunks of defined size with overlap
+    private function splitText($text, $chunkSize = 500, $overlap = 100)
+    {
         $chunks = [];
         $length = mb_strlen($text, 'UTF-8');
-    
+
         for ($i = 0; $i < $length; $i += ($chunkSize - $overlap)) {
             $chunk = mb_substr($text, $i, $chunkSize, 'UTF-8');
             $chunks[] = $chunk;
         }
-        
+
         return $chunks;
     }
 
+    // Store content chunks in the database
     private function storeChunks($fileId, $content)
     {
         $chunks = $this->splitText($content);
@@ -120,13 +127,14 @@ class FileController extends Controller
         }
     }
 
-    // Descargar un archivo
+    // Retrieve a single file by ID
     public function show($id)
     {
         $file = File::findOrFail($id);
         return response()->json($file);
     }
 
+    // Delete a file and its related chunks
     public function delete($id)
     {
         $file = File::findOrFail($id);
@@ -136,16 +144,17 @@ class FileController extends Controller
         return response()->json(['message' => 'File and associated content deleted successfully.']);
     }
 
-    // Listar archivos subidos
+    // List all uploaded files
     public function index()
     {
         return response()->json(File::all());
     }
 
+    // Get all files belonging to a specific user
     public function getFilesByUserId($id)
     {
         if (!$id) {
-            return response()->json(['error' => 'El id es requerido'], 400);
+            return response()->json(['error' => 'ID is required'], 400);
         }
 
         $files = File::where('user_id', $id)->get();
