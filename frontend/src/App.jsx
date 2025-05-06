@@ -22,7 +22,6 @@ function App() {
   // Routes that require authentication
   const protectedRoutes = [
     { path: "/", element: <Home /> },
-    { path: "/home", element: <Home /> },
     { path: "/chat", element: <Chat /> },
     { path: "/documents", element: <Documents /> },
     { path: "/history", element: <History /> },
