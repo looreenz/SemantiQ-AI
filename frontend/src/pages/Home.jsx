@@ -33,7 +33,7 @@ function Home() {
         description="SemantiQ AI es una plataforma inteligente para analizar y consultar documentos mediante inteligencia artificial."
       />
 
-      <Container fluid className="d-flex flex-column">
+      <Container fluid className="d-flex flex-column min-vh-100">
         {/* Top navigation bar */}
         <div className="py-3 d-flex justify-content-end align-items-center px-3">
           <UserDropdown currentUser={currentUser} onLogout={handleLogout} />
