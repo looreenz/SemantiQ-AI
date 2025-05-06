@@ -33,7 +33,7 @@ function Home() {
         description="SemantiQ AI es una plataforma inteligente para analizar y consultar documentos mediante inteligencia artificial."
       />
 
-      <Container fluid className="d-flex flex-column vh-100 overflow-hidden">
+      <Container fluid className="d-flex flex-column">
         {/* Top navigation bar */}
         <div className="py-3 d-flex justify-content-end align-items-center px-3">
           <UserDropdown currentUser={currentUser} onLogout={handleLogout} />
@@ -70,7 +70,6 @@ function Home() {
             animate="animate"
             variants={homeVariants}
             className="w-100"
-            style={{ maxHeight: "40vh", overflowY: "auto" }}
           >
             <div className="row g-3 w-100 w-xxl-50 mx-auto text-center text-md-start">
               {HOME_CARDS.map((card, idx) => (
