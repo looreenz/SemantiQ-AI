@@ -17,9 +17,9 @@ import LoginSuccess from "./components/LoginSuccess";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const location = useLocation(); // Track current route
+  const location = useLocation();
 
-  // Routes that require authentication
+  // Define routes in a separate object for clarity
   const protectedRoutes = [
     { path: "/", element: <Home /> },
     { path: "/chat", element: <Chat /> },
@@ -29,52 +29,45 @@ function App() {
     { path: "/terms", element: <Terms /> },
   ];
 
-  return (
-    <Container fluid>
-      {/* Show minimal layout for auth-related pages */}
-      {location.pathname === "/login" ||
-      location.pathname === "/register" ||
-      location.pathname === "/login-success" ? (
+  const renderAuthRoutes = () => (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/login-success" element={<LoginSuccess />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="*" element={<Error404 />} />
+    </Routes>
+  );
+
+  const renderMainContent = () => (
+    <div className="row">
+      {location.pathname !== "/" && (
+        <Aside role="complementary" aria-label="Barra lateral de navegación" />
+      )}
+      <div
+        className={`col-12 ${
+          location.pathname === "/" ? "" : "col-xl-10 vh-100 overflow-auto"
+        }`}
+        role="main"
+      >
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/login-success" element={<LoginSuccess />} />
-          <Route path="/register" element={<Register />} />
+          {protectedRoutes.map(({ path, element }) => (
+            <Route
+              key={path}
+              path={path}
+              element={<ProtectedRoute>{element}</ProtectedRoute>}
+            />
+          ))}
           <Route path="*" element={<Error404 />} />
         </Routes>
-      ) : (
-        <div className="row">
-          {/* Show sidebar only if not on root path ("/") */}
-          {location.pathname !== "/" && (
-            <Aside
-              role="complementary"
-              aria-label="Barra lateral de navegación"
-            />
-          )}
+      </div>
+    </div>
+  );
 
-          {/* Main content area */}
-          <div
-            className={
-              location.pathname === "/"
-                ? "col-12"
-                : "col-12 col-xl-10 vh-100 overflow-auto"
-            }
-            role="main"
-          >
-            <Routes>
-              {protectedRoutes.map(({ path, element }) => (
-                <Route
-                  key={path}
-                  path={path}
-                  element={<ProtectedRoute>{element}</ProtectedRoute>}
-                />
-              ))}
-              <Route path="*" element={<Error404 />} />
-            </Routes>
-          </div>
-        </div>
-      )}
-
-      {/* Cookie consent component */}
+  return (
+    <Container fluid>
+      {["/login", "/register", "/login-success"].includes(location.pathname)
+        ? renderAuthRoutes()
+        : renderMainContent()}
       <Consent />
     </Container>
   );
