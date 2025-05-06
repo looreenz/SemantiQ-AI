@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import "bootstrap-icons/font/bootstrap-icons.css";
+
 :root {
   --color-primary: #222;
   --color-secondary: #8b5cf6;
@@ -286,23 +287,6 @@ form,
 .message-user {
   max-width: 75%;
   background-color: var(--color-message) !important;
-}
-
-.message-user > span:first-child {
-  color: #888 !important;
-}
-
-.message-agent > span:first-child {
-  width: fit-content;
-  background: linear-gradient(
-    to right,
-    var(--color-secondary) 29%,
-    var(--color-accent)
-  ) !important;
-  background-clip: text !important;
-  -webkit-background-clip: text !important;
-  text-fill-color: transparent;
-  -webkit-text-fill-color: transparent;
 }
 
 .send-button:hover {
