@@ -38,3 +38,17 @@ export const menuItemVariants = {
     }
   },
 }
+
+// Animation variants for forms transitions
+export const formVariants = {
+  initial: { opacity: 0, x: -100 },
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 30
+    }
+  },
+}

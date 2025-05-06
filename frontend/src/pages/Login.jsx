@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import SEO from "../components/SEO";
 
 import { login } from "../utils/api";
+import { formVariants } from "../utils/animations";
 import { setUser } from "../redux/slices/userSlice";
 
 // Yup validation schema for login form
@@ -64,9 +65,9 @@ function Login() {
           <Col xs={12} md={6} xxl={4}>
             {/* Animated card container */}
             <motion.div
-              initial={{ opacity: 0, x: -100 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              initial="initial"
+              animate="animate"
+              variants={formVariants}
             >
               {/* Logo */}
               <div className="text-center mb-4">

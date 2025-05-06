@@ -10,6 +10,7 @@ import SEO from "../components/SEO";
 
 import { register } from "../utils/api";
 import { setUser } from "../redux/slices/userSlice";
+import { formVariants } from "../utils/animations";
 
 // Form validation schema using Yup
 const RegisterSchema = Yup.object({
@@ -65,9 +66,9 @@ function Register() {
           <Col xs={12} md={6} xxl={4}>
             {/* Animated entrance */}
             <motion.div
-              initial={{ opacity: 0, x: -100 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              initial="initial"
+              animate="animate"
+              variants={formVariants}
             >
               {/* Logo */}
               <div className="text-center mb-4">
