@@ -172,9 +172,9 @@ const Chat = () => {
                 aria-label="Selecciona el modelo"
               >
                 <option value="gpt">ChatGPT</option>
-                <option value="claude">Claude</option>
-                <option value="gemini">Gemini</option>
-                <option value="local">Modelo Local</option>
+                <option value="claude" disabled>Claude (Próx.)</option>
+                <option value="gemini" disabled>Gemini (Próx.)</option>
+                <option value="local" disabled>Modelo Local (Pro)</option>
               </Form.Select>
               <i
                 className="bi bi-chevron-down custom-select-icon"
