@@ -54,7 +54,7 @@ const UserDropdown = ({ currentUser, setActive = () => {}, onLogout }) => {
             <Link
               to="https://github.com/looreenz/SemantiQ-AI"
               target="_blank"
-              className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex w-100 align-items-center justfy-content-between"
+              className="dropdown-item bg-message p-0 text-decoration-none text-white hover-underline-purple d-flex gap-2 align-items-center justfy-content-between"
             >
               <span>
                 <i className="bi bi-github px-1" aria-hidden="true"></i>
@@ -74,6 +74,17 @@ const UserDropdown = ({ currentUser, setActive = () => {}, onLogout }) => {
               Cerrar sesión
             </Link>
           </li>
+
+          {/* Trigger delete account confirmation modal */}
+          {/* <li className="p-2">
+            <Link
+              onClick={() => setShowModal(true)}
+              className="dropdown-item bg-message p-0 text-decoration-none text-danger hover-underline-purple d-flex align-items-center"
+            >
+              <i className="bi bi-trash px-1 text-danger" aria-hidden="true"></i>
+              Eliminar cuenta
+            </Link>
+          </li> */}
         </ul>
       </div>
 
