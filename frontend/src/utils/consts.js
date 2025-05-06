@@ -139,24 +139,24 @@ export const MENU_ITEMS = [
 // ------------------------
 export const CHART_CONFIG = [
     {
-      id: "docsChart",
-      title: "Documentos por Formato",
-      dataKey: "docs",
-      valueKey: "count",
-      colSize: 6,
+        id: "docsChart",
+        title: "Documentos por Formato",
+        dataKey: "docs",
+        valueKey: "count",
+        colSize: 6,
     },
     {
-      id: "messagesChart",
-      title: "Mensajes por Día (Últimos 5 días)",
-      dataKey: "messages",
-      valueKey: "count",
-      colSize: 6,
+        id: "messagesChart",
+        title: "Mensajes por Día (Últimos 5 días)",
+        dataKey: "messages",
+        valueKey: "count",
+        colSize: 6,
     },
     {
-      id: "sizeChart",
-      title: "Tamaño Promedio por Formato (KB)",
-      dataKey: "size",
-      valueKey: "avgSize",
-      colSize: 12,
+        id: "sizeChart",
+        title: "Tamaño Promedio por Formato (KB)",
+        dataKey: "size",
+        valueKey: "avgSize",
+        colSize: 12,
     },
-  ];
+];
