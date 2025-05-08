@@ -10,11 +10,11 @@ function Terms() {
   return (
     <Container>
       {/* SEO metadata for better visibility */}
-      <SEO
+      {/* <SEO
         title="Términos y condiciones"
         description="Lee los términos y condiciones de uso de SemantiQ AI."
         endpoint="terms"
-      />
+      /> */}
 
       {/* Page title header */}
       <Header title="Términos y condiciones" />

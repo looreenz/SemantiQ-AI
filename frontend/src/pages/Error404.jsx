@@ -10,11 +10,11 @@ function Error404() {
       role="main"
     >
       {/* SEO meta tag configuration to prevent indexing */}
-      <SEO
+      {/* <SEO
         title="Página no encontrada"
         description="La página que buscas no existe."
         noIndex
-      />
+      /> */}
 
       {/* Project logo */}
       <img src="/logoPrimary.svg" alt="Logo SemantiQ AI" aria-hidden />

@@ -100,11 +100,11 @@ function Documents() {
 
   return (
     <Container>
-      <SEO
+      {/* <SEO
         title="Documentos"
         description="Gestiona tus documentos."
         endpoint="documents"
-      />
+      /> */}
       <Header title="Documentos" />
 
       {/* Upload button */}

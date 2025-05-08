@@ -56,10 +56,10 @@ function Register() {
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100 bg-grey">
       {/* Page metadata */}
-      <SEO
+      {/* <SEO
         title="Registro de usuario"
         description="Crea tu cuenta en SemantiQ AI."
-      />
+      /> */}
 
       <Container>
         <Row className="justify-content-center">

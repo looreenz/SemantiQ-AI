@@ -101,11 +101,11 @@ function Stats() {
 
   return (
     <Container fluid>
-      <SEO
+      {/* <SEO
         title="Estadísticas"
         description="Métricas sobre tus documentos y consultas."
         endpoint="stats"
-      />
+      /> */}
       <Header title="Estadísticas" />
 
       {/* Statistics dashboard */}

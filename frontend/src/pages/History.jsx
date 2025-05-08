@@ -83,11 +83,11 @@ function History() {
 
   return (
     <Container>
-      <SEO
+      {/* <SEO
         title="Historial"
         description="Revisa tus consultas anteriores."
         endpoint="history"
-      />
+      /> */}
       <Header title="Historial" />
 
       {/* If no messages */}

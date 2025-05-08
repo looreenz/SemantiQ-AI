@@ -28,10 +28,10 @@ function Home() {
   return (
     <>
       {/* SEO metadata */}
-      <SEO
+      {/* <SEO
         title="Inicio"
         description="SemantiQ AI es una plataforma inteligente para analizar y consultar documentos mediante inteligencia artificial."
-      />
+      /> */}
 
       <Container fluid className="d-flex flex-column min-vh-100">
         {/* Top navigation bar */}

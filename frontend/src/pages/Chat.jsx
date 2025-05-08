@@ -117,11 +117,11 @@ const Chat = () => {
 
   return (
     <Container fluid className="d-flex flex-column min-vh-100">
-      <SEO
+      {/* <SEO
         title="Chat"
         description="Haz preguntas en lenguaje natural..."
         endpoint="chat"
-      />
+      /> */}
       <Header title="Chat" />
 
       {/* Chat messages area */}
