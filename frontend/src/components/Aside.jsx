@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,13 +16,22 @@ function Aside() {
 
   // State to track current active path and mobile menu toggle
   const [active, setActive] = useState(location.pathname);
-  const [menuOpen, setMenuOpen] = useState(false);
   const currentUser = useSelector((state) => state.user.user);
 
-  // Close menu when location changes
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [location.pathname]);
+  const collapseRef = useRef(null);
+
+  const closeMobileMenu = () => {
+    if (!collapseRef.current) return;
+
+    const collapseEl = collapseRef.current;
+    const bsCollapse =
+      window.bootstrap?.Collapse.getInstance(collapseEl) ||
+      new window.bootstrap.Collapse(collapseEl, { toggle: false });
+
+    if (bsCollapse && collapseEl.classList.contains("show")) {
+      bsCollapse.hide();
+    }
+  };
 
   // Handle logout: call API, update state, redirect
   function handleLogout() {
@@ -30,7 +39,13 @@ function Aside() {
     dispatch(logoutUser()); // Redux: clear user state
     setActive("/chat"); // Reset active item
     navigate("/login"); // Redirect to login
+    closeMobileMenu(); // Close mobile menu if open
   }
+
+  const handleMenuItemClick = (path) => {
+    setActive(path);
+    closeMobileMenu();
+  };
 
   return (
     <div className="col-12 col-xl-2 overflow-hidden z-3">
@@ -59,18 +74,10 @@ function Aside() {
               data-bs-toggle="collapse"
               data-bs-target="#navbarToggleExternalContent"
               aria-controls="navbarToggleExternalContent"
-              aria-expanded={menuOpen}
+              aria-expanded="false"
               aria-label="Toggle navigation"
-              onClick={() => setMenuOpen(!menuOpen)}
             >
-              <span
-                className={`toggler-line ${menuOpen ? "open top" : ""}`}
-                aria-hidden="true"
-              ></span>
-              <span
-                className={`toggler-line ${menuOpen ? "open bottom" : ""}`}
-                aria-hidden="true"
-              ></span>
+              <span className="navbar-toggler-icon"></span>
             </button>
           </div>
         </nav>
@@ -78,13 +85,13 @@ function Aside() {
 
       {/* Navigation menu */}
       <nav
-        className="collapse d-xl-block w-100 w-xxl-75"
+        ref={collapseRef}
+        className="collapse navbar-collapse d-xl-block w-100 w-xxl-75"
         id="navbarToggleExternalContent"
       >
         <ul className="list-group list-group-flush">
           {currentUser ? (
             <>
-              {/* Menu items for authenticated users */}
               {MENU_ITEMS.map((item) => (
                 <MenuItem
                   key={item.path}
@@ -92,27 +99,35 @@ function Aside() {
                   icon={item.icon}
                   label={item.label}
                   active={active}
-                  setActive={setActive}
+                  setActive={(p) => {
+                    setActive(p);
+                    closeMobileMenu();
+                  }}
+                  onClick={() => handleMenuItemClick(item.path)}
                 />
               ))}
-
-              {/* User dropdown with logout option */}
               <li className="p-2">
                 <UserDropdown
                   currentUser={currentUser}
-                  setActive={setActive}
+                  setActive={(p) => {
+                    setActive(p);
+                    closeMobileMenu();
+                  }}
                   onLogout={handleLogout}
                 />
               </li>
             </>
           ) : (
-            // Menu for guests (only login available)
             <MenuItem
               path="/login"
               icon="bi bi-box-arrow-in-right"
               label="Iniciar sesión"
               active={active}
-              setActive={setActive}
+              setActive={(p) => {
+                setActive(p);
+                closeMobileMenu();
+              }}
+              onClick={() => handleMenuItemClick("/login")}
             />
           )}
         </ul>
