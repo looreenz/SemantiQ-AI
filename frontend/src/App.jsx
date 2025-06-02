@@ -26,7 +26,7 @@ function App() {
     { path: "/documents", element: <Documents /> },
     { path: "/history", element: <History /> },
     { path: "/stats", element: <Stats /> },
-    { path: "/terms", element: <Terms /> },
+    // { path: "/terms", element: <Terms /> },
   ];
 
   const renderAuthRoutes = () => (
@@ -57,6 +57,7 @@ function App() {
               element={<ProtectedRoute>{element}</ProtectedRoute>}
             />
           ))}
+          <Route path="/terms" element={<Terms />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
       </div>
