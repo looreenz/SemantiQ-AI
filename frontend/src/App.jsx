@@ -12,7 +12,6 @@ import Terms from "./pages/Terms";
 import Error404 from "./pages/Error404";
 
 import Aside from "./components/Aside";
-import Consent from "./components/Consent";
 import LoginSuccess from "./components/LoginSuccess";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -69,7 +68,6 @@ function App() {
       {["/login", "/register", "/login-success"].includes(location.pathname)
         ? renderAuthRoutes()
         : renderMainContent()}
-      <Consent />
     </Container>
   );
 }
