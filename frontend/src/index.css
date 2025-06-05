@@ -30,6 +30,17 @@ small {
   color: var(--color-secondary);
 }
 
+.check-purple:checked {
+  background-color: var(--color-secondary) !important;
+  border-color: var(--color-secondary) !important;
+}
+
+.check-purple:focus,
+.check-purple:focus-visible {
+  outline: none; /* Elimina el borde */
+  box-shadow: none; /* Evita cualquier sombra */
+}
+
 .table {
   border-color: var(--color-secondary);
 }

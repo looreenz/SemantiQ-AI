@@ -14,8 +14,13 @@ import { setUser } from "../redux/slices/userSlice";
 
 // Yup validation schema for login form
 const LoginSchema = Yup.object({
-  email: Yup.string().email("Correo inválido").required("Campo obligatorio"),
-  password: Yup.string().min(6).max(20).required("Campo obligatorio"),
+  email: Yup.string()
+    .email("Introduce un correo electrónico válido")
+    .required("El correo electrónico es obligatorio"),
+  password: Yup.string()
+    .min(6, "La contraseña debe tener al menos 6 caracteres")
+    .max(20, "La contraseña no puede superar los 20 caracteres")
+    .required("La contraseña es obligatoria"),
 });
 
 function Login() {
@@ -37,14 +42,31 @@ function Login() {
   const onSubmit = useCallback(
     async ({ email, password }) => {
       setLoading(true);
+      setError("");
       try {
         const { status, data } = await login(email, password);
         if (status === 200) {
           dispatch(setUser(data)); // Store user in Redux
           navigate("/"); // Go to home
+        } else {
+          setError("Error desconocido. Intenta de nuevo más tarde.");
         }
-      } catch {
-        setError("Credenciales incorrectas."); // Show error message
+      } catch (err) {
+        if (err?.response?.status === 401) {
+          setError("Correo o contraseña incorrectos.");
+        } else if (err?.response?.status === 429) {
+          setError(
+            "Demasiados intentos. Espera un momento e inténtalo de nuevo."
+          );
+        } else if (err?.response?.status === 500) {
+          setError("Error del servidor. Intenta más tarde.");
+        } else if (err?.message === "Network Error") {
+          setError(
+            "No se pudo conectar con el servidor. Revisa tu conexión a internet."
+          );
+        } else {
+          setError("Ocurrió un error inesperado. Intenta de nuevo.");
+        }
       } finally {
         setLoading(false);
       }
