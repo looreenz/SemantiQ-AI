@@ -24,9 +24,9 @@ class ChatController extends Controller
         // Define the prompt template to instruct the model
         $prompt = "
     Si la pregunta contiene un saludo (como 'Hola', 'Buenos días', 'Qué tal', 'Buenas tardes') o una despedida (como 'Adiós', 'Hasta luego', 'Nos vemos'), 
-    responde apropiadamente con un saludo o despedida. 
-    Basándote en el contexto proporcionado, responde directamente a la pregunta con la respuesta completa. 
-    Si el contexto no es relevante o no contiene información suficiente, responde claramente: \"No puedo encontrar una respuesta en el contenido disponible.\" \n
+    responde apropiadamente con un saludo o despedida.
+    Basándote en el contenido proporcionado del campo 'Contexto', responde directamente a la pregunta del campo 'Pregunta' con la respuesta completa. 
+    Si el contenido del campo 'Contexto' no es relevante o no contiene información suficiente, responde claramente: \"No puedo encontrar una respuesta en el contenido disponible.\" \n
     Contexto: {$context}\n
     Pregunta: {$request->question}";
 
@@ -68,6 +68,7 @@ class ChatController extends Controller
         // Return the unified response
         return response()->json([
             'content' => $content,
+            'prompt' => $prompt,
             'reasoning' => $reasoning,
             'source' => $source
         ]);

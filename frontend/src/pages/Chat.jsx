@@ -57,6 +57,7 @@ const Chat = () => {
     try {
       const { relevantChunks } = await postData("get-chunks", {
         question: text,
+        user_id: currentUser.id,
       });
       return relevantChunks || "";
     } catch (err) {
