@@ -15,7 +15,7 @@ class FileController extends Controller
     {
         // Validate incoming file and parameters
         $request->validate([
-            'document' => 'required|file|max:5120', // Limit file size to 5MB
+            'document' => 'required|file|mimes:pdf,txt|max:5120', // Limit file size to 5MB
             'id' => 'required|uuid',
             'user_id' => 'required|uuid',
         ]);

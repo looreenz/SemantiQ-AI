@@ -46,6 +46,11 @@ function Documents() {
     fetchData();
   }, [fetchData]);
 
+  const isValidFile = (file) => {
+    const allowedTypes = ["application/pdf", "text/plain"];
+    return file && allowedTypes.includes(file.type);
+  };
+
   // Upload document to the backend
   const uploadFile = useCallback(async () => {
     setFileLoading(true);
@@ -229,7 +234,11 @@ function Documents() {
           </div>
 
           {/* Pagination controls */}
-          <PaginationControls page={page} totalPages={totalPages} setPage={setPage} />
+          <PaginationControls
+            page={page}
+            totalPages={totalPages}
+            setPage={setPage}
+          />
         </>
       )}
 
@@ -252,10 +261,25 @@ function Documents() {
                 <Form.Control
                   className="text-white"
                   type="file"
-                  onChange={(e) => setSelected(e.target.files[0])}
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    if (!isValidFile(file)) {
+                      setError(
+                        "Formato no permitido. Solo se aceptan PDF o TXT."
+                      );
+                      setSelected(null);
+                    } else {
+                      setError("");
+                      setSelected(file);
+                    }
+                  }}
                   aria-label="Seleccionar fichero para subir"
                 />
-                <Form.Text className="text-white">Solo formato PDF o txt, máximo 5MB</Form.Text>
+                <Form.Text className="text-white">
+                  Solo formato PDF o txt, máximo 5MB
+                </Form.Text>
               </Form.Group>
             </Form>
           ) : (
@@ -281,7 +305,11 @@ function Documents() {
             className="rounded-4"
             variant="success"
             onClick={modalAction === "upload" ? uploadFile : deleteFile}
-            disabled={fileLoading}
+            disabled={
+              fileLoading ||
+              (modalAction === "upload" &&
+                (!selected || !isValidFile(selected)))
+            }
           >
             {fileLoading ? (
               <Spinner animation="border" size="sm" />
