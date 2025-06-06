@@ -43,7 +43,18 @@
    > ```
    > You can check the `Makefile` in the `Docker` folder for more shortcuts.
 
-5. **Access the application**
+5. **Install dependencies**
+   - Go to `frontend` repository and run `npm install`
+   - Got to `agent-api` repository and run `composer install`
+
+7. **Generate OpenAI API key**
+   - Visit the [OpenAI API platform](https://platform.openai.com/api-keys) and genearte an API key
+
+8. **Generate Google credentials to use OAuth2 authentication**
+   - Visit [Google Cloud Console](https://console.cloud.google.com/apis) and generate `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`
+   - Copy the two tokens into `agent-api/.env`
+
+9. **Access the application**
    - Frontend: [http://localhost:5173](http://localhost:5173)
    - phpMyAdmin: [http://localhost:8080](http://localhost:8080)
 
