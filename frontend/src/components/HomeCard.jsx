@@ -19,7 +19,7 @@ const HomeCard = ({
         className="text-decoration-none"
         aria-label={ariaLabel || `Ir a la sección de ${title.toLowerCase()}`}
       >
-        <Card className="rounded-4 border-gradient">
+        <Card className="rounded-4 border-gradient h-100 ">
           <Card.Body>
             {/* Title with icon and right arrow */}
             <Card.Title className="d-flex flex-row justify-content-between align-items-center">

@@ -80,7 +80,7 @@ function Register() {
       {/* <SEO title="Registro de usuario" description="Crea tu cuenta en SemantiQ AI." /> */}
       <Container>
         <Row className="justify-content-center">
-          <Col xs={12} md={6} xxl={4}>
+          <Col xs={12} md={6} lg={4}>
             <motion.div
               initial="initial"
               animate="animate"
@@ -95,7 +95,7 @@ function Register() {
                 />
               </div>
 
-              <Card className="p-4 border-0">
+              <Card className="py-4 border-0">
                 <Formik
                   initialValues={{
                     name: "",

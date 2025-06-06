@@ -118,7 +118,7 @@ function Stats() {
           CHART_CONFIG.map((conf) => (
             <div className={`col-12 col-md-${conf.colSize}`} key={conf.id}>
               <Card
-                className="rounded-4 p-2 border-gradient"
+                className="rounded-4 p-2 border-gradient h-100 d-flex flex-column justify-content-between"
                 role="region"
                 aria-labelledby={conf.id}
               >

@@ -71,7 +71,7 @@ function Home() {
             variants={homeVariants}
             className="w-100"
           >
-            <div className="row g-3 w-100 w-xxl-50 mx-auto text-center text-md-start">
+            <div className="row g-3 w-100 w-md-75 w-xl-50 mx-auto text-center text-md-start">
               {HOME_CARDS.map((card, idx) => (
                 <HomeCard key={idx} {...card} />
               ))}

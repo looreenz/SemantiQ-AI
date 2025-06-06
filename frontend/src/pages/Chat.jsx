@@ -126,7 +126,7 @@ const Chat = () => {
       <Header title="Chat" />
 
       {/* Chat messages area */}
-      <Container className="w-75 w-xxl-50 mx-auto flex-grow-1 overflow-auto">
+      <Container className="w-100 w-md-75 w-lg-50 mx-auto flex-grow-1 overflow-auto">
         {fetching ? (
           <div className="text-center py-5">
             <Spinner animation="border" role="status" />
@@ -150,7 +150,7 @@ const Chat = () => {
       </Container>
 
       {/* Input form and controls */}
-      <Container className="sticky-bottom bg-grey py-2 w-75 w-xxl-50 mx-auto">
+      <Container className="sticky-bottom bg-grey py-2 w-100 w-md-75 w-lg-50 mx-auto">
         <Form className="d-flex flex-column p-3 rounded-4 chat-input">
           <Form.Control
             as="textarea"

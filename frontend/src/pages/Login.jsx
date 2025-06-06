@@ -84,7 +84,7 @@ function Login() {
 
       <Container>
         <Row className="justify-content-center">
-          <Col xs={12} md={6} xxl={4}>
+          <Col xs={12} md={6} lg={4}>
             {/* Animated card container */}
             <motion.div
               initial="initial"
@@ -102,7 +102,7 @@ function Login() {
               </div>
 
               {/* Login form card */}
-              <Card className="p-4 border-0">
+              <Card className="py-4 border-0 w-100 mx-auto">
                 <Formik
                   initialValues={{ email: "", password: "" }}
                   validationSchema={LoginSchema}
